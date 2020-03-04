@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  a(href="/products/new")
+    button New product
+  table(style='width:800px; text-align:center' border='1')
+    thead
+      tr
+        th SKU
+        th Title
+        th Description
+        th Size
+        th Brand
+        th Price
+        th 
+    tbody
+      each item in products=products
+        tr
+          td= item.sku 
+          td= item.title 
+          td= item.description 
+          td= item.size
+          td= item.brand 
+          td= item.price 
+          td
+            a(href='#') Editar 

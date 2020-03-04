@@ -1,0 +1,26 @@
+extends ../layout
+
+block content 
+    a(href="/products")
+        button List  
+    h2 Create new product
+    form(action='/products/create', method='POST', class="newProduct")
+        label Title
+        input(type="text", name='title')
+        label Description
+        textarea(name="description", cols="30", rows="4")
+        label Price
+        input(type="text", name='price')
+        label Discount
+        input(type="text", name='discount')
+        label Brand
+        select(name='brand')
+            option(value='') Please Select
+            each val in ['marca 1' , 'marca 2' , 'marca 3']
+                option=val
+        label Size
+        select(name='size')
+            option(value='') Please Select
+            each val in [37,38,39,40,41,42]
+                option=val
+        input(type="submit", value="Create" class="button")

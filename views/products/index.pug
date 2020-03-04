@@ -1,0 +1,25 @@
+extends ../layout
+block content
+  .firstDiv
+      h4 Table of Products
+      table.table
+        thead
+          tr 
+            th Id
+            th Title
+            th Description
+            th Discount
+            th Price
+            th Status
+            th Image
+        tbody
+          each item in products
+            tr
+              td= item.sku
+              td= item.title
+              td= item.description
+              td= item.discount
+              td= item.price
+              td= item.status
+              td= item.image_1
+              

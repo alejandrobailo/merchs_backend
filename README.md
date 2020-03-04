@@ -1,4 +1,5 @@
 # merchs_back
+
 Side project. 2020
 
 # MERCHS
@@ -57,4 +58,7 @@ app.use("/products", productsRouter
 - install mysql package: `$ npm install --save msql`
 - in app.js added
 
-### Securty: nodemon.json file /// test ///
+### Securty and Production: add dotenv packages ///
+
+- install mysql package: `$ npm install dotenv`
+- new file: `.env`

@@ -12,10 +12,6 @@ var app = express();
 
 // Connection to the Data Base
 require("./mysqlDB").connect();
-db.query("SELECT * FROM product", (err, rows) => {
-  console.log(err);
-  console.table(rows);
-});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -31,12 +27,12 @@ app.use("/", indexRouter);
 app.use("/product", productRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

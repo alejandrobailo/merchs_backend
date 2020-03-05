@@ -6,21 +6,26 @@ block content
     h2 Create new product
     form(action='/products/create', method='POST', class="newProduct")
         label Title
-        input(type="text", name='title')
+        input(type="text", name='title').form-control
         label Description
-        textarea(name="description", cols="30", rows="4")
+        textarea(name="description", cols="30", rows="4").form-control
         label Price
-        input(type="text", name='price')
+        input(type="text", name='price').form-control
         label Discount
-        input(type="text", name='discount')
+        input(type="text", name='discount').form-control
         label Brand
-        select(name='brand')
+        select(name='brand').form-control
             option(value='') Please Select
             each val in ['marca 1' , 'marca 2' , 'marca 3']
                 option=val
         label Size
-        select(name='size')
+        select(name='size').form-control
             option(value='') Please Select
             each val in [37,38,39,40,41,42]
                 option=val
-        input(type="submit", value="Create" class="button")
+        label Category
+        select(name='category').form-control
+            option(value='') Please Select
+            each val in []
+                option=val
+        input(type="submit", value="Create" class="button").btn-primary.btn.my-2

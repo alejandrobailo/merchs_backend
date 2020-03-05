@@ -7,6 +7,16 @@ const create = ({ name, address, phone, email, password }) => {
     });
 };
 
+const getByEmailandPassword = (pEmail, pPassword) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM supplier WHERE email = ? AND password = ?', [pEmail, pPassword], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+};
+
 module.exports = {
-    create: create
+    create: create,
+    getByEmailandPassword: getByEmailandPassword
 }

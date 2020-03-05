@@ -7,6 +7,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 const productsRouter = require("./routes/products");
 const signUpRouter = require('./routes/sign-up');
+const signInRouter = require('./routes/sign-in');
 
 require("dotenv").config();
 var app = express();
@@ -26,7 +27,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/products", productsRouter);
-app.use("/sign-up", signUpRouter)
+app.use("/sign-up", signUpRouter);
+app.use('/sign-in', signInRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -6,7 +6,7 @@ block content
 
         h1 Sign Up
 
-        form(action="/sign-up/new" method="post")
+        form(action="/sign-up/" method="post")
 
             div.form-group
                 label Name
@@ -30,6 +30,15 @@ block content
 
             div.form-group
                 input(type="submit" value="Create Account").btn.btn-primary
+
+        .errors
+            if errors
+                p Please check the following errors
+                each error in errors
+                    li= error.msg
+            if emailRepeated
+                li= emailRepeated
+ 
 
 
 

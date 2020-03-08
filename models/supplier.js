@@ -7,16 +7,17 @@ const create = ({ name, address, phone, email, password }) => {
     });
 };
 
-const getByEmailandPassword = (pEmail, pPassword) => {
+const emailExists = (email) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM supplier WHERE email = ? AND password = ?', [pEmail, pPassword], (err, rows) => {
-            if (err) reject(err);
-            resolve(rows);
+        db.query('SELECT * FROM supplier WHERE email = ?', [email], (err, rows) => {
+            if (err) return reject(err);
+            if (rows.length === 0) return resolve(null);
+            resolve(rows[0]);
         });
     });
-};
+}
 
 module.exports = {
     create: create,
-    getByEmailandPassword: getByEmailandPassword
+    emailExists: emailExists
 }

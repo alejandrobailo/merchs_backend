@@ -1,29 +1,54 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
+const Brand = require('../models/brand');
+const Size = require('../models/size');
+const Category = require('../models/category');
+
 
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
     const rows = await Product.getAll();
-    res.render('product/list', { products: rows });
+    // AQUI HACER GETALL DE TBI
+    res.render('product/list', {
+        products: rows,
+        // Renderizar tallas, etc
+    });
 });
 
 /* GET http://localhost:3000/products/new */
-router.get('/new', (req, res) => {
-    res.render('product/new');
+router.get('/new', async (req, res) => {
+
+    const brands = await Brand.getAll();
+    const sizes = await Size.getAll();
+    const categories = await Category.getAll();
+
+    console.log(brands);
+
+    res.render('product/new', {
+        brands: brands,
+        categories: categories,
+        sizes: sizes
+    });
 })
 
 /* POST http://localhost:3000/products/create */
 router.post('/create', async (req, res) => {
-    console.log(req.body);
+    console.log(req);
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,
         description: req.body.description,
         discount: req.body.discount,
-        date: req.body.date
+        date: req.body.date,
+        brand: req.body.brand,
+        sizes: req.body.size,
+        category: req.body.category
     });
-    console.log(result);
+
+    // Call to createSize method
+    const result2 = await Size.createSize(req.body.size, result.insertId);
+
     res.redirect('/products')
 })
 

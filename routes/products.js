@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const middleware = require('./middlewares');
 const Product = require('../models/product');
 const Brand = require('../models/brand');
 const Size = require('../models/size');
 const Category = require('../models/category');
 
+router.use(middleware.checkToken);
 
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {

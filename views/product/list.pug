@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   a(href="/products/new")
-    button New product
+    button.btn.btn-primary New product
   table(style='width:800px; text-align:center' border='1')
     thead
       tr
@@ -11,6 +11,7 @@ block content
         th Description
         th Size
         th Brand
+        th Category
         th Price
         th 
     tbody
@@ -20,7 +21,8 @@ block content
           td= item.title 
           td= item.description 
           td= item.size
-          td= item.brand 
-          td= item.price 
+          td= item.fk_brand 
+          td= item.fk_category 
+          td= item.price
           td
             a(href='#') Editar 

@@ -25,9 +25,10 @@ router.post('/', async (req, res) => {
         if (!checkPassword) {
             res.render('../views/sign-in/sign-in', { error: 'Error in email or password' });
         }
-        // Login OK: create the token and redirect to Dashboard
+        // Login OK: create the token, store in cookies and redirect to Dashboard
         else {
-            console.log(createToken(user));
+            const token = createToken(user);
+            res.cookie('token', token);
             res.redirect('/dashboard');
         }
     }

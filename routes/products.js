@@ -9,10 +9,8 @@ const Category = require('../models/category');
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
     const rows = await Product.getAll();
-    // AQUI HACER GETALL DE TBI
     res.render('product/list', {
-        products: rows,
-        // Renderizar tallas, etc
+        products: rows
     });
 });
 
@@ -23,7 +21,6 @@ router.get('/new', async (req, res) => {
     const sizes = await Size.getAll();
     const categories = await Category.getAll();
 
-    console.log(brands);
 
     res.render('product/new', {
         brands: brands,
@@ -47,7 +44,7 @@ router.post('/create', async (req, res) => {
     });
 
     // Call to createSize method
-    const result2 = await Size.createSize(req.body.size, result.insertId);
+    await Size.createSize(req.body.size, result.insertId);
 
     res.redirect('/products')
 })

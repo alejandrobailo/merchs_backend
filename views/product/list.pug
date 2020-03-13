@@ -2,27 +2,25 @@ extends ../layout
 
 block content
   a(href="/products/new")
-    button.btn.btn-primary New product
-  table(style='width:800px; text-align:center' border='1')
-    thead
+    button.btn.btn-info New product
+  table.table.my-2
+    thead.thead-dark
       tr
         th SKU
         th Title
         th Description
-        th Size
         th Brand
         th Category
         th Price
         th 
     tbody
-      each item in products=products
+      each product in products=products
         tr
-          td= item.sku 
-          td= item.title 
-          td= item.description 
-          td= item.size
-          td= item.fk_brand 
-          td= item.fk_category 
-          td= item.price
+          td= product.sku 
+          td= product.title 
+          td= product.description 
+          td= product.brand_name
+          td= product.category_name
+          td= product.price
           td
             a(href='#') Editar 

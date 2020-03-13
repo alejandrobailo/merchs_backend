@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
     a(href="/products")
-        button.btn.btn-primary List  
+        button.btn.btn-info List  
     h2 Create new product
     form(action='/products/create', method='POST', class="newProduct")
         label Title
@@ -18,21 +18,20 @@ block content
         input(type="text", name='discount').form-control
 
         label Brand
-        select(name='brand').form-control
+        select(name='brand').custom-select
             option(value='') Please Select
             each item in brands
                 option(value=item.id)=item.name
 
         label Size
-        select(name='size' multiple).form-control
-            option(value='') Please Select
+        select(name='size' multiple).custom-select
             each item in sizes
                 option(value=item.id)=item.number
 
         label Category
-        select(name='category').form-control
+        select(name='category').custom-select
             option(value='') Please Select
             each item in categories
                 option(value=item.id)=item.name
 
-        input(type="submit", value="Create" class="button").btn-primary.btn.my-2
+        input(type="submit", value="Create" class="button").btn-info.btn.my-2

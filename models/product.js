@@ -1,8 +1,7 @@
-/* All products */
-
+/* All products with brands and categories*/
 const getAll = () => {
     return new Promise((resolve, reject) => {
-        db.query('select * from product', (err, rows) => {
+        db.query(`select product.*, category.name as 'category_name', brand.name as 'brand_name' from product inner join brand on product.fk_brand = brand.id inner join category on product.fk_category = category.id`, (err, rows) => {
             if (err) reject(err)
             resolve(rows);
         });
@@ -10,7 +9,6 @@ const getAll = () => {
 };
 
 /* Create product */
-
 const create = ({ title, price, discount, description, brand, category }) => {
     return new Promise((resolve, reject) => {
         db.query('insert into product (title, price, discount, date, description, fk_brand, fk_category) values (?, ?, ?, ?, ?, ?, ?)',
@@ -21,8 +19,6 @@ const create = ({ title, price, discount, description, brand, category }) => {
             });
     });
 }
-
-// const createSizes = ()
 
 module.exports = {
     getAll: getAll,

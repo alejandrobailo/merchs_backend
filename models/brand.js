@@ -5,7 +5,6 @@ const getAll = () => {
     }));
 };
 
-
 module.exports = {
     getAll: getAll
 }

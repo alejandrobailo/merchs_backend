@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+
 const middleware = require('./middlewares');
 const Product = require('../models/product');
 const Brand = require('../models/brand');
 const Size = require('../models/size');
 const Category = require('../models/category');
 
-router.use(middleware.checkToken);
+/*
+Lo comento para poder trabajar
+router.use(middleware.checkToken); */
 
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
@@ -30,6 +34,17 @@ router.get('/new', async (req, res) => {
         sizes: sizes
     });
 })
+
+
+/* GET http://localhost:3000/products/edit/:sku */
+router.get('/edit/:sku', async (req, res) => {
+    const result = await Product.getById(req.params.sku);
+
+    res.render('product/edit', {
+        product: result[0]
+    });
+});
+
 
 /* POST http://localhost:3000/products/create */
 router.post('/create', async (req, res) => {

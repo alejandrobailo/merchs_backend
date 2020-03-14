@@ -23,4 +23,8 @@ block content
           td= product.category_name
           td= product.price
           td
-            a(href='#') Editar 
+            button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-info") Edit 
+  script.
+    function handleEditClick(sku) {
+      window.location.href = `/products/edit/${sku}`
+    }

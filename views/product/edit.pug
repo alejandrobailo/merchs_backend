@@ -1,0 +1,26 @@
+extends ../layout 
+
+block content
+
+    .container-fuid
+        a(href="/products").btn.btn-sm.btn-info.my-2.row Go back 
+        .row
+            .card.mb-3.col-6
+                div.row.no-gutters
+                    div.col-md-4
+                        img(src="https://image.flaticon.com/icons/svg/2589/2589903.svg" class="card-img" alt="img")
+                    div.col-md-8
+                        div.card-body
+                            h5(class="card-title")=product.title
+                            p(class="card-text")=product.description
+                            p(class="card-text")=`${product.price} €`
+                            p(class="card-text")=`Discount: ${product.discount}%`
+
+                            p.card-text     
+                                small(class="text-mutedLast")=product.date
+
+            form.form-group.mx-2(action="")
+                h4 Edit product
+                input.form-control(placeholder="Title")
+                input.form-control(placeholder="Description")
+                input.form-control(placeholder="Price")

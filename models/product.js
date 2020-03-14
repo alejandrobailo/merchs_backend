@@ -20,7 +20,17 @@ const create = ({ title, price, discount, description, brand, category }) => {
     });
 }
 
+const getById = (sku) => {
+    return new Promise((resolve, reject) => {
+        db.query('select * from product where product.sku = ?', [sku], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
+};
+
 module.exports = {
     getAll: getAll,
-    create: create
+    create: create,
+    getById: getById
 }

@@ -34,4 +34,9 @@ block content
             each item in categories
                 option(value=item.id)=item.name
 
+        .custom-file.my-2
+            input(type="file" class="custom-file-input" id="customFile")
+            label(class="custom-file-label" for="customFile") Upload images
+        
+
         input(type="submit", value="Create" class="button").btn-info.btn.my-2

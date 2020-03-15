@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
-
-const Supplier = require('../models/supplier');
+const User = require('../models/user');
 
 // GET http://localhost:3000/sign-up
 router.get('/', (req, res) => {
-    res.render('../views/sign-up/sign-up');
+    res.render('sign-up/sign-up');
 });
 
 // POST http://localhost:3000/sign-up/
@@ -37,18 +36,18 @@ router.post('/', [
 
         // Check if there are form errors
         if (!validationErrors.isEmpty()) {
-            return res.render('../views/sign-up/sign-up', { errors: validationErrors.errors });
+            return res.render('sign-up/sign-up', { errors: validationErrors.errors });
         }
 
         // Check if there is any other user with the same email address
-        const emailExists = await Supplier.emailExists(req.body.email);
+        const emailExists = await User.emailExists(req.body.email);
         if (emailExists !== null) {
-            return res.render('../views/sign-up/sign-up', { emailRepeated: 'Email already in use' });
+            return res.render('sign-up/sign-up', { emailRepeated: 'Email already in use' });
         }
 
-        // If no errors in form and no email already used, encrypt the password and create the supplier in the DB
+        // If no errors in form and no email already used, encrypt the password and create the User in the DB
         req.body.password = bcrypt.hashSync(req.body.password, 10);
-        await Supplier.create({
+        await User.create({
             name: req.body.name,
             address: req.body.address,
             phone: req.body.phone,

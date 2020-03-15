@@ -10,7 +10,7 @@ const Category = require('../models/category');
 
 /*
 Lo comento para poder trabajar
-router.use(middleware.checkToken); */
+router.use(middleware.checkTokenUser); */
 
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
@@ -62,6 +62,8 @@ router.post('/create', async (req, res) => {
 
     // Call to createSize method
     await Size.createSize(req.body.size, result.insertId);
+
+    // Antxon: Faltaría crear la relación en la tbi_brand_product y en la tbi_category_product, ¿no?
 
     res.redirect('/products')
 })

@@ -1,0 +1,30 @@
+extends ../layout.pug
+
+block content
+
+    div.container
+
+        h2 List of Users
+
+        table.table
+            thead.thead-dark
+                tr
+                    th Name
+                    th Address
+                    th Phone Number
+                    th Email
+                    th Creation Date
+                    th IP
+                    th
+                
+            each user in users
+                tr
+                    td= user.name
+                    td= user.address
+                    td= user.phone
+                    td= user.email
+                    td= user.date
+                    td= user.ip
+                    td
+                        a.btn.btn-sm.btn-primary(href="/users/edit/"+user.id) Edit User
+                        a.btn.btn-sm.btn-danger(href="/users/delete/"+user.id) Delete User

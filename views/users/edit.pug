@@ -1,0 +1,31 @@
+extends ../layout.pug
+
+block content
+
+    div.container
+
+        h2 User: #{user.name}
+
+            form(action=`/users/edit/${user.id}` method="post")
+
+                div.form-group
+                    label Name
+                    input(type="text" name="name" value=user.name).form-control
+
+                div.form-group
+                    label Address
+                    input(type="text" name="address" value=user.address).form-control
+
+                div.form-group
+                    label Phone
+                    input(type="text" name="phone" value=user.phone).form-control
+
+                div.form-group
+                    label Email
+                    input(type="text" name="email" value=user.email).form-control
+
+                div.form-group
+                    input(type="submit" value="Edit Profile").btn.btn-primary
+
+        a(href='/users')
+            button.btn.btn-primary Back

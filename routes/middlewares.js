@@ -1,14 +1,14 @@
 const jwt = require('jwt-simple');
 const moment = require('moment');
 
-const checkToken = (req, res, next) => {
+const checkTokenUser = (req, res, next) => {
     // 1. Check if token exists in the user cookies
-    if (!req.cookies.token) {
+    if (!req.cookies.token_user) {
         return res.redirect('/sign-in');
     }
 
     // 2. Check if the token is correct (can be decoded)
-    const token = req.cookies.token;
+    const token = req.cookies.token_user;
     let payload = null;
     try {
         payload = jwt.decode(token, process.env.SECRET_KEY);
@@ -28,5 +28,5 @@ const checkToken = (req, res, next) => {
 }
 
 module.exports = {
-    checkToken: checkToken
+    checkTokenUser: checkTokenUser
 }

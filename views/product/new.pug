@@ -24,9 +24,31 @@ block content
                 option(value=item.id)=item.name
 
         label Size
-        select(name='size' multiple).custom-select
-            each item in sizes
-                option(value=item.id)=item.number
+        label(for="35") Size 35
+        input(type="checkbox" id="35" onclick=`handleCheckboxClick(event)`)
+        input(type="number" id="35" disabled)
+
+        label(for="36") Size 36
+        input(type="checkbox" id="36")
+
+        label(for="37") Size 37
+        input(type="checkbox" id="37")
+
+        label(for="38") Size 38
+        input(type="checkbox" id="38")
+
+        label(for="39") Size 39
+        input(type="checkbox" id="39")
+
+        label(for="40") Size 40
+        input(type="checkbox" id="40")
+
+        label(for="41") Size 41
+        input(type="checkbox" id="41")
+        
+        //- select(name='size' multiple).custom-select
+        //-     each item in sizes
+        //-         option(value=item.id)=item.number
 
         label Category
         select(name='category').custom-select
@@ -40,3 +62,8 @@ block content
         
 
         input(type="submit", value="Create" class="button").btn-info.btn.my-2
+
+    script.
+        function handleCheckboxClick(event) {
+            console.log(event.target.id);
+        }

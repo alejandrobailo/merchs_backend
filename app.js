@@ -10,6 +10,7 @@ const productsRouter = require("./routes/products");
 const signUpRouter = require('./routes/sign-up');
 const signInRouter = require('./routes/sign-in');
 const usersRouter = require('./routes/users');
+const logoutRouter = require('./routes/logout');
 
 require("dotenv").config();
 var app = express();
@@ -33,6 +34,7 @@ app.use("/products", productsRouter);
 app.use("/sign-up", signUpRouter);
 app.use('/sign-in', signInRouter);
 app.use('/users', usersRouter);
+app.use('/logout', logoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

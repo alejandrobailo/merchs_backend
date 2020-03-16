@@ -23,33 +23,6 @@ block content
             each item in brands
                 option(value=item.id)=item.name
 
-        label Size
-        label(for="35") Size 35
-        input(type="checkbox" id="35" onclick=`handleCheckboxClick(event)`)
-        input(type="number" id="35" disabled)
-
-        label(for="36") Size 36
-        input(type="checkbox" id="36")
-
-        label(for="37") Size 37
-        input(type="checkbox" id="37")
-
-        label(for="38") Size 38
-        input(type="checkbox" id="38")
-
-        label(for="39") Size 39
-        input(type="checkbox" id="39")
-
-        label(for="40") Size 40
-        input(type="checkbox" id="40")
-
-        label(for="41") Size 41
-        input(type="checkbox" id="41")
-        
-        //- select(name='size' multiple).custom-select
-        //-     each item in sizes
-        //-         option(value=item.id)=item.number
-
         label Category
         select(name='category').custom-select
             option(value='') Please Select
@@ -59,11 +32,69 @@ block content
         .custom-file.my-2
             input(type="file" class="custom-file-input" id="customFile")
             label(class="custom-file-label" for="customFile") Upload images
-        
 
-        input(type="submit", value="Create" class="button").btn-info.btn.my-2
+        label Sizes
+        .sizesWrapper
+
+                .sizeBox.container
+                    input(type="checkbox" name="35" onclick=`handleCheckboxClick(event)`).form-check-input
+                    label(for="35") 35
+                    input(type="number" id="35" disabled placeholder="Quantity").form-control.quantity
+
+                .sizeBox.container
+                    input(type="checkbox" name="36" onclick=`handleCheckboxClick(event)`).form-check-input
+                    label(for="36") 36
+                    input(type="number" id="36" disabled placeholder="Quantity").form-control.quantity
+
+        input(type="hidden", name="sizes", id="arrSizeQuantity")
+        //- select(name='size' multiple).custom-select
+        //-     each item in sizes
+        //-         option(value=item.id)=item.number
+
+        input(type="submit", value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
 
     script.
-        function handleCheckboxClick(event) {
-            console.log(event.target.id);
+
+        let arrSizeQuantity = new Array();
+        
+        function initializeSizeForm(){
+            let checkboxs =  document.getElementsByClassName('form-check-input');
+            for(item of checkboxs){
+                item.checked = false;
+            }
+            let quantityInputs = document.getElementsByClassName('quantity')
+            for(item of quantityInputs){
+                item.disabled = true;
+                item.value = '';
+            }
         }
+
+        function handleCheckboxClick(event) {
+            let inputQuantity = document.getElementById(event.target.name);
+
+            if(event.target.checked){
+                inputQuantity.disabled = false;
+
+                let sizeQuantity = {};
+
+                sizeQuantity.size = inputQuantity.id;
+
+                inputQuantity.addEventListener('input', () => {
+                    sizeQuantity.quantity = inputQuantity.value;
+                });
+
+                arrSizeQuantity.push(sizeQuantity);
+            }else {
+                inputQuantity.disabled = true;
+                inputQuantity.value = inputQuantity.placeholder;    
+            }
+        }
+
+        //- Pasar por parametrpo el valor del arrSizeQuantity
+        function handleCreate(event){
+            document.getElementById('arrSizeQuantity').value = JSON.stringify(arrSizeQuantity);
+            console.log(document.getElementById('arrSizeQuantity').value)
+        }
+
+        //- Reseteo los checkbox al entrar:
+        initializeSizeForm();

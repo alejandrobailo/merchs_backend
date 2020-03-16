@@ -8,6 +8,9 @@ const Brand = require('../models/brand');
 const Size = require('../models/size');
 const Category = require('../models/category');
 
+const utils = require('../utils');
+const moment = require('moment');
+
 /*
 Lo comento para poder trabajar
 router.use(middleware.checkTokenUser); */
@@ -40,15 +43,18 @@ router.get('/new', async (req, res) => {
 router.get('/edit/:sku', async (req, res) => {
     const result = await Product.getById(req.params.sku);
 
+    const formatDate = await utils.formatDate(result[0].date);
+
     res.render('product/edit', {
-        product: result[0]
+        product: result[0],
+        date: formatDate
     });
 });
 
 
 /* POST http://localhost:3000/products/create */
 router.post('/create', async (req, res) => {
-    console.log(req);
+
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,

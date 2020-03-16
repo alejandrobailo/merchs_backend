@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const middleware = require('./middlewares');
+const utils = require('../utils');
 
 
 
@@ -11,6 +12,9 @@ router.get('/', async (req, res) => {
         // TODO Incluir MW Check Admin
 
         const rows = await User.getAll();
+        for (let row of rows) {
+            row.date = await utils.formatDate(row.date);
+        }
         res.render('users/list', { users: rows });
     }
     catch (err) {

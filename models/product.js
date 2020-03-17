@@ -1,7 +1,7 @@
 /* All products with brands and categories*/
 const getAll = () => {
     return new Promise((resolve, reject) => {
-        db.query(`select product.*, category.name as 'category_name', brand.name as 'brand_name' from product inner join brand on product.fk_brand = brand.id inner join category on product.fk_category = category.id`, (err, rows) => {
+        db.query(`select product.*, category.name as 'category_name', brand.name as 'brand_name' from product inner join brand on product.fk_brand = brand.id inner join category on product.fk_category = category.id order by product.sku ASC`, (err, rows) => {
             if (err) reject(err)
             resolve(rows);
         });

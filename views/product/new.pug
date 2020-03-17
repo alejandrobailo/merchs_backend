@@ -47,11 +47,8 @@ block content
                     input(type="number" id="36" disabled placeholder="Quantity").form-control.quantity
 
         input(type="hidden", name="sizes", id="arrSizeQuantity")
-        //- select(name='size' multiple).custom-select
-        //-     each item in sizes
-        //-         option(value=item.id)=item.number
 
-        input(type="submit", value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
+        input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
 
     script.
 
@@ -77,10 +74,10 @@ block content
 
                 let sizeQuantity = {};
 
-                sizeQuantity.size = inputQuantity.id;
+                sizeQuantity.size = parseInt(inputQuantity.id);
 
                 inputQuantity.addEventListener('input', () => {
-                    sizeQuantity.quantity = inputQuantity.value;
+                    sizeQuantity.quantity = parseInt(inputQuantity.value);
                 });
 
                 arrSizeQuantity.push(sizeQuantity);
@@ -90,10 +87,9 @@ block content
             }
         }
 
-        //- Pasar por parametrpo el valor del arrSizeQuantity
+        //- Paso el array al value del input tipo hidden al crear el prod.
         function handleCreate(event){
             document.getElementById('arrSizeQuantity').value = JSON.stringify(arrSizeQuantity);
-            console.log(document.getElementById('arrSizeQuantity').value)
         }
 
         //- Reseteo los checkbox al entrar:

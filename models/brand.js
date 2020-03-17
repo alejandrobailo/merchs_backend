@@ -5,6 +5,19 @@ const getAll = () => {
     }));
 };
 
+
+const createBrandRelation = (brand, productId) => {
+    return new Promise((resolve, reject) => {
+        db.query('insert into tbi_brand_product (fk_product, fk_brand) values (?, ?)',
+            [productId, brand], (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
+    });
+}
+
+
 module.exports = {
-    getAll: getAll
+    getAll: getAll,
+    createBrandRelation: createBrandRelation
 }

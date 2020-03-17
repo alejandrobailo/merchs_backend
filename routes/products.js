@@ -54,7 +54,6 @@ router.get('/edit/:sku', async (req, res) => {
 
 /* POST http://localhost:3000/products/create */
 router.post('/create', async (req, res) => {
-
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,
@@ -65,12 +64,14 @@ router.post('/create', async (req, res) => {
         category: req.body.category
     });
 
-    // Call to createSize method
-    // await Size.createSize(req.body.size, result.insertId);
-    await Size.createSizes(req.body.sizes, result.insertId);
-    console.log(req.body.sizes);
+    // Creating tbi_size_product relations
+    await Size.createSizesRelation(req.body.sizes, result.insertId);
 
-    // Antxon: Faltaría crear la relación en la tbi_brand_product y en la tbi_category_product, ¿no?
+    // Creating tbi_brand_product relations
+    await Brand.createBrandRelation(req.body.brand, result.insertId);
+
+    // Creating tbi_category_product relations
+    await Category.createCategoyRelation(req.body.category, result.insertId);
 
     res.redirect('/products')
 })

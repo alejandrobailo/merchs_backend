@@ -35,16 +35,11 @@ block content
 
         label Sizes
         .sizesWrapper
-
+            each item in sizes
                 .sizeBox.container
-                    input(type="checkbox" name="35" onclick=`handleCheckboxClick(event)`).form-check-input
-                    label(for="35") 35
-                    input(type="number" id="35" disabled placeholder="Quantity").form-control.quantity
-
-                .sizeBox.container
-                    input(type="checkbox" name="36" onclick=`handleCheckboxClick(event)`).form-check-input
-                    label(for="36") 36
-                    input(type="number" id="36" disabled placeholder="Quantity").form-control.quantity
+                    input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)`).form-check-input
+                    label(for=item.number)=item.number
+                    input(type="number" id=item.number disabled placeholder="Quantity").form-control.quantity
 
         input(type="hidden", name="sizes", id="arrSizeQuantity")
 

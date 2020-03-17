@@ -4,7 +4,7 @@ Side project. 2020
 
 # MERCHS
 
-Beginning of the development of the commercial platform "MERCHS" as part of the final bootcam project in Neoland, the collaborators are @antxon-eguiguren, @alejandrobailo and @hamada-j. This document will serve as a guide to understand the programming and code assets of the BackEnd part of the platform.
+Beginning of the development of the commercial platform "MERCHS" as part of the final bootcam project in Neoland, the collaborators are @antxon-eguiguren and @alejandrobailo. This document will serve as a guide to understand the programming and code assets of the BackEnd part of the platform.
 
 ## First Steps
 

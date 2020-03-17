@@ -20,6 +20,7 @@ const create = ({ title, price, discount, description, brand, category }) => {
     });
 }
 
+/* Get product by SKU */
 const getById = (sku) => {
     return new Promise((resolve, reject) => {
         db.query('select * from product where product.sku = ?', [sku], (err, result) => {
@@ -29,8 +30,19 @@ const getById = (sku) => {
     });
 };
 
+/* Insert IMG */
+const imgToDb = (name, counter, id) => {
+    return new Promise((resolve, reject) => {
+        db.query('update product set image_? = ? where sku = ?', [counter, name, id], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
+}
+
 module.exports = {
     getAll: getAll,
     create: create,
-    getById: getById
+    getById: getById,
+    imgToDb: imgToDb
 }

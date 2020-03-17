@@ -4,7 +4,7 @@ block content
     a(href="/products")
         button.btn.btn-info List  
     h2 Create new product
-    form(action='/products/create', method='POST', class="newProduct")
+    form(action='/products/create', method='POST', class="newProduct" enctype="multipart/form-data")
         label Title
         input(type="text", name='title').form-control
 
@@ -30,8 +30,9 @@ block content
                 option(value=item.id)=item.name
 
         .custom-file.my-2
-            input(type="file" class="custom-file-input" id="customFile")
-            label(class="custom-file-label" for="customFile") Upload images
+            //- AQUI TENGO LO DE LAS IMAGENES
+            input(type="file" id="customFile" name="image").form-control
+            //- label(class="custom-file-label" for="customFile") Upload images
 
         label Sizes
         .sizesWrapper

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 
 const middleware = require('./middlewares');
 const Product = require('../models/product');
@@ -10,6 +9,17 @@ const Category = require('../models/category');
 
 const utils = require('../utils');
 const moment = require('moment');
+
+/* IMAGES */
+const path = require('path')
+const fs = require('fs');
+const multipart = require('connect-multiparty');
+/*  */
+
+// Para que el formulario funcione necesita multipart() como middleware, se la pasamos como 2º parametro a la funcion POST
+// Esta libreria crea los headers necesarios para que el formulario mande la img.
+const multipartMiddleware = multipart();
+//
 
 /*
 Lo comento para poder trabajar
@@ -53,7 +63,7 @@ router.get('/edit/:sku', async (req, res) => {
 
 
 /* POST http://localhost:3000/products/create */
-router.post('/create', async (req, res) => {
+router.post('/create', multipartMiddleware, async (req, res) => {
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,
@@ -67,13 +77,34 @@ router.post('/create', async (req, res) => {
     // Creating tbi_size_product relations
     await Size.createSizesRelation(req.body.sizes, result.insertId);
 
-    // Creating tbi_brand_product relations
-    await Brand.createBrandRelation(req.body.brand, result.insertId);
-
     // Creating tbi_category_product relations
     await Category.createCategoyRelation(req.body.category, result.insertId);
 
-    res.redirect('/products')
+    // Images:
+
+    let dir = `./public/images/${result.insertId}/`
+    // Nuevo directorio
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir)
+    }
+    // Number of images in the folder:
+    let imageNumber = 0;
+
+    let files = fs.readdirSync(dir)
+    console.log(files.length);
+    imageNumber = files.length + 1;
+
+    // Ruta temporal:
+    let pathFile = req.files.image.path;
+    // Como vamos a llamar a la imagen en el server
+    let newPath = dir + imageNumber + path.extname(pathFile).toLowerCase();
+    // La guardamos
+    fs.createReadStream(pathFile).pipe(fs.createWriteStream(newPath));
+    //Le damos un nombre para la DB
+    let imageName = '/images/' + result.insertId + '/' + imageNumber + path.extname(pathFile).toLowerCase();
+
+    await Product.imgToDb(imageName, imageNumber, result.insertId);
+    res.redirect('/products');
 })
 
 module.exports = router;

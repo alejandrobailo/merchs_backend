@@ -7,7 +7,7 @@ const create = ({ name, address, phone, email, password }) => {
     });
 };
 
-const emailExists = (email) => {
+const exists = (email) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM user WHERE email = ?', [email], (err, rows) => {
             if (err) return reject(err);
@@ -55,7 +55,7 @@ const deleteById = (userId) => {
 
 module.exports = {
     create: create,
-    emailExists: emailExists,
+    exists: exists,
     getAll: getAll,
     getById: getById,
     editById: editById,

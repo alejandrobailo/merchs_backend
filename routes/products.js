@@ -64,11 +64,17 @@ router.post('/create', async (req, res) => {
         category: req.body.category
     });
 
+<<<<<<< HEAD
     // Creating tbi_size_product relations
     await Size.createSizesRelation(req.body.sizes, result.insertId);
 
     // Creating tbi_brand_product relations
     await Brand.createBrandRelation(req.body.brand, result.insertId);
+=======
+    // Call to createSize method
+    // await Size.createSize(req.body.size, result.insertId);
+    await Size.createSizes(req.body.sizes, result.insertId);
+>>>>>>> feature_dev_antxon
 
     // Creating tbi_category_product relations
     await Category.createCategoyRelation(req.body.category, result.insertId);

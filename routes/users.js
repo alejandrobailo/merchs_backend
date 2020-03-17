@@ -4,13 +4,11 @@ const User = require('../models/user');
 const middleware = require('./middlewares');
 const utils = require('../utils');
 
+router.use(middleware.checkTokenAdmin);
 
-
-// GET http://localhost:3000/users --> ESTA PETICIÓN DEBE INCLUIR UN MW DE CHECK IF ADMIN
+// GET http://localhost:3000/users
 router.get('/', async (req, res) => {
     try {
-        // TODO Incluir MW Check Admin
-
         const rows = await User.getAll();
         for (let row of rows) {
             row.date = await utils.formatDate(row.date);

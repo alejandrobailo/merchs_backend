@@ -41,7 +41,14 @@ block content
                     label(for=item.number)=item.number
                     input(type="number" id=item.number disabled placeholder="Quantity").form-control.quantity
 
+<<<<<<< HEAD
         input(type="hidden", name="sizes", id="arrSizeQuantity")
+=======
+        input(type="hidden" name="sizes" id="arrSizeQuantity")
+        //- select(name='size' multiple).custom-select
+        //-     each item in sizes
+        //-         option(value=item.id)=item.number
+>>>>>>> feature_dev_antxon
 
         input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
 

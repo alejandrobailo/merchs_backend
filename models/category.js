@@ -6,7 +6,7 @@ const getAll = () => {
 };
 
 
-const createCategoyRelation = (category, productId) => {
+const createCategoryRelation = (category, productId) => {
     return new Promise((resolve, reject) => {
         db.query('insert into tbi_category_product (fk_product, fk_category) values (?, ?)',
             [productId, category], (err, result) => {
@@ -17,6 +17,6 @@ const createCategoyRelation = (category, productId) => {
 }
 module.exports = {
     getAll: getAll,
-    createCategoyRelation: createCategoyRelation
+    createCategoryRelation: createCategoryRelation
 }
 

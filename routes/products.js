@@ -1,15 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
-
 const middleware = require('./middlewares');
 const Product = require('../models/product');
 const Brand = require('../models/brand');
 const Size = require('../models/size');
 const Category = require('../models/category');
-
 const utils = require('../utils');
-const moment = require('moment');
 
 /*
 Lo comento para poder trabajar
@@ -18,6 +14,16 @@ router.use(middleware.checkTokenUser); */
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
     const rows = await Product.getAll();
+    for (row of rows) {
+        const category = await Product.getProductCategories(row.sku);
+        // If categories are assigned, add the property to the product
+        if (category.length !== 0) {
+            row.categories = [];
+            for (item of category) {
+                row.categories.push(item.name);
+            }
+        }
+    }
     res.render('product/list', {
         products: rows
     });
@@ -60,8 +66,8 @@ router.post('/create', async (req, res) => {
         description: req.body.description,
         discount: req.body.discount,
         date: req.body.date,
-        brand: req.body.brand,
-        category: req.body.category
+        // brand: req.body.brand,
+        // category: req.body.Category
     });
 
     // Creating tbi_size_product relations
@@ -71,7 +77,7 @@ router.post('/create', async (req, res) => {
     await Brand.createBrandRelation(req.body.brand, result.insertId);
 
     // Creating tbi_category_product relations
-    await Category.createCategoyRelation(req.body.category, result.insertId);
+    await Category.createCategoryRelation(req.body.categories, result.insertId);
 
     res.redirect('/products')
 })

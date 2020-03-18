@@ -24,10 +24,10 @@ block content
                 option(value=item.id)=item.name
 
         label Category
-        select(name='category').custom-select
-            option(value='') Please Select
-            each item in categories
-                option(value=item.id)=item.name
+            each category in categories
+                .container
+                    input.category(type="checkbox" name=category.name)
+                    label(for=category.name)=category.name
 
         .custom-file.my-2
             input(type="file" class="custom-file-input" id="customFile")
@@ -41,13 +41,15 @@ block content
                     label(for=item.number)=item.number
                     input(type="number" id=item.number disabled placeholder="Quantity").form-control.quantity
 
-        input(type="hidden", name="sizes", id="arrSizeQuantity")
+        input(type="hidden" name="sizes" id="arrSizeQuantity")
+        input(type="hidden" name="categories" id="arrCategories")
 
         input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
 
     script.
 
         let arrSizeQuantity = new Array();
+        let arrCategories = new Array();
         
         function initializeSizeForm(){
             let checkboxs =  document.getElementsByClassName('form-check-input');
@@ -76,7 +78,7 @@ block content
                 });
 
                 arrSizeQuantity.push(sizeQuantity);
-            }else {
+            } else {
                 inputQuantity.disabled = true;
                 inputQuantity.value = inputQuantity.placeholder;    
             }
@@ -85,6 +87,17 @@ block content
         //- Paso el array al value del input tipo hidden al crear el prod.
         function handleCreate(event){
             document.getElementById('arrSizeQuantity').value = JSON.stringify(arrSizeQuantity);
+
+            // Get all the checked categories and store them in arrCategories
+            const categories = document.getElementsByClassName('category');
+            for (category of categories) {
+                if (category.checked) {
+                    arrCategories.push(category.name);
+                }
+            }
+
+            // Send the arrCategories within the form body
+            document.getElementById('arrCategories').value = JSON.stringify(arrCategories);
         }
 
         //- Reseteo los checkbox al entrar:

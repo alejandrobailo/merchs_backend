@@ -8,7 +8,13 @@ const Admin = require('../models/admin');
 
 // GET http://localhost:3000/sign-in
 router.get('/', (req, res) => {
-    res.render('sign-in/sign-in');
+    if (req.cookies.token_user) {
+        res.redirect('/dashboard');
+    } else if (req.cookies.token_admin) {
+        res.redirect('/dashboard-admin');
+    } else {
+        res.render('sign-in/sign-in');
+    }
 });
 
 // POST http://localhost:3000/sign-in

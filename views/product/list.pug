@@ -20,7 +20,9 @@ block content
           td= product.title 
           td= product.description 
           td= product.brand_name
-          td= product.category_name
+          td
+            each item in product.categories
+              p= item
           td= product.price
           td
             button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-info") Edit 

@@ -18,6 +18,17 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
 //
 
+/* IMAGES */
+const path = require('path')
+const fs = require('fs');
+const multipart = require('connect-multiparty');
+/*  */
+
+// Para que el formulario funcione necesita multipart() como middleware, se la pasamos como 2º parametro a la funcion POST
+// Esta libreria crea los headers necesarios para que el formulario mande la img.
+const multipartMiddleware = multipart();
+//
+
 /*
 Lo comento para poder trabajar
 router.use(middleware.checkTokenUser); */

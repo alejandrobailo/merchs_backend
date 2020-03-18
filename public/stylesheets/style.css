@@ -7,8 +7,36 @@ a {
   color: #00B7FF;
 }
 
-.newProduct{
+.form{
   display: flex;
   flex-direction: column;
-  width: 400px;
+  justify-content: space-between;
+}
+
+.sizesWrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.sizeBox{
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.sizeBox input{
+  margin-right: 1em;
+}
+
+.sizesWrapper input{  
+  margin-bottom: 15px;
+}
+
+.sizesWrapper .quantity{
+  width: 100px;
+  margin-left: 1em;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  padding: 5px;
 }

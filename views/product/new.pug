@@ -1,50 +1,57 @@
 extends ../layout
 
 block content 
-    a(href="/products")
-        button.btn.btn-info List  
-    h2 Create new product
-    form(action='/products/create', method='POST', class="newProduct")
-        label Title
-        input(type="text", name='title').form-control
+    .container-fuid
+        a(href="/products")
+            button.btn.btn-info All
+        h2 Create new product
+        .row
+            .col-sm-12.form
+                form(action='/products/create', method='POST', enctype="multipart/form-data")
+                    .row
+                        .col-sm-6
+                            label Title
+                            input(type="text", name='title' required).form-control
 
-        label Description
-        textarea(name="description", cols="30", rows="4").form-control
+                            label Description
+                            textarea(name="description", cols="30", rows="4" required).form-control
 
-        label Price
-        input(type="text", name='price').form-control
+                            label Price
+                            input(type="text", name='price' required).form-control
 
-        label Discount
-        input(type="text", name='discount').form-control
+                            label Discount
+                            input(type="text", name='discount' ).form-control
 
-        label Brand
-        select(name='brand').custom-select
-            option(value='') Please Select
-            each item in brands
-                option(value=item.id)=item.name
+                            label Brand
+                            select(name='brand' required).custom-select
+                                option(value='') Please Select
+                                each item in brands
+                                    option(value=item.id)=item.name
 
-        label Category
-            each category in categories
-                .container
-                    input.category(type="checkbox" name=category.name)
-                    label(for=category.name)=category.name
+                            label Category
+                                each category in categories
+                                    .container
+                                        input.category(type="checkbox" name=category.name)
+                                        label(for=category.name)=category.name
 
-        .custom-file.my-2
-            input(type="file" class="custom-file-input" id="customFile")
-            label(class="custom-file-label" for="customFile") Upload images
+                            .custom-file.my-2
+                                input(type="file" id="customFile" name="image"  multiple="multiple" required).form-control
 
-        label Sizes
-        .sizesWrapper
-            each item in sizes
-                .sizeBox.container
-                    input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)`).form-check-input
-                    label(for=item.number)=item.number
-                    input(type="number" id=item.number disabled placeholder="Quantity").form-control.quantity
+                        .col-sm-6
+                            label Sizes
+                            .sizesWrapper
+                                    each item in sizes
+                                        .sizeBox
+                                            input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` )
+                                            label(for=item.number)=item.number
+                                            input(type="number" id=item.number disabled placeholder="Quantity" ).quantity
 
-        input(type="hidden" name="sizes" id="arrSizeQuantity")
-        input(type="hidden" name="categories" id="arrCategories")
+                    .row
+                        .col-sm-12
+                            input(type="hidden", name="sizes", id="arrSizeQuantity")
+                            input(type="hidden" name="categories" id="arrCategories")
 
-        input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
+                            input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
 
     script.
 

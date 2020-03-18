@@ -18,17 +18,6 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
 //
 
-/* IMAGES */
-const path = require('path')
-const fs = require('fs');
-const multipart = require('connect-multiparty');
-/*  */
-
-// Para que el formulario funcione necesita multipart() como middleware, se la pasamos como 2º parametro a la funcion POST
-// Esta libreria crea los headers necesarios para que el formulario mande la img.
-const multipartMiddleware = multipart();
-//
-
 /*
 Lo comento para poder trabajar
 router.use(middleware.checkTokenUser); */
@@ -82,24 +71,29 @@ router.get('/edit/:sku', async (req, res) => {
 
 /* POST http://localhost:3000/products/create */
 router.post('/create', multipartMiddleware, async (req, res) => {
+
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,
         description: req.body.description,
         discount: req.body.discount,
         date: req.body.date,
-        // brand: req.body.brand,
+        brand: req.body.brand
         // category: req.body.Category
     });
 
     // Creating tbi_size_product relations
     await Size.createSizesRelation(req.body.sizes, result.insertId);
 
+    //CATEGORIES ES UN STRING LO PARSEO:
+    req.body.categories = JSON.parse(req.body.categories);
     // Creating tbi_category_product relations
-    await Category.createCategoryRelation(req.body.categories, result.insertId);
+    for (item of req.body.categories) {
+        console.log(item);
+        await Category.createCategoryRelation(item, result.insertId);
+    }
 
     // Images:
-
     let dir = `./public/images/${result.insertId}/`
     // Nuevo directorio
     if (!fs.existsSync(dir)) {
@@ -111,7 +105,7 @@ router.post('/create', multipartMiddleware, async (req, res) => {
 
     console.log(req.files.image);
 
-    if (req.files.image > 1) {
+    if (req.files.image.length > 1) {
         for (item of req.files.image) {
             files = fs.readdirSync(dir).length;
             imageNumber = files + 1;
@@ -125,6 +119,18 @@ router.post('/create', multipartMiddleware, async (req, res) => {
             let imageName = '/images/' + result.insertId + '/' + imageNumber + path.extname(pathFile).toLowerCase();
             await Product.imgToDb(imageName, imageNumber, result.insertId);
         }
+    } else {
+        files = fs.readdirSync(dir).length;
+        imageNumber = files + 1;
+        // Ruta temporal:
+        let pathFile = req.files.image.path;
+        // Como vamos a llamar a la imagen en el server
+        let newPath = dir + imageNumber + path.extname(pathFile).toLowerCase();
+        // La guardamos
+        fs.createReadStream(pathFile).pipe(fs.createWriteStream(newPath));
+        //Le damos un nombre para la DB
+        let imageName = '/images/' + result.insertId + '/' + imageNumber + path.extname(pathFile).toLowerCase();
+        await Product.imgToDb(imageName, imageNumber, result.insertId);
     }
     res.redirect('/products');
 });

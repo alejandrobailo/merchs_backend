@@ -8,7 +8,7 @@ const getAll = () => {
 
 const createCategoryRelation = (category, productId) => {
     return new Promise((resolve, reject) => {
-        db.query('insert into tbi_category_product (fk_product, fk_category) values (?, ?)',
+        db.query('insert into tbi_category_product (fk_product, fk_category) values (?, (select category.id from category where name = ?))',
             [productId, category], (err, result) => {
                 if (err) reject(err);
                 resolve(result);

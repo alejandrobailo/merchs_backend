@@ -3,54 +3,54 @@ extends ../layout
 block content 
     .container-fuid
         a(href="/products")
-            button.btn.btn-info List  
+            button.btn.btn-info All
         h2 Create new product
         .row
-            .col-sm-6.form
+            .col-sm-12.form
                 form(action='/products/create', method='POST', enctype="multipart/form-data")
-                    label Title
-                    input(type="text", name='title' required).form-control
+                    .row
+                        .col-sm-6
+                            label Title
+                            input(type="text", name='title' required).form-control
 
-                    label Description
-                    textarea(name="description", cols="30", rows="4" required).form-control
+                            label Description
+                            textarea(name="description", cols="30", rows="4" required).form-control
 
-                    label Price
-                    input(type="text", name='price' required).form-control
+                            label Price
+                            input(type="text", name='price' required).form-control
 
-                    label Discount
-                    input(type="text", name='discount' ).form-control
+                            label Discount
+                            input(type="text", name='discount' ).form-control
 
-                    label Brand
-                    select(name='brand' required).custom-select
-                        option(value='') Please Select
-                        each item in brands
-                            option(value=item.id)=item.name
+                            label Brand
+                            select(name='brand' required).custom-select
+                                option(value='') Please Select
+                                each item in brands
+                                    option(value=item.id)=item.name
 
-                    label Category
-                    select(name='category' required).custom-select
-                        option(value='') Please Select
-                        each item in categories
-                            option(value=item.id)=item.name
+                            label Category
+                            select(name='category' required).custom-select
+                                option(value='') Please Select
+                                each item in categories
+                                    option(value=item.id)=item.name
 
-                    .custom-file.my-2
-                        //- AQUI TENGO LO DE LAS IMAGENES
-                        input(type="file" id="customFile" name="image"  multiple="multiple" required).form-control
-                        //- label(class="custom-file-label" for="customFile") Upload images
+                            .custom-file.my-2
+                                input(type="file" id="customFile" name="image"  multiple="multiple" required).form-control
 
-            .col-sm-6
-                label Sizes
-                .sizesWrapper
-                        each item in sizes
-                            .sizeBox
-                                input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` )
-                                label(for=item.number)=item.number
-                                input(type="number" id=item.number disabled placeholder="Quantity" ).quantity
+                        .col-sm-6
+                            label Sizes
+                            .sizesWrapper
+                                    each item in sizes
+                                        .sizeBox
+                                            input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` )
+                                            label(for=item.number)=item.number
+                                            input(type="number" id=item.number disabled placeholder="Quantity" ).quantity
 
-        .row
-            .col-sm-12
-                input(type="hidden", name="sizes", id="arrSizeQuantity")
+                    .row
+                        .col-sm-12
+                            input(type="hidden", name="sizes", id="arrSizeQuantity")
 
-                input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
+                            input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
 
     script.
 

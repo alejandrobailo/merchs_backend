@@ -93,18 +93,20 @@ router.post('/create', multipartMiddleware, async (req, res) => {
 
     console.log(req.files.image);
 
-    for (item of req.files.image) {
-        files = fs.readdirSync(dir).length;
-        imageNumber = files + 1;
-        // Ruta temporal:
-        let pathFile = item.path;
-        // Como vamos a llamar a la imagen en el server
-        let newPath = dir + imageNumber + path.extname(pathFile).toLowerCase();
-        // La guardamos
-        fs.createReadStream(pathFile).pipe(fs.createWriteStream(newPath));
-        //Le damos un nombre para la DB
-        let imageName = '/images/' + result.insertId + '/' + imageNumber + path.extname(pathFile).toLowerCase();
-        await Product.imgToDb(imageName, imageNumber, result.insertId);
+    if (req.files.image > 1) {
+        for (item of req.files.image) {
+            files = fs.readdirSync(dir).length;
+            imageNumber = files + 1;
+            // Ruta temporal:
+            let pathFile = item.path;
+            // Como vamos a llamar a la imagen en el server
+            let newPath = dir + imageNumber + path.extname(pathFile).toLowerCase();
+            // La guardamos
+            fs.createReadStream(pathFile).pipe(fs.createWriteStream(newPath));
+            //Le damos un nombre para la DB
+            let imageName = '/images/' + result.insertId + '/' + imageNumber + path.extname(pathFile).toLowerCase();
+            await Product.imgToDb(imageName, imageNumber, result.insertId);
+        }
     }
     res.redirect('/products');
 });

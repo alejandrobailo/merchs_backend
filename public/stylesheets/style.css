@@ -20,8 +20,12 @@ a {
 
 .sizeBox{
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: baseline;
+}
+
+.sizeBox input{
+  margin-right: 1em;
 }
 
 .sizesWrapper input{  
@@ -31,7 +35,7 @@ a {
 .sizesWrapper .quantity{
   width: 100px;
   margin-left: 1em;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: transparent;
   border: 1px solid #ccc;
   padding: 5px;

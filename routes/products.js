@@ -85,9 +85,8 @@ router.post('/create', multipartMiddleware, async (req, res) => {
     // Creating tbi_size_product relations
     await Size.createSizesRelation(req.body.sizes, result.insertId);
 
-    //CATEGORIES ES UN STRING LO PARSEO:
-    req.body.categories = JSON.parse(req.body.categories);
     // Creating tbi_category_product relations
+    req.body.categories = JSON.parse(req.body.categories);
     for (item of req.body.categories) {
         console.log(item);
         await Category.createCategoryRelation(item, result.insertId);
@@ -99,11 +98,10 @@ router.post('/create', multipartMiddleware, async (req, res) => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir)
     }
+
     // Number of images in the folder:
     let imageNumber = 0;
     let files = 0;
-
-    console.log(req.files.image);
 
     if (req.files.image.length > 1) {
         for (item of req.files.image) {

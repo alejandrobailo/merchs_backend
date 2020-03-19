@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const Admin = require('../models/admin');
 
 // GET http://localhost:3000/sign-up
 router.get('/', (req, res) => {
@@ -39,9 +40,10 @@ router.post('/', [
             return res.render('sign-up/sign-up', { errors: validationErrors.errors });
         }
 
-        // Check if there is any other user with the same email address
-        const emailExists = await User.emailExists(req.body.email);
-        if (emailExists !== null) {
+        // Check if there is any other user or admin with the same email address
+        const emailExistsUser = await User.exists(req.body.email);
+        const emailExistsAdmin = await Admin.exists(req.body.email);
+        if (emailExistsUser !== null || emailExistsAdmin !== null) {
             return res.render('sign-up/sign-up', { emailRepeated: 'Email already in use' });
         }
 

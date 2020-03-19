@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const jwt = require('jwt-simple');
-const moment = require('moment');
+const utils = require('../utils');
 const User = require('../models/user');
 const Admin = require('../models/admin');
 
@@ -33,7 +32,7 @@ router.post('/', async (req, res) => {
                 }
                 // Login OK: create the token, store in cookies and redirect to Dashboard
                 else {
-                    const token = createToken(admin);
+                    const token = utils.createToken(admin);
                     res.cookie('token_admin', token);
                     res.redirect('/admin-dashboard');
                 }
@@ -51,7 +50,7 @@ router.post('/', async (req, res) => {
                 }
                 // Login OK: create the token, store in cookies and redirect to Dashboard
                 else {
-                    const token = createToken(user);
+                    const token = utils.createToken(user);
                     res.cookie('token_user', token);
                     res.redirect('/dashboard');
                 }
@@ -62,15 +61,5 @@ router.post('/', async (req, res) => {
         console.log(err);
     }
 });
-
-// Support functions
-const createToken = (pUser) => {
-    const payload = {
-        userId: pUser.id,
-        creationDate: moment().unix(),
-        expirationDate: moment().add(15, 'days').unix()
-    }
-    return jwt.encode(payload, process.env.SECRET_KEY);
-}
 
 module.exports = router;

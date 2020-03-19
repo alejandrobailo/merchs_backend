@@ -53,8 +53,6 @@ const checkTokenAdmin = (req, res, next) => {
     next();
 }
 
-
-
 module.exports = {
     checkTokenUser: checkTokenUser,
     checkTokenAdmin: checkTokenAdmin

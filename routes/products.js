@@ -11,16 +11,11 @@ const utils = require('../utils');
 const path = require('path')
 const fs = require('fs');
 const multipart = require('connect-multiparty');
-/*  */
-
 // Para que el formulario funcione necesita multipart() como middleware, se la pasamos como 2º parametro a la funcion POST
 // Esta libreria crea los headers necesarios para que el formulario mande la img.
 const multipartMiddleware = multipart();
-//
 
-/*
-Lo comento para poder trabajar
-router.use(middleware.checkTokenUser); */
+router.use(middleware.checkTokenUser);
 
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
@@ -42,11 +37,9 @@ router.get('/', async (req, res) => {
 
 /* GET http://localhost:3000/products/new */
 router.get('/new', async (req, res) => {
-
     const brands = await Brand.getAll();
     const sizes = await Size.getAll();
     const categories = await Category.getAll();
-
 
     res.render('product/new', {
         brands: brands,
@@ -55,11 +48,9 @@ router.get('/new', async (req, res) => {
     });
 })
 
-
 /* GET http://localhost:3000/products/edit/:sku */
 router.get('/edit/:sku', async (req, res) => {
     const result = await Product.getById(req.params.sku);
-
     const formatDate = await utils.formatDate(result[0].date);
 
     res.render('product/edit', {
@@ -68,10 +59,8 @@ router.get('/edit/:sku', async (req, res) => {
     });
 });
 
-
 /* POST http://localhost:3000/products/create */
 router.post('/create', multipartMiddleware, async (req, res) => {
-
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,
@@ -79,18 +68,13 @@ router.post('/create', multipartMiddleware, async (req, res) => {
         discount: req.body.discount,
         date: req.body.date,
         brand: req.body.brand
-        // category: req.body.Category
     });
 
     // Creating tbi_size_product relations
     await Size.createSizesRelation(req.body.sizes, result.insertId);
 
     // Creating tbi_category_product relations
-    req.body.categories = JSON.parse(req.body.categories);
-    for (item of req.body.categories) {
-        console.log(item);
-        await Category.createCategoryRelation(item, result.insertId);
-    }
+    await Category.createCategoryRelation(req.body.categories, result.insertId);
 
     // Images:
     let dir = `./public/images/${result.insertId}/`

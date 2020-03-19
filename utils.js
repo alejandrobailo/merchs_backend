@@ -1,4 +1,5 @@
 const moment = require('moment');
+const jwt = require('jwt-simple');
 
 let formatDate = (date) => {
     return new Promise((resolve, reject) => {
@@ -11,6 +12,16 @@ let formatDate = (date) => {
     });
 }
 
+const createToken = (user) => {
+    const payload = {
+        userId: user.id,
+        creationDate: moment().unix(),
+        expirationDate: moment().add(15, 'days').unix()
+    }
+    return jwt.encode(payload, process.env.SECRET_KEY);
+}
+
 module.exports = {
-    formatDate: formatDate
+    formatDate: formatDate,
+    createToken: createToken
 }

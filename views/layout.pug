@@ -1,34 +1,34 @@
-doctype html
+//- doctype html
 
-block config
-    - var pageTitle = "Page Title"
+//- block config
+//-     - var pageTitle = "Page Title"
 
-html(lang='en')
+//- html(lang='en')
 
-    head
+//-     head
         //- link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh", crossorigin="anonymous")
         //- link(rel='stylesheet', href='/stylesheets/style.css')
-        include includes/head/meta.pug
-        include includes/head/title.pug
-        include includes/head/css.pug
-        include includes/head/icons.pug
+    //-     include includes/head/meta.pug
+    //-     include includes/head/title.pug
+    //-     include includes/head/css.pug
+    //-     include includes/head/icons.pug
 
-    body(class=bodyClass)
+    //- body(class=bodyClass)
 
-        include includes/navigation/topnav.pug
+    //-     include includes/navigation/topnav.pug
 
-        #layoutSidenav
+    //-     #layoutSidenav
             
-            #layoutSidenav_nav
+    //-         #layoutSidenav_nav
 
-                include includes/navigation/sidenav.pug
+    //-             include includes/navigation/sidenav.pug
 
-            #layoutSidenav_content
+    //-         #layoutSidenav_content
                 
-                main
+    //-             main
 
-                    block content
+    //-                 block content
                     
-                include includes/footer.pug
+    //-             include includes/footer.pug
 
-        include includes/scripts.pug
+    //-     include includes/scripts.pug

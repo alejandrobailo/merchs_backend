@@ -12,10 +12,9 @@ router.get('/', (req, res) => {
 
 // POST http://localhost:3000/sign-up/
 router.post('/', [
-    check('name')
+    check('username')
         .trim()
-        .notEmpty().withMessage('Name is required')
-        .isLength({ min: 3, max: 30 }).withMessage('Name should be between 3 and 30 characters'),
+        .notEmpty().withMessage('Username is required'),
     check('address')
         .trim()
         .notEmpty().withMessage('Address is required'),
@@ -30,7 +29,17 @@ router.post('/', [
     check('password')
         .trim()
         .notEmpty().withMessage('Password is required')
-        .custom(value => { return (/^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/).test(value) }).withMessage('Password must contain at least one letter, at least one number, and be longer than six charaters')
+        .custom(value => { return (/^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/).test(value) }).withMessage('Password must contain at least one letter, at least one number, and be longer than six characters'),
+    check('confirmPassword')
+        .trim()
+        .notEmpty().withMessage('Confirm password is required')
+        .custom((value, { req }) => {
+            if (req.body.password === req.body.confirmPassword) {
+                return true;
+            } else {
+                return false;
+            }
+        }).withMessage('Passwords must match')
 ], async (req, res) => {
     try {
         const validationErrors = validationResult(req);
@@ -50,7 +59,7 @@ router.post('/', [
         // If no errors in form and no email already used, encrypt the password and create the User in the DB
         req.body.password = bcrypt.hashSync(req.body.password, 10);
         await User.create({
-            name: req.body.name,
+            username: req.body.username,
             address: req.body.address,
             phone: req.body.phone,
             email: req.body.email,

@@ -2,25 +2,110 @@ extends ../layout
 
 block content
 
-    .container-fuid
-        a(href="/products").btn.btn-sm.btn-info.my-2.row Go back 
+    .container
+        a(href="/products").btn.btn-sm.btn-primary.my-2.row Go back 
+        a(href=`/products/delete/${product.sku}`).btn.btn-danger.btn-sm.float-right.my-2#delete Delete
+
         .row
             .card.mb-3.col-6
                 div.row.no-gutters
                     div.col-md-4
-                        img(src=product.image_1 class="card-img" alt="img")
+                        #carouselExampleIndicators.carousel.slide(data-ride='carousel')
+                            ol.carousel-indicators
+                                li.active(data-target='#carouselExampleIndicators' data-slide-to='0')
+                                li(data-target='#carouselExampleIndicators' data-slide-to='1')
+                                li(data-target='#carouselExampleIndicators' data-slide-to='2')
+                            .carousel-inner
+                                .carousel-item.active
+                                    img.d-block.w-100(src=product.image_1 alt='First slide')
+                                .carousel-item
+                                    img.d-block.w-100(src=product.image_2 alt='Second slide')
+                                .carousel-item
+                                    img.d-block.w-100(src=product.image_3 alt='Third slide')
+                            a.carousel-control-prev(href='#carouselExampleIndicators' role='button' data-slide='prev')
+                                span.carousel-control-prev-icon(aria-hidden='true')
+                                span.sr-only Previous
+                            a.carousel-control-next(href='#carouselExampleIndicators' role='button' data-slide='next')
+                                span.carousel-control-next-icon(aria-hidden='true')
+                                span.sr-only Next                        
+                        //- img(src=product.image_1 class="card-img my-2" alt="img")
                     div.col-md-8
                         div.card-body
-                            h5(class="card-title")=product.title
+                            h5(class="card-title")=`Sku: ${product.sku}`
+                            p(class="card-text")=product.title
                             p(class="card-text")=product.description
                             p(class="card-text")=`${product.price} €`
                             p(class="card-text")=`Discount: ${product.discount}%`
-
+                            p(class="card-text")=`Status: ${product.status}`
                             p.card-text     
                                 small(class="text-mutedLast")=date
 
-            form.form-group.mx-2(action="")
+            form.form-group.mx-2(action=`/products/edit/${product.sku}` method="POST")
                 h4 Edit product
-                input.form-control(placeholder="Title")
-                input.form-control(placeholder="Description")
-                input.form-control(placeholder="Price")
+                .row
+                    .col-sm-6
+                        input.form-control(placeholder="Title" name="title" required)
+                        input.form-control(placeholder="Description" name="description" required)
+                        input.form-control(placeholder="Price" name="price" required)
+                        input.form-control(placeholder="Discount" name="discount" required)
+                        //- Status?
+                    .col-sm-6                            
+                        .sizesWrapper
+                                each item in sizes
+                                    .sizebox
+                                        input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` ).sizesCheckbox
+                                        label(for=item.number)=item.number
+                                        p(class="d-inline-block")=`Quantity available: ${item.quantity}`
+                                        input(type="number" id=item.number disabled placeholder="Quantity" ).quantity
+
+                input(type="hidden", name="sizes", id="arrSizeQuantity")
+                input(type="submit", value="Editar" onclick="handleCreate()").btn.btn-sm.btn-primary.my-2
+
+    script.
+
+        let arrSizeQuantity = new Array();
+        let arrCategories = new Array();
+        
+        function initializeSizeForm(){
+            let checkboxs =  document.getElementsByClassName('form-check-input');
+            for(item of checkboxs){
+                item.checked = false;
+            }
+            let quantityInputs = document.getElementsByClassName('quantity')
+            for(item of quantityInputs){
+                item.disabled = true;
+                item.value = '';
+            }
+        }
+
+        function handleCheckboxClick(event) {
+            let inputQuantity = document.getElementById(event.target.name);
+
+            if(event.target.checked){
+                inputQuantity.disabled = false;
+
+                let sizeQuantity = {};
+
+                sizeQuantity.size = parseInt(inputQuantity.id);
+
+                inputQuantity.addEventListener('input', () => {
+                    sizeQuantity.quantity = parseInt(inputQuantity.value);
+                });
+                arrSizeQuantity.push(sizeQuantity);
+            } else {
+                inputQuantity.disabled = true;
+                let position = arrSizeQuantity.findIndex(item => item.size === parseInt(event.target.name));
+                arrSizeQuantity.splice(position,1);
+            }
+        }
+
+        function handleCreate(){
+            //Esto evita las talla duplicadas
+            let set = new Set(arrSizeQuantity.map(JSON.stringify))
+            arrSizeQuantity = Array.from(set).map(JSON.parse);
+
+            document.getElementById('arrSizeQuantity').value = JSON.stringify(arrSizeQuantity);
+        }
+         
+        initializeSizeForm()
+

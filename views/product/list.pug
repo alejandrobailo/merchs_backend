@@ -1,32 +1,33 @@
 extends ../layout
 
 block content
-  a(href="/products/new")
-    button.btn.btn-info New product
-  table.table.my-2
-    thead.thead-dark
-      tr
-        th SKU
-        th Title
-        th Description
-        th Brand
-        th Category
-        th Price
-        th 
-    tbody
-      each product in products=products
+  .container.my-2
+    a(href="/products/new")
+      button.btn.btn-info New product
+    table.table.my-2
+      thead.thead-dark
         tr
-          td= product.sku 
-          td= product.title 
-          td= product.description 
-          td= product.brand_name
-          td
-            each item in product.categories
-              p= item
-          td= product.price
-          td
-            button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-info") Edit 
-  script.
-    function handleEditClick(sku) {
-      window.location.href = `/products/edit/${sku}`
-    }
+          th SKU
+          th Title
+          th Description
+          th Brand
+          th Category
+          th Price
+          th 
+      tbody
+        each product in products=products
+          tr
+            td= product.sku 
+            td= product.title 
+            td= product.description 
+            td= product.brand_name
+            td
+              each item in product.categories
+                p= item
+            td= product.price
+            td
+              button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-info") Edit 
+    script.
+      function handleEditClick(sku) {
+        window.location.href = `/products/edit/${sku}`
+      }

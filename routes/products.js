@@ -8,12 +8,14 @@ const Category = require('../models/category');
 const utils = require('../utils');
 
 /* IMAGES */
+/* Al encapsular la función de insertar imagenes ya no se necesitan aquí, ELIMINAR EN UN FUTURO CERCANO
 const path = require('path')
-const fs = require('fs');
+const fs = require('fs'); 
+*/
 const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
 // Para que el formulario funcione necesita multipart() como middleware, se la pasamos como 2º parametro a la funcion POST
 // Esta libreria crea los headers necesarios para que el formulario mande la img.
-const multipartMiddleware = multipart();
 
 router.use(middleware.checkTokenUser);
 
@@ -52,12 +54,24 @@ router.get('/new', async (req, res) => {
 router.get('/edit/:sku', async (req, res) => {
     const result = await Product.getById(req.params.sku);
     const formatDate = await utils.formatDate(result[0].date);
+    const sizes = await Size.getById(req.params.sku);
 
     res.render('product/edit', {
         product: result[0],
-        date: formatDate
+        date: formatDate,
+        sizes: sizes
     });
 });
+
+/* GET http://localhost:3000/products/delete/:sku */
+router.get('/delete/:sku', async (req, res) => {
+    await Product.deleteById(req.params.sku)
+    try {
+        res.redirect(`/products`);
+    } catch (error) {
+        console.log(err);
+    }
+})
 
 /* POST http://localhost:3000/products/create */
 router.post('/create', multipartMiddleware, async (req, res) => {
@@ -69,52 +83,32 @@ router.post('/create', multipartMiddleware, async (req, res) => {
         date: req.body.date,
         brand: req.body.brand
     });
-
     // Creating tbi_size_product relations
     await Size.createSizesRelation(req.body.sizes, result.insertId);
-
     // Creating tbi_category_product relations
     await Category.createCategoryRelation(req.body.categories, result.insertId);
-
-    // Images:
-    let dir = `./public/images/${result.insertId}/`
-    // Nuevo directorio
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir)
-    }
-
-    // Number of images in the folder:
-    let imageNumber = 0;
-    let files = 0;
-
+    // Insert img to db and creating files
     if (req.files.image.length > 1) {
         for (item of req.files.image) {
-            files = fs.readdirSync(dir).length;
-            imageNumber = files + 1;
-            // Ruta temporal:
-            let pathFile = item.path;
-            // Como vamos a llamar a la imagen en el server
-            let newPath = dir + imageNumber + path.extname(pathFile).toLowerCase();
-            // La guardamos
-            fs.createReadStream(pathFile).pipe(fs.createWriteStream(newPath));
-            //Le damos un nombre para la DB
-            let imageName = '/images/' + result.insertId + '/' + imageNumber + path.extname(pathFile).toLowerCase();
-            await Product.imgToDb(imageName, imageNumber, result.insertId);
+            utils.insertImage(result.insertId, item);
         }
-    } else {
-        files = fs.readdirSync(dir).length;
-        imageNumber = files + 1;
-        // Ruta temporal:
-        let pathFile = req.files.image.path;
-        // Como vamos a llamar a la imagen en el server
-        let newPath = dir + imageNumber + path.extname(pathFile).toLowerCase();
-        // La guardamos
-        fs.createReadStream(pathFile).pipe(fs.createWriteStream(newPath));
-        //Le damos un nombre para la DB
-        let imageName = '/images/' + result.insertId + '/' + imageNumber + path.extname(pathFile).toLowerCase();
-        await Product.imgToDb(imageName, imageNumber, result.insertId);
-    }
+    } else utils.insertImage(result.insertId, req.files.image)
     res.redirect('/products');
 });
+
+/* POST http://localhost:3000/products/edit/:sku */
+router.post('/edit/:sku', async (req, res) => {
+    await Product.editById(req.body, req.params.sku);
+    if (req.body.sizes != '[{}]') {
+        await Size.editById(req.body.sizes, req.params.sku);
+    }
+    try {
+        res.redirect(`/products`);
+    }
+    catch (err) {
+        console.log(err);
+    }
+})
+
 
 module.exports = router;

@@ -7,7 +7,7 @@ block content
         h2 Create new product
         .row
             .col-sm-12.form
-                form(action='/products/create', method='POST', enctype="multipart/form-data")
+                form(action='/products/create', method='POST', enctype="multipart/form-data" id="form")
                     .row
                         .col-sm-6
                             label Title
@@ -42,7 +42,7 @@ block content
                             .sizesWrapper
                                     each item in sizes
                                         .sizeBox
-                                            input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` )
+                                            input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` ).sizesCheckbox
                                             label(for=item.number)=item.number
                                             input(type="number" id=item.number disabled placeholder="Quantity" ).quantity
 
@@ -59,7 +59,7 @@ block content
         let arrCategories = new Array();
         
         function initializeSizeForm(){
-            let checkboxs =  document.getElementsByClassName('form-check-input');
+            let checkboxs =  document.getElementsByClassName('sizesCheckbox');
             for(item of checkboxs){
                 item.checked = false;
             }
@@ -68,6 +68,9 @@ block content
                 item.disabled = true;
                 item.value = '';
             }
+
+            document.getElementById('form').reset();
+
         }
 
         function handleCheckboxClick(event) {
@@ -83,16 +86,20 @@ block content
                 inputQuantity.addEventListener('input', () => {
                     sizeQuantity.quantity = parseInt(inputQuantity.value);
                 });
-
                 arrSizeQuantity.push(sizeQuantity);
             } else {
                 inputQuantity.disabled = true;
-                inputQuantity.value = inputQuantity.placeholder;    
+                let position = arrSizeQuantity.findIndex(item => item.size === parseInt(event.target.name));
+                arrSizeQuantity.splice(position,1);
             }
         }
 
         //- Paso el array al value del input tipo hidden al crear el prod.
         function handleCreate(event){
+            //eliminamos los valores duplicados
+            let set = new Set(arrSizeQuantity.map(JSON.stringify))
+            arrSizeQuantity = Array.from(set).map(JSON.parse);
+
             document.getElementById('arrSizeQuantity').value = JSON.stringify(arrSizeQuantity);
 
             // Get all the checked categories and store them in arrCategories

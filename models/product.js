@@ -49,10 +49,32 @@ const imgToDb = (name, counter, id) => {
     });
 }
 
+/* Edit product */
+const editById = ({ title, description, price, discount }, sku) => {
+    return new Promise((resolve, reject) => {
+        db.query('UPDATE product SET title = ?, description = ?, price = ?, discount = ? WHERE sku = ?', [title, description, price, discount, sku], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
+/* Delete product */
+const deleteById = (sku) => {
+    return new Promise((resolve, reject) => {
+        db.query('DELETE FROM product WHERE sku = ?', [sku], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
 module.exports = {
     getAll: getAll,
     getProductCategories: getProductCategories,
     create: create,
     getById: getById,
-    imgToDb: imgToDb
+    imgToDb: imgToDb,
+    editById: editById,
+    deleteById: deleteById
 }

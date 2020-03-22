@@ -1,6 +1,6 @@
-const create = ({ name, address, phone, email, password }) => {
+const create = ({ username, address, phone, email, password }) => {
     return new Promise((resolve, reject) => {
-        db.query('INSERT INTO user (name, address, phone, email, password) VALUES (?, ?, ?, ?, ?)', [name, address, phone, email, password], (err, result) => {
+        db.query('INSERT INTO user (username, address, phone, email, password) VALUES (?, ?, ?, ?, ?)', [username, address, phone, email, password], (err, result) => {
             if (err) reject(err);
             resolve(result);
         });
@@ -35,9 +35,9 @@ const getById = (userId) => {
     });
 };
 
-const editById = ({ name, address, phone, email }, userId) => {
+const editById = ({ username, address, phone, email }, userId) => {
     return new Promise((resolve, reject) => {
-        db.query('UPDATE user SET name = ?, address = ?, phone = ?, email = ? WHERE id = ?', [name, address, phone, email, userId], (err, result) => {
+        db.query('UPDATE user SET username = ?, address = ?, phone = ?, email = ? WHERE id = ?', [username, address, phone, email, userId], (err, result) => {
             if (err) return reject(err);
             resolve(result);
         });

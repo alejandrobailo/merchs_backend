@@ -16,7 +16,7 @@ require("dotenv").config();
 const app = express();
 
 // Connection to the Data Base
-require("./mysqlDB").connect();
+require("./db").connect();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

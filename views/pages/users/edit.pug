@@ -1,16 +1,16 @@
-extends ../layout.pug
+extends ../../layouts/dashboard.pug
 
 block content
 
     div.container
 
-        h2 User: #{user.name}
+        h2 User: #{user.username}
 
             form(action=`/users/edit/${user.id}` method="post")
 
                 div.form-group
-                    label Name
-                    input(type="text" name="name" value=user.name).form-control
+                    label Username
+                    input(type="text" name="username" value=user.username).form-control
 
                 div.form-group
                     label Address

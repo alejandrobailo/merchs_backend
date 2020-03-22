@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     } else if (req.cookies.token_admin) {
         res.redirect('/dashboard-admin');
     } else {
-        res.render('sign-in/sign-in');
+        res.render('pages/sign-in/sign-in');
     }
 });
 
@@ -24,29 +24,29 @@ router.post('/', async (req, res) => {
                 // Check if the admin exists by email
                 const admin = await Admin.exists(req.body.email);
                 if (admin === null) {
-                    res.render('sign-in/sign-in', { error: 'Error in email or password' });
+                    res.render('pages/sign-in/sign-in', { error: 'Error in email or password' });
                 }
                 // Check password
                 if (req.body.password !== admin.password) {
-                    res.render('sign-in/sign-in', { error: 'Error in email or password' });
+                    res.render('pages/sign-in/sign-in', { error: 'Error in email or password' });
                 }
                 // Login OK: create the token, store in cookies and redirect to Dashboard
                 else {
                     const token = utils.createToken(admin);
                     res.cookie('token_admin', token);
-                    res.redirect('/admin-dashboard');
+                    res.redirect('/dashboard-admin');
                 }
             }
             default: {
                 // Check if the user exists by email
                 const user = await User.exists(req.body.email);
                 if (user === null) {
-                    res.render('sign-in/sign-in', { error: 'Error in email or password' });
+                    res.render('pages/sign-in/sign-in', { error: 'Error in email or password' });
                 }
                 // Check password
                 const checkPassword = bcrypt.compareSync(req.body.password, user.password);
                 if (!checkPassword) {
-                    res.render('sign-in/sign-in', { error: 'Error in email or password' });
+                    res.render('pages/sign-in/sign-in', { error: 'Error in email or password' });
                 }
                 // Login OK: create the token, store in cookies and redirect to Dashboard
                 else {

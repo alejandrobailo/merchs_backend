@@ -1,4 +1,4 @@
-extends ../../views/layout.pug
+extends ../../layouts/dashboard.pug
 
 block config
     - var bodyClass = 'sb-nav-fixed'
@@ -11,7 +11,7 @@ append css
 
 block content
     .container-fluid
-        include includes/page-header.pug
+        include ../includes/page-header.pug
         .row
             .col-xl-3.col-md-6
                 .card.bg-primary.text-white.mb-4
@@ -72,7 +72,7 @@ block content
                 i.fas.fa-table.mr-1
                 | DataTable Example
             .card-body
-                include includes/datatable.pug
+                include ../includes/datatable.pug
 
 
 append scripts

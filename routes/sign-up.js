@@ -7,7 +7,7 @@ const Admin = require('../models/admin');
 
 // GET http://localhost:3000/sign-up
 router.get('/', (req, res) => {
-    res.render('sign-up/sign-up');
+    res.render('pages/sign-up/sign-up');
 });
 
 // POST http://localhost:3000/sign-up/
@@ -46,14 +46,14 @@ router.post('/', [
 
         // Check if there are form errors
         if (!validationErrors.isEmpty()) {
-            return res.render('sign-up/sign-up', { errors: validationErrors.errors });
+            return res.render('pages/sign-up/sign-up', { errors: validationErrors.errors });
         }
 
         // Check if there is any other user or admin with the same email address
         const emailExistsUser = await User.exists(req.body.email);
         const emailExistsAdmin = await Admin.exists(req.body.email);
         if (emailExistsUser !== null || emailExistsAdmin !== null) {
-            return res.render('sign-up/sign-up', { emailRepeated: 'Email already in use' });
+            return res.render('pages/sign-up/sign-up', { emailRepeated: 'Email already in use' });
         }
 
         // If no errors in form and no email already used, encrypt the password and create the User in the DB

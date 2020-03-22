@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         for (let row of rows) {
             row.date = await utils.formatDate(row.date);
         }
-        res.render('users/list', { users: rows });
+        res.render('pages/users/list', { users: rows });
     }
     catch (err) {
         console.log(err);
@@ -26,7 +26,7 @@ router.use(middleware.checkTokenUser);
 router.get('/edit/:id', async (req, res) => {
     try {
         const row = await User.getById(req.params.id);
-        res.render('users/edit', { user: row });
+        res.render('pages/users/edit', { user: row });
     }
     catch (err) {
         console.log(err);

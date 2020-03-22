@@ -1,4 +1,4 @@
-extends ../layout.pug
+extends ../../layouts/dashboard.pug
 
 block content
 
@@ -9,7 +9,7 @@ block content
         table.table
             thead.thead-dark
                 tr
-                    th Name
+                    th Username
                     th Address
                     th Phone Number
                     th Email
@@ -19,7 +19,7 @@ block content
                 
             each user in users
                 tr
-                    td= user.name
+                    td= user.username
                     td= user.address
                     td= user.phone
                     td= user.email

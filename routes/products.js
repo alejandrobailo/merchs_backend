@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
             }
         }
     }
-    res.render('product/list', {
+    res.render('pages/product/list', {
         products: rows
     });
 });
@@ -41,7 +41,7 @@ router.get('/new', async (req, res) => {
     const sizes = await Size.getAll();
     const categories = await Category.getAll();
 
-    res.render('product/new', {
+    res.render('pages/product/new', {
         brands: brands,
         categories: categories,
         sizes: sizes
@@ -53,7 +53,7 @@ router.get('/edit/:sku', async (req, res) => {
     const result = await Product.getById(req.params.sku);
     const formatDate = await utils.formatDate(result[0].date);
 
-    res.render('product/edit', {
+    res.render('pages/product/edit', {
         product: result[0],
         date: formatDate
     });

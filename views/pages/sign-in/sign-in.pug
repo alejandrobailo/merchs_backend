@@ -1,4 +1,4 @@
-extends ../layouts/authentication.pug
+extends ../../layouts/authentication.pug
 
 block content
     .container
@@ -18,14 +18,6 @@ block content
                             .errors
                                 if error
                                     p(style={'color': 'red', 'font-size': '0.7em'})= error
-
-                            //- .form-group
-                            //-     .custom-control.custom-checkbox
-                            //-         input#rememberPasswordCheck.custom-control-input(type='checkbox')
-                            //-         label.custom-control-label(for='rememberPasswordCheck') Remember password
-                            //- .form-group.d-flex.align-items-center.justify-content-between.mt-4.mb-0
-                            //-     a.small(href='password.html') Forgot Password?
-                            //-     a.btn.btn-primary(href='index.html') Login
 
                             button.btn.btn-primary.btn-block(type='submit') Login
 

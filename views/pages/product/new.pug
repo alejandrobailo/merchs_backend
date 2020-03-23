@@ -1,5 +1,12 @@
 extends ../../layouts/dashboard.pug
 
+mixin checkError(errors, pError)
+    if errors
+        each error in errors
+            if (error.param === pError)
+                p(style={'color': 'red', 'font-size': '0.7em'})= error.msg
+
+
 block content 
     .container-fuid
         a(href="/products").float-right.m-2
@@ -12,15 +19,19 @@ block content
                         .col-sm-6
                             label Title
                             input(type="text", name='title' required).form-control
+                            +checkError(errors, 'title')
 
                             label Description
                             textarea(name="description", cols="30", rows="4" required).form-control
+                            +checkError(errors, 'description')
 
                             label Price
                             input(type="text", name='price' required).form-control
+                            +checkError(errors, 'price')
 
                             label Discount
-                            input(type="text", name='discount' ).form-control
+                            input(type="text", name='discount').form-control
+                            +checkError(errors, 'discount')
 
                             label Brand
                             select(name='brand' required).custom-select

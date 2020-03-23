@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const middleware = require('./middlewares');
 const Product = require('../models/product');
 const Brand = require('../models/brand');
@@ -74,7 +75,40 @@ router.get('/delete/:sku', async (req, res) => {
 })
 
 /* POST http://localhost:3000/products/create */
-router.post('/create', multipartMiddleware, async (req, res) => {
+router.post('/create', multipartMiddleware, [
+    check('title')
+        .trim()
+        .isLength({ min: 3 }).withMessage('Min. number of characters are 3')
+        .notEmpty().withMessage('Title is required'),
+    check('price')
+        .trim()
+        .isNumeric(({ no_symbols: true }))
+        .notEmpty().withMessage('Price is required'),
+    check('description')
+        .isLength({ min: 10 }).withMessage('Min. number of characters are 10')
+        .notEmpty().withMessage('Description is required'),
+    check('discount')
+        .trim()
+        .isNumeric(({ no_symbols: true }))
+        .isLength({ max: 2 }).withMessage('Max. number of characters are 2'),
+], async (req, res) => {
+
+    const validationErrors = validationResult(req);
+
+    console.log(validationErrors.errors);
+
+    if (!validationErrors.isEmpty()) {
+        const brands = await Brand.getAll();
+        const sizes = await Size.getAll();
+        const categories = await Category.getAll();
+        return res.render('pages/product/new', {
+            errors: validationErrors.errors,
+            brands: brands,
+            categories: categories,
+            sizes: sizes
+        });
+    }
+
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,

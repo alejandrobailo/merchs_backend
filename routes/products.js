@@ -66,7 +66,9 @@ router.get('/edit/:sku', async (req, res) => {
 
 /* GET http://localhost:3000/products/delete/:sku */
 router.get('/delete/:sku', async (req, res) => {
-    await Product.deleteById(req.params.sku)
+    await Product.deleteById(req.params.sku);
+    await Size.deleteById(req.params.sku);
+    await Category.deleteById(req.params.sku);
     try {
         res.redirect(`/products`);
     } catch (error) {

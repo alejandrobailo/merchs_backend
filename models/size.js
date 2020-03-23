@@ -41,9 +41,20 @@ const editById = (sizesQuantities, sku) => {
     });
 };
 
+/* Delete sizes */
+const deleteById = (sku) => {
+    return new Promise((resolve, reject) => {
+        db.query('DELETE FROM tbi_size_product WHERE fk_product = ?', [sku], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
 module.exports = {
     getAll: getAll,
     createSizesRelation: createSizesRelation,
     getById: getById,
-    editById: editById
+    editById: editById,
+    deleteById: deleteById
 }

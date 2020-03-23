@@ -18,8 +18,18 @@ const createCategoryRelation = (categories, productId) => {
     });
 }
 
+const deleteById = (sku) => {
+    return new Promise((resolve, reject) => {
+        db.query('DELETE FROM tbi_category_product WHERE fk_product = ?', [sku], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
 module.exports = {
     getAll: getAll,
-    createCategoryRelation: createCategoryRelation
+    createCategoryRelation: createCategoryRelation,
+    deleteById: deleteById
 }
 

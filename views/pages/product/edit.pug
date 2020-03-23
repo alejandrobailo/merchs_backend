@@ -1,10 +1,16 @@
 extends ../../layouts/dashboard.pug
 
+mixin checkError(errors, pError)
+    if errors
+        each error in errors
+            if (error.param === pError)
+                p(style={'color': 'red', 'font-size': '0.7em'})= error.msg
+
 block content
 
     .container
         a(href="/products").btn.btn-sm.btn-primary.my-2.row Go back 
-        a(href=`/products/delete/${product.sku}`).btn.btn-danger.btn-sm.float-right.my-2#delete Delete
+        a(href=`/products/delete/${product.sku}` onclick="return confirm('Are you sure you want to delete this item?')").btn.btn-danger.btn-sm.float-right.my-2#delete Delete
 
         .row
             .card.mb-3.col-6
@@ -15,6 +21,8 @@ block content
                                 li.active(data-target='#carouselExampleIndicators' data-slide-to='0')
                                 li(data-target='#carouselExampleIndicators' data-slide-to='1')
                                 li(data-target='#carouselExampleIndicators' data-slide-to='2')
+                                li(data-target='#carouselExampleIndicators' data-slide-to='3')
+                                li(data-target='#carouselExampleIndicators' data-slide-to='4')
                             .carousel-inner
                                 .carousel-item.active
                                     img.d-block.w-100(src=product.image_1 alt='First slide')
@@ -22,13 +30,16 @@ block content
                                     img.d-block.w-100(src=product.image_2 alt='Second slide')
                                 .carousel-item
                                     img.d-block.w-100(src=product.image_3 alt='Third slide')
+                                .carousel-item
+                                    img.d-block.w-100(src=product.image_4 alt='Fourth slide')
+                                .carousel-item
+                                    img.d-block.w-100(src=product.image_5 alt='Fiveth slide')
                             a.carousel-control-prev(href='#carouselExampleIndicators' role='button' data-slide='prev')
                                 span.carousel-control-prev-icon(aria-hidden='true')
                                 span.sr-only Previous
                             a.carousel-control-next(href='#carouselExampleIndicators' role='button' data-slide='next')
                                 span.carousel-control-next-icon(aria-hidden='true')
                                 span.sr-only Next                        
-                        //- img(src=product.image_1 class="card-img my-2" alt="img")
                     div.col-md-8
                         div.card-body
                             h5(class="card-title")=`Sku: ${product.sku}`
@@ -40,15 +51,18 @@ block content
                             p.card-text     
                                 small(class="text-mutedLast")=date
 
-            form.form-group.mx-2(action=`/products/edit/${product.sku}` method="POST")
+            form.form-group.mx-2(action=`/products/edit/${product.sku}` method="POST" id="form")
                 h4 Edit product
                 .row
                     .col-sm-6
-                        input.form-control(placeholder="Title" name="title" required)
-                        input.form-control(placeholder="Description" name="description" required)
-                        input.form-control(placeholder="Price" name="price" required)
-                        input.form-control(placeholder="Discount" name="discount" required)
-                        //- Status?
+                        input.form-control(placeholder="Title" name="title" value=product.title)
+                        +checkError(errors, 'title')
+                        input.form-control(placeholder="Description" name="description" value=product.description)
+                        +checkError(errors, 'description')
+                        input.form-control(placeholder="Price" name="price" value=product.price)
+                        +checkError(errors, 'price')
+                        input.form-control(placeholder="Discount" name="discount" value=product.discount)
+                        +checkError(errors, 'discount')
                     .col-sm-6                            
                         .sizesWrapper
                                 each item in sizes
@@ -76,6 +90,9 @@ block content
                 item.disabled = true;
                 item.value = '';
             }
+
+            document.getElementById('form').reset();
+
         }
 
         function handleCheckboxClick(event) {
@@ -106,6 +123,6 @@ block content
 
             document.getElementById('arrSizeQuantity').value = JSON.stringify(arrSizeQuantity);
         }
-         
+
         initializeSizeForm()
 

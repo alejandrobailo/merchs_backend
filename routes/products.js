@@ -95,8 +95,6 @@ router.post('/create', multipartMiddleware, [
 
     const validationErrors = validationResult(req);
 
-    console.log(validationErrors.errors);
-
     if (!validationErrors.isEmpty()) {
         const brands = await Brand.getAll();
         const sizes = await Size.getAll();
@@ -131,8 +129,38 @@ router.post('/create', multipartMiddleware, [
 });
 
 /* POST http://localhost:3000/products/edit/:sku */
-router.post('/edit/:sku', async (req, res) => {
+router.post('/edit/:sku', [
+    check('title')
+        .trim()
+        .isLength({ min: 3 }).withMessage('Min. number of characters are 3'),
+    check('price')
+        .trim()
+        .isNumeric(({ no_symbols: true })),
+    check('description')
+        .isLength({ min: 10 }).withMessage('Min. number of characters are 10'),
+    check('discount')
+        .trim()
+        .isNumeric(({ no_symbols: true }))
+], async (req, res) => {
+
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+        console.log(validationErrors);
+        const result = await Product.getById(req.params.sku);
+        const formatDate = await utils.formatDate(result[0].date);
+        const sizes = await Size.getById(req.params.sku);
+
+        return res.render('pages/product/edit', {
+            errors: validationErrors.errors,
+            product: result[0],
+            date: formatDate,
+            sizes: sizes
+
+        });
+    }
+
     await Product.editById(req.body, req.params.sku);
+
     if (req.body.sizes != '[{}]') {
         await Size.editById(req.body.sizes, req.params.sku);
     }

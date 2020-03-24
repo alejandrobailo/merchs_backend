@@ -5,10 +5,9 @@ const { check, validationResult } = require('express-validator');
 const utils = require('../utils');
 const User = require('../models/user');
 
-router.use(middleware.checkTokenAdmin);
 
 // GET http://localhost:3000/users
-router.get('/', async (req, res) => {
+router.get('/', middleware.checkTokenAdmin, async (req, res) => {
     try {
         const rows = await User.getAll();
         for (let row of rows) {
@@ -23,19 +22,18 @@ router.get('/', async (req, res) => {
 
 router.use(middleware.checkTokenUser);
 
-// GET http://localhost:3000/users/edit/:id
-router.get('/edit/:id', async (req, res) => {
+// GET http://localhost:3000/users/edit
+router.get('/edit', async (req, res) => {
     try {
-        const row = await User.getById(req.params.id);
-        res.render('pages/users/edit', { user: row });
+        res.render('pages/users/edit');
     }
     catch (err) {
         console.log(err);
     }
 });
 
-// GET http://localhost:3000/users/delete/:id
-router.get('/delete/:id', async (req, res) => {
+// GET http://localhost:3000/users/delete
+router.get('/delete', async (req, res) => {
     try {
         await User.deleteById(req.params.id);
         res.redirect('/dashboard');
@@ -45,8 +43,8 @@ router.get('/delete/:id', async (req, res) => {
     }
 });
 
-// POST http://localhost:3000/users/edit/:id
-router.post('/edit/:id', [
+// POST http://localhost:3000/users/edit
+router.post('/edit', [
     check('username')
         .trim()
         .notEmpty().withMessage('Username is required'),
@@ -66,13 +64,11 @@ router.post('/edit/:id', [
         try {
             const validationErrors = validationResult(req);
 
-            // Check if there are form errors
             if (!validationErrors.isEmpty()) {
-                console.log(validationErrors.errors);
                 return res.render('pages/users/edit', { errors: validationErrors.errors });
             }
 
-            await User.editById(req.body, req.params.id);
+            await User.editById(req.body, res.locals.user.id);
             res.redirect('/dashboard');
         }
         catch (err) {

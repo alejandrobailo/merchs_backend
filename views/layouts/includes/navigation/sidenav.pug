@@ -69,5 +69,5 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
     .sb-sidenav-footer
         
         .small Logged in as:
-        | #{user.username} <br>
+        | #{locals.user.username} <br>
         a(href='/logout') Logout

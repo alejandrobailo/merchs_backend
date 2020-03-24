@@ -7,7 +7,6 @@ const Brand = require('../models/brand');
 const Size = require('../models/size');
 const Category = require('../models/category');
 const utils = require('../utils');
-const User = require('../models/user');
 
 /* IMAGES */
 /* Al encapsular la función de insertar imagenes ya no se necesitan aquí, ELIMINAR EN UN FUTURO CERCANO

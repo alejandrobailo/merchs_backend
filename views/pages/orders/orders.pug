@@ -5,20 +5,21 @@ block content
     div.container
 
         h2 List of Orders for User: #{locals.user.username}
-
-        table#dataTable.table.table-bordered.my-2(width='100%', cellspacing='0')
-            thead.thead-dark
-                tr
-                    th Order Id
-                    th Status
-                    th Date
-                    th
-                
-            each order in orders
-                tr
-                    td= order.id
-                    td= order.status
-                    td= order.date
-                    td
-                        a.btn.btn-sm.btn-primary(href='/users/edit') Check Order
-                        a.btn.btn-sm.btn-danger(href='/users/delete') Delete Order
+        .table-responsive
+            table#dataTable.table.table-bordered.my-2(width='100%', cellspacing='0')
+                thead.thead-dark
+                    tr
+                        th Order Id
+                        th Status
+                        th Date
+                        th
+                    
+                tbody.table-dark
+                    each order in orders
+                        tr
+                            td= order.id
+                            td= order.status
+                            td= order.date
+                            td
+                                a.btn.btn-sm.btn-primary(href='/users/edit') Check Order
+                                a.btn.btn-sm.btn-danger(href='/users/delete') Delete Order

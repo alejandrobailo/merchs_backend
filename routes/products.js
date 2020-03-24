@@ -148,31 +148,31 @@ router.post('/edit/:sku', [
 
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
-        console.log(validationErrors);
         const result = await Product.getById(req.params.sku);
         const formatDate = await utils.formatDate(result[0].date);
         const sizes = await Size.getById(req.params.sku);
-
-        return res.render('pages/product/edit', {
+        res.render('pages/product/edit', {
             errors: validationErrors.errors,
             product: result[0],
             date: formatDate,
             sizes: sizes
-
         });
     }
 
     await Product.editById(req.body, req.params.sku);
 
-    if (req.body.sizes != '[{}]') {
+    if (req.body.sizes !== '[{}]' && req.body.sizes !== '[]') {
+        console.log(req.body.sizes);
         await Size.editById(req.body.sizes, req.params.sku);
+        try {
+            res.redirect(`/products`);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
-    try {
-        res.redirect(`/products`);
-    }
-    catch (err) {
-        console.log(err);
-    }
+
+    res.redirect(`/products`);
 })
 
 module.exports = router;

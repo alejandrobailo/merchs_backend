@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const middleware = require('./middlewares');
 const Product = require('../models/product');
 const Brand = require('../models/brand');
@@ -65,7 +66,9 @@ router.get('/edit/:sku', async (req, res) => {
 
 /* GET http://localhost:3000/products/delete/:sku */
 router.get('/delete/:sku', async (req, res) => {
-    await Product.deleteById(req.params.sku)
+    await Product.deleteById(req.params.sku);
+    await Size.deleteById(req.params.sku);
+    await Category.deleteById(req.params.sku);
     try {
         res.redirect(`/products`);
     } catch (error) {
@@ -74,7 +77,38 @@ router.get('/delete/:sku', async (req, res) => {
 })
 
 /* POST http://localhost:3000/products/create */
-router.post('/create', multipartMiddleware, async (req, res) => {
+router.post('/create', multipartMiddleware, [
+    check('title')
+        .trim()
+        .isLength({ min: 3 }).withMessage('Min. number of characters are 3')
+        .notEmpty().withMessage('Title is required'),
+    check('price')
+        .trim()
+        .isNumeric(({ no_symbols: true }))
+        .notEmpty().withMessage('Price is required'),
+    check('description')
+        .isLength({ min: 10 }).withMessage('Min. number of characters are 10')
+        .notEmpty().withMessage('Description is required'),
+    check('discount')
+        .trim()
+        .isNumeric(({ no_symbols: true }))
+        .isLength({ max: 2 }).withMessage('Max. number of characters are 2'),
+], async (req, res) => {
+
+    const validationErrors = validationResult(req);
+
+    if (!validationErrors.isEmpty()) {
+        const brands = await Brand.getAll();
+        const sizes = await Size.getAll();
+        const categories = await Category.getAll();
+        return res.render('pages/product/new', {
+            errors: validationErrors.errors,
+            brands: brands,
+            categories: categories,
+            sizes: sizes
+        });
+    }
+
     const result = await Product.create({
         title: req.body.title,
         price: req.body.price,
@@ -97,8 +131,38 @@ router.post('/create', multipartMiddleware, async (req, res) => {
 });
 
 /* POST http://localhost:3000/products/edit/:sku */
-router.post('/edit/:sku', async (req, res) => {
+router.post('/edit/:sku', [
+    check('title')
+        .trim()
+        .isLength({ min: 3 }).withMessage('Min. number of characters are 3'),
+    check('price')
+        .trim()
+        .isNumeric(({ no_symbols: true })),
+    check('description')
+        .isLength({ min: 10 }).withMessage('Min. number of characters are 10'),
+    check('discount')
+        .trim()
+        .isNumeric(({ no_symbols: true }))
+], async (req, res) => {
+
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+        console.log(validationErrors);
+        const result = await Product.getById(req.params.sku);
+        const formatDate = await utils.formatDate(result[0].date);
+        const sizes = await Size.getById(req.params.sku);
+
+        return res.render('pages/product/edit', {
+            errors: validationErrors.errors,
+            product: result[0],
+            date: formatDate,
+            sizes: sizes
+
+        });
+    }
+
     await Product.editById(req.body, req.params.sku);
+
     if (req.body.sizes != '[{}]') {
         await Size.editById(req.body.sizes, req.params.sku);
     }

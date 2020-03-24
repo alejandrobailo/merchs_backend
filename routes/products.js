@@ -115,8 +115,10 @@ router.post('/create', multipartMiddleware, [
         description: req.body.description,
         discount: req.body.discount,
         date: req.body.date,
-        brand: req.body.brand
+        brand: req.body.brand,
+        user: res.locals.user.id
     });
+
     // Creating tbi_size_product relations
     await Size.createSizesRelation(req.body.sizes, result.insertId);
     // Creating tbi_category_product relations

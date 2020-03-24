@@ -39,7 +39,6 @@ const editById = ({ username, address, phone, email }, userId) => {
     return new Promise((resolve, reject) => {
         db.query('UPDATE user SET username = ?, address = ?, phone = ?, email = ? WHERE id = ?', [username, address, phone, email, userId], (err, result) => {
             if (err) return reject(err);
-
             resolve(result);
         });
     });

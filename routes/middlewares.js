@@ -1,5 +1,7 @@
 const jwt = require('jwt-simple');
 const moment = require('moment');
+const User = require('../models/user');
+const Admin = require('../models/admin');
 
 const checkTokenUser = (req, res, next) => {
     // 1. Check if token exists in the user cookies
@@ -24,10 +26,14 @@ const checkTokenUser = (req, res, next) => {
         return res.redirect('/sign-in');
     }
 
-    // 4. Pass the payload to the req objecto to use it in the next requests after middleware is used
+    // 4. Get the user in locals in order to use it in all the views (for the topnav)
+    const user = User.getById(payload.userId);
+    res.locals.user = user;
+
+    // 5. Pass the payload to the req objecto to use it in the next requests after middleware is used
     req.payload = payload;
 
-    // 5. Allow request in any other case
+    // 6. Allow request in any other case
     next();
 }
 
@@ -53,10 +59,14 @@ const checkTokenAdmin = (req, res, next) => {
         return res.redirect('/sign-in');
     }
 
-    // 4. Pass the payload to the req objecto to use it in the next requests after middleware is used
+    // 4. Get the admin in locals in order to use it in all the views (for the topnav)
+    const admin = Admin.getById(payload.userId);
+    res.locals.admin = admin;
+
+    // 5. Pass the payload to the req objecto to use it in the next requests after middleware is used
     req.payload = payload;
 
-    // 5. Allow request in any other case
+    // 6. Allow request in any other case
     next();
 }
 

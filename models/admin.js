@@ -8,6 +8,16 @@ const exists = (email) => {
     });
 };
 
+const getById = (adminId) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM admin WHERE id = ?', [adminId], (err, row) => {
+            if (err) return reject(err);
+            resolve(row[0]);
+        });
+    });
+};
+
 module.exports = {
-    exists: exists
+    exists: exists,
+    getById: getById
 }

@@ -6,79 +6,186 @@ block config
     - var index = true;
     - var sidenavStyle = 'sb-sidenav-dark'
     
-append css
-    link(href='https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css', rel='stylesheet', crossorigin='anonymous')
-
 block content
-    .container-fluid
+    .container-fluid.my-2
         include ../includes/page-header.pug
-        .row
-            .col-xl-3.col-md-6
-                .card.bg-primary.text-white.mb-4
-                    .card-body
-                        | Primary Card
-                    .card-footer.d-flex.align-items-center.justify-content-between
-                        a(href='#').small.text-white.stretched-link
-                            | View Details
-                        .small.text-white
-                            i.fas.fa-angle-right
-            .col-xl-3.col-md-6
-                .card.bg-warning.text-white.mb-4
-                    .card-body
-                        | Warning Card
-                    .card-footer.d-flex.align-items-center.justify-content-between
-                        a(href='#').small.text-white.stretched-link
-                            | View Details
-                        .small.text-white
-                            i.fas.fa-angle-right
-            .col-xl-3.col-md-6
-                .card.bg-success.text-white.mb-4
-                    .card-body
-                        | Success Card
-                    .card-footer.d-flex.align-items-center.justify-content-between
-                        a(href='#').small.text-white.stretched-link
-                            | View Details
-                        .small.text-white
-                            i.fas.fa-angle-right
-            .col-xl-3.col-md-6
-                .card.bg-danger.text-white.mb-4
-                    .card-body
-                        | Danger Card
-                    .card-footer.d-flex.align-items-center.justify-content-between
-                        a(href='#').small.text-white.stretched-link
-                            | View Details
-                        .small.text-white
-                            i.fas.fa-angle-right
+        //- .row
+        //-     .col-xl-3.col-md-6
+        //-         .card.bg-primary.text-white.mb-4
+        //-             .card-body
+        //-                 | Primary Card
+        //-             .card-footer.d-flex.align-items-center.justify-content-between
+        //-                 a(href='#').small.text-white.stretched-link
+        //-                     | View Details
+        //-                 .small.text-white
+        //-                     i.fas.fa-angle-right
+        //-     .col-xl-3.col-md-6
+        //-         .card.bg-warning.text-white.mb-4
+        //-             .card-body
+        //-                 | Warning Card
+        //-             .card-footer.d-flex.align-items-center.justify-content-between
+        //-                 a(href='#').small.text-white.stretched-link
+        //-                     | View Details
+        //-                 .small.text-white
+        //-                     i.fas.fa-angle-right
+        //-     .col-xl-3.col-md-6
+        //-         .card.bg-success.text-white.mb-4
+        //-             .card-body
+        //-                 | Success Card
+        //-             .card-footer.d-flex.align-items-center.justify-content-between
+        //-                 a(href='#').small.text-white.stretched-link
+        //-                     | View Details
+        //-                 .small.text-white
+        //-                     i.fas.fa-angle-right
+        //-     .col-xl-3.col-md-6
+        //-         .card.bg-danger.text-white.mb-4
+        //-             .card-body
+        //-                 | Danger Card
+        //-             .card-footer.d-flex.align-items-center.justify-content-between
+        //-                 a(href='#').small.text-white.stretched-link
+        //-                     | View Details
+        //-                 .small.text-white
+        //-                     i.fas.fa-angle-right
         .row
             .col-xl-6
                 .card.mb-4
                     .card-header
                         i.fas.fa-chart-area.mr-1
-                        | Area Chart Example
+                        | Quantity per category
                     .card-body
-                        canvas#myAreaChart(width='100%', height='40')
+                        figure.highcharts-figure
+                            div#area
                     
             .col-xl-6
                 .card.mb-4
                     .card-header
                         i.fas.fa-chart-bar.mr-1
-                        | Bar Chart Example
+                        | Money per month
                     .card-body
-                        canvas#myBarChart(width='100%', height='40')
+                        figure.highcharts-figure
+                            div#line
         
-        .card.mb-4
-            .card-header
-                i.fas.fa-table.mr-1
-                | DataTable Example
-            .card-body
-                include ../includes/datatable.pug
+        //- .card.mb-4
+        //-     .card-header
+        //-         i.fas.fa-table.mr-1
+        //-         | 
+        //-     .card-body
+        //-         include ../includes/datatable.pug
 
 
 append scripts
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js', crossorigin='anonymous')
-    script(src='assets/demo/chart-area-demo.js')
-    script(src='assets/demo/chart-bar-demo.js')
-    
-    script(src='https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js', crossorigin='anonymous')
-    script(src='https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js', crossorigin='anonymous')
-    script(src='assets/demo/datatables-demo.js')
+    script(src="https://code.highcharts.com/highcharts.js")
+    script(src="https://code.highcharts.com/modules/exporting.js")
+    script(src="https://code.highcharts.com/modules/export-data.js")
+    script(src="https://code.highcharts.com/modules/accessibility.js")
+
+    script.
+        Highcharts.chart('area', {
+            chart: {
+                type: 'area'
+            },
+            credits: {
+                enabled: false
+            },
+            accessibility: {
+                description: 'description'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                allowDecimals: false,
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                }
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value / 1000 + 'k';
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+            },
+            plotOptions: {
+                area: {
+                    pointStart: 0,
+                    marker: {
+                        enabled: false,
+                        symbol: 'circle',
+                        radius: 2,
+                        states: {
+                            hover: {
+                                enabled: true
+                            }
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'High-heels',
+                data: [
+                    null, null, null, null, null, 6, 11, 32, 110, 235,
+                    369, 640, 1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468,
+                    20434, 24126, 27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342,
+                    26662, 26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
+                    24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586, 22380,
+                    21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950, 10871, 10824,
+                    10577, 10527, 10475, 10421, 10358, 10295, 10104, 9914, 9620, 9326,
+                    5113, 5113, 4954, 4804, 4761, 4717, 4368, 4018
+                ]
+            }, {
+                name: 'Boots',
+                data: [null, null, null, null, null, null, null, null, null, null,
+                    5, 25, 50, 120, 150, 200, 426, 660, 869, 1060,
+                    1605, 2471, 3322, 4238, 5221, 6129, 7089, 8339, 9399, 10538,
+                    11643, 13092, 14478, 15915, 17385, 19055, 21205, 23044, 25393, 27935,
+                    30062, 32049, 33952, 35804, 37431, 39197, 45000, 43000, 41000, 39000,
+                    37000, 35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000, 22000,
+                    21000, 20000, 19000, 18000, 18000, 17000, 16000, 15537, 14162, 12787,
+                    12600, 11400, 5500, 4512, 4502, 4502, 4500, 4500
+                ]
+            }]
+        });
+        
+        //-LINE 
+        Highcharts.chart('line', {
+            chart: {
+                type: 'line'
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series: [{
+                name: '',
+                data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            }]
+        });
+        
+

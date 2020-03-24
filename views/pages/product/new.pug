@@ -7,43 +7,51 @@ mixin checkError(errors, pError)
                 p(style={'color': 'red', 'font-size': '0.7em'})= error.msg
 
 
-block content 
-    .container-fuid
-        a(href="/products").float-right.m-2
-            button.btn.btn-info All
-        h2 Create new product
+block config
+    - var bodyClass = 'sb-nav-fixed'
+    - var pageTitle = 'Create new product';
+    - var index = true;
+    - var sidenavStyle = 'sb-sidenav-dark'
+    
+block content
+
+    .container-fluid.my-2
+        include ../includes/page-header.pug
+        a(href="/products")
+            button.btn.btn-primary Return to all
         .row
             .col-sm-12.form
-                form(action='/products/create', method='POST', enctype="multipart/form-data" id="form")
+                form(action='/products/create', method='POST', enctype="multipart/form-data" id="form").my-2
                     .row
                         .col-sm-6
-                            label Title
-                            input(type="text", name='title' required).form-control
-                            +checkError(errors, 'title')
-
-                            label Description
-                            textarea(name="description", cols="30", rows="4" required).form-control
-                            +checkError(errors, 'description')
-
-                            label Price
-                            input(type="text", name='price' required).form-control
-                            +checkError(errors, 'price')
-
-                            label Discount
-                            input(type="text", name='discount').form-control
-                            +checkError(errors, 'discount')
-
-                            label Brand
-                            select(name='brand' required).custom-select
-                                option(value='') Please Select
-                                each item in brands
-                                    option(value=item.id)=item.name
-
-                            label Category
-                                each category in categories
-                                    .container
-                                        input.category(type="checkbox" name=category.name)
-                                        label(for=category.name)=category.name
+                            .form-group
+                                label Title
+                                input(type="text", name='title' required).form-control
+                                +checkError(errors, 'title')
+                            .form-group
+                                label Description
+                                textarea(name="description", cols="30", rows="4" required).form-control
+                                +checkError(errors, 'description')
+                            .form-group
+                                label Price
+                                input(type="text", name='price' required).form-control
+                                +checkError(errors, 'price')
+                            .form-group
+                                label Discount
+                                input(type="text", name='discount').form-control
+                                +checkError(errors, 'discount')
+                            .form-group
+                                label Brand
+                                select(name='brand' required).custom-select
+                                    option(value='') Please Select
+                                    each item in brands
+                                        option(value=item.id)=item.name
+                            .form-group
+                                label Category
+                                    .form-row
+                                    each category in categories
+                                            input.category(type="checkbox" name=category.name).d-inline
+                                            label(for=category.name class="mx-2")=category.name
 
                             .custom-file.my-2
                                 input(type="file" id="customFile" name="image"  multiple="multiple" required).form-control
@@ -52,17 +60,17 @@ block content
                             label Sizes
                             .sizesWrapper
                                     each item in sizes
-                                        .sizeBox
-                                            input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` ).sizesCheckbox
-                                            label(for=item.number)=item.number
-                                            input(type="number" id=item.number disabled placeholder="Quantity" ).quantity
+                                        .form-group
+                                            input(type="number" id=item.number disabled placeholder="Quantity" ).form-control.quantity
+                                            input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` ).sizesCheckbox.d-inline.mr-2
+                                            label(for=item.number class="d-inline")=item.number
 
                     .row
                         .col-sm-12
                             input(type="hidden", name="sizes", id="arrSizeQuantity")
                             input(type="hidden" name="categories" id="arrCategories")
 
-                            input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-info.btn.my-2
+                            input(type="submit" value="Create" class="button" onclick="handleCreate(event)").btn-primary.btn.my-2
 
     script.
 

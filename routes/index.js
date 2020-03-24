@@ -5,7 +5,11 @@ const User = require('../models/user');
 
 // GET http://localhost:3000/dashboard
 router.get('/dashboard', middleware.checkTokenUser, async (req, res) => {
-  res.render('pages/dashboard/dashboard');
+
+
+  res.render('pages/dashboard/dashboard', {
+    // Aqui renderizar pedidos etc
+  });
 });
 
 module.exports = router;

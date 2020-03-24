@@ -1,32 +1,40 @@
 extends ../../layouts/dashboard.pug
 
+block config
+    - var bodyClass = 'sb-nav-fixed'
+    - var pageTitle = 'Products';
+    - var index = true;
+    - var sidenavStyle = 'sb-sidenav-dark'
+
 block content
-  .container.my-2
+  .container-fluid.my-2
+    include ../includes/page-header.pug
     a(href="/products/new")
-      button.btn.btn-info New product
-    table.table.my-2
-      thead.thead-dark
-        tr
-          th SKU
-          th Title
-          th Description
-          th Brand
-          th Category
-          th Price
-          th 
-      tbody
-        each product in products=products
+      button.btn.btn-sm.btn-primary New product
+    .table-responsive
+      table#dataTable.table.table-bordered.my-2(width='100%', cellspacing='0')
+        thead.thead-dark
           tr
-            td= product.sku 
-            td= product.title 
-            td= product.description 
-            td= product.brand_name
-            td
-              each item in product.categories
-                p= item
-            td= product.price
-            td
-              button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-info") Edit 
+            th SKU
+            th Title
+            th Description
+            th Brand
+            th Category
+            th Price
+            th 
+        tbody.table-dark
+          each product in products=products
+            tr
+              td= product.sku 
+              td= product.title 
+              td= product.description 
+              td= product.brand_name
+              td
+                each item in product.categories
+                  p= item
+              td= product.price
+              td
+                button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-primary btn-block") Edit 
     script.
       function handleEditClick(sku) {
         window.location.href = `/products/edit/${sku}`

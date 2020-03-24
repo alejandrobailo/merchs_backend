@@ -53,21 +53,8 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
                             a.nav-link(href='404.html') Pending
                             a.nav-link(href='500.html') Completed
                             
-            .sb-sidenav-menu-heading
-                | Addons
-            
-            a.nav-link(href='charts.html')
-                .sb-nav-link-icon
-                    i.fas.fa-chart-area
-                | Charts
-                
-            a.nav-link(href='tables.html')
-                .sb-nav-link-icon
-                    i.fas.fa-table
-                | Tables
                         
     .sb-sidenav-footer
         
-        .small Logged in as:
         | #{locals.user.username} <br>
         a(href='/logout') Logout

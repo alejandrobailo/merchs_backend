@@ -11,6 +11,8 @@ const signUpRouter = require('./routes/sign-up');
 const signInRouter = require('./routes/sign-in');
 const usersRouter = require('./routes/users');
 const logoutRouter = require('./routes/logout');
+const apiRouter = require('./routes/api');
+
 
 require("dotenv").config();
 const app = express();
@@ -35,6 +37,7 @@ app.use("/sign-up", signUpRouter);
 app.use('/sign-in', signInRouter);
 app.use('/users', usersRouter);
 app.use('/logout', logoutRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

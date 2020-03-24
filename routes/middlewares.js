@@ -14,6 +14,7 @@ const checkTokenUser = (req, res, next) => {
         payload = jwt.decode(token, process.env.SECRET_KEY);
     }
     catch (err) {
+        console.log(err);
         return res.redirect('/sign-in');
     }
 
@@ -23,7 +24,10 @@ const checkTokenUser = (req, res, next) => {
         return res.redirect('/sign-in');
     }
 
-    // 4. Allow request in any other case
+    // 4. Pass the payload to the req objecto to use it in the next requests after middleware is used
+    req.payload = payload;
+
+    // 5. Allow request in any other case
     next();
 }
 
@@ -49,7 +53,10 @@ const checkTokenAdmin = (req, res, next) => {
         return res.redirect('/sign-in');
     }
 
-    // 4. Allow request in any other case
+    // 4. Pass the payload to the req objecto to use it in the next requests after middleware is used
+    req.payload = payload;
+
+    // 5. Allow request in any other case
     next();
 }
 

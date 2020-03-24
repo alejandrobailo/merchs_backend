@@ -4,28 +4,35 @@ block content
 
     div.container
 
-        h2 User: #{user.username}
+        form(action=`/users/edit/${user.id}` method="post")
 
-            form(action=`/users/edit/${user.id}` method="post")
+            div.form-group
+                label Username
+                input(type="text" name="username" value=user.username).form-control
 
-                div.form-group
-                    label Username
-                    input(type="text" name="username" value=user.username).form-control
+            div.form-group
+                label Address
+                input(type="text" name="address" value=user.address).form-control
 
-                div.form-group
-                    label Address
-                    input(type="text" name="address" value=user.address).form-control
+            div.form-group
+                label Phone
+                input(type="text" name="phone" value=user.phone).form-control
 
-                div.form-group
-                    label Phone
-                    input(type="text" name="phone" value=user.phone).form-control
+            div.form-group
+                label Email
+                input(type="text" name="email" value=user.email).form-control
 
-                div.form-group
-                    label Email
-                    input(type="text" name="email" value=user.email).form-control
+            div.form-group
+                label New Password
+                input(type="text" name="newPassword").form-control
 
-                div.form-group
-                    input(type="submit" value="Edit Profile").btn.btn-primary
+            div.form-group
+                label Repeat Password
+                input(type="text" name="repeatPassword").form-control
 
-        a(href='/users')
+            div.form-group
+                input(type="submit" value="Edit Profile").btn.btn-primary
+                
+
+        a(href='/dashboard')
             button.btn.btn-primary Back

@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
                 if (req.body.password !== admin.password) {
                     res.render('pages/sign-in/sign-in', { error: 'Error in email or password' });
                 }
-                // Login OK: create the token, store in cookies and redirect to Dashboard
+                // Login OK: create the token, store in cookies and redirect to Dashboard Admin
                 else {
                     const token = utils.createToken(admin);
                     res.cookie('token_admin', token);

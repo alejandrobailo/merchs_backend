@@ -80,7 +80,6 @@ const getAllApi = () => {
     });
 };
 
-
 module.exports = {
     getAll: getAll,
     getProductCategories: getProductCategories,

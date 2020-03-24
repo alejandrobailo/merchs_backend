@@ -27,9 +27,19 @@ const deleteById = (sku) => {
     });
 };
 
+const getById = (sku) => {
+    return new Promise((resolve, reject) => {
+        db.query('select category.name from tbi_category_product, category where tbi_category_product.fk_product = ? and fk_category = category.id', [sku], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+}
+
 module.exports = {
     getAll: getAll,
     createCategoryRelation: createCategoryRelation,
-    deleteById: deleteById
+    deleteById: deleteById,
+    getById: getById
 }
 

@@ -5,18 +5,16 @@ const Customer = require('../../models/customer');
 // GET http://localhost:3000/api/orders
 router.get('/', async (req, res) => {
     try {
-        const orders = await Order.getByCustomer(req.body.customerId, req.body.status);
         const customer = await Customer.getById(req.body.customerId);
-        const products = [];
+        const orders = await Order.getOrdersByCustomer(req.body.customerId, req.body.status);
 
         for (order of orders) {
-            products.push(await Order.getProductsInOrder(order.id));
+            order.product = await Order.getProductsInOrder(order.id);
         }
 
         const result = {
             customer,
-            orders,
-            products
+            orders
         }
 
         res.json(result);

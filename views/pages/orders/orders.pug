@@ -1,0 +1,24 @@
+extends ../../layouts/dashboard.pug
+
+block content
+
+    div.container
+
+        h2 List of Orders for User: #{locals.user.username}
+
+        table.table
+            thead.thead-dark
+                tr
+                    th Order Id
+                    th Status
+                    th Date
+                    th
+                
+            each order in orders
+                tr
+                    td= order.id
+                    td= order.status
+                    td= order.date
+                    td
+                        a.btn.btn-sm.btn-primary(href='/users/edit') Check Order
+                        a.btn.btn-sm.btn-danger(href='/users/delete') Delete Order

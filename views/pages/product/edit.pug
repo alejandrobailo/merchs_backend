@@ -8,7 +8,7 @@ mixin checkError(errors, pError)
 
 block content
 
-    .container
+    .container-fluid
         a(href="/products").btn.btn-sm.btn-primary.my-2.row Go back 
         a(href=`/products/delete/${product.sku}` onclick="return confirm('Are you sure you want to delete this item?')").btn.btn-danger.btn-sm.float-right.my-2#delete Delete
 

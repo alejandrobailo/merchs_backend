@@ -5,7 +5,7 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
         .nav
     
             .sb-sidenav-menu-heading
-                | Core
+                | Merchs
         
             a.nav-link(href='/dashboard')
                 .sb-nav-link-icon
@@ -13,45 +13,45 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
                 | Dashboard
                 
             .sb-sidenav-menu-heading
-                | Interface
+                | Personal
 
             a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapseLayouts' aria-expanded='false' aria-controls='collapseLayouts')
                 .sb-nav-link-icon
                     i.fas.fa-columns
-                | Layouts
+                | Products
                 .sb-sidenav-collapse-arrow
                     i.fas.fa-angle-down
             #collapseLayouts.collapse(aria-labelledby='headingOne', data-parent='#sidenavAccordion')
                 nav.sb-sidenav-menu-nested.nav
-                    a.nav-link(href='layout-static.html') Static Navigation
-                    a.nav-link(href='layout-sidenav-light.html') Light Sidenav
+                    a.nav-link(href='/products') All
+                    a.nav-link(href='/products/new') Create new
             
             a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
                 .sb-nav-link-icon
                     i.fas.fa-book-open
-                | Pages
+                | Orders
                 .sb-sidenav-collapse-arrow
                     i.fas.fa-angle-down
             #collapsePages.collapse(aria-labelledby='headingTwo', data-parent='#sidenavAccordion')
                 nav.sb-sidenav-menu-nested.nav.accordion#sidenavAccordionPages
                     a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#pagesCollapseAuth' aria-expanded='false' aria-controls='pagesCollapseAuth')
-                        | Authentication
+                        | All
                         .sb-sidenav-collapse-arrow
                             i.fas.fa-angle-down
                     #pagesCollapseAuth.collapse(aria-labelledby='headingOne', data-parent='#sidenavAccordionPages')
                         nav.sb-sidenav-menu-nested.nav
-                            a.nav-link(href='login.html') Login
-                            a.nav-link(href='register.html') Register
-                            a.nav-link(href='password.html') Forgot Password
+                            a.nav-link(href='login.html') All
+                            a.nav-link(href='register.html') Pending
+                            a.nav-link(href='password.html') Completed
                     a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#pagesCollapseError' aria-expanded='false' aria-controls='pagesCollapseError')
-                        | Error
+                        | Returns
                         .sb-sidenav-collapse-arrow
                             i.fas.fa-angle-down
                     #pagesCollapseError.collapse(aria-labelledby='headingOne', data-parent='#sidenavAccordionPages')
                         nav.sb-sidenav-menu-nested.nav
-                            a.nav-link(href='401.html') 401 Page
-                            a.nav-link(href='404.html') 404 Page
-                            a.nav-link(href='500.html') 500 Page
+                            a.nav-link(href='401.html') All
+                            a.nav-link(href='404.html') Pending
+                            a.nav-link(href='500.html') Completed
                             
             .sb-sidenav-menu-heading
                 | Addons

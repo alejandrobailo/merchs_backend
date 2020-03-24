@@ -4,23 +4,23 @@ block content
 
     div.container
 
-        form(action=`/users/edit/${user.id}` method="post")
+        form(action='/users/edit' method="post")
 
             div.form-group
                 label Username
-                input(type="text" name="username" value=user.username).form-control
+                input(type="text" name="username" value=locals.user.username).form-control
 
             div.form-group
                 label Address
-                input(type="text" name="address" value=user.address).form-control
+                input(type="text" name="address" value=locals.user.address).form-control
 
             div.form-group
                 label Phone
-                input(type="text" name="phone" value=user.phone).form-control
+                input(type="text" name="phone" value=locals.user.phone).form-control
 
             div.form-group
                 label Email
-                input(type="text" name="email" value=user.email).form-control
+                input(type="text" name="email" value=locals.user.email).form-control
 
             div.form-group
                 label New Password

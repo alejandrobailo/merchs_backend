@@ -3,7 +3,7 @@ const moment = require('moment');
 const User = require('../models/user');
 const Admin = require('../models/admin');
 
-const checkTokenUser = (req, res, next) => {
+const checkTokenUser = async (req, res, next) => {
     // 1. Check if token exists in the user cookies
     if (!req.cookies.token_user) {
         return res.redirect('/sign-in');
@@ -26,8 +26,8 @@ const checkTokenUser = (req, res, next) => {
         return res.redirect('/sign-in');
     }
 
-    // 4. Get the user in locals in order to use it in all the views (for the topnav)
-    const user = User.getById(payload.userId);
+    // 4. Get the user in locals in order to use it in all the views (for the topnav, sidenav, users, products, ...)
+    const user = await User.getById(payload.userId);
     res.locals.user = user;
 
     // 5. Pass the payload to the req objecto to use it in the next requests after middleware is used
@@ -37,7 +37,7 @@ const checkTokenUser = (req, res, next) => {
     next();
 }
 
-const checkTokenAdmin = (req, res, next) => {
+const checkTokenAdmin = async (req, res, next) => {
     // 1. Check if token exists in the user cookies
     if (!req.cookies.token_admin) {
         return res.redirect('/sign-in');
@@ -60,7 +60,7 @@ const checkTokenAdmin = (req, res, next) => {
     }
 
     // 4. Get the admin in locals in order to use it in all the views (for the topnav)
-    const admin = Admin.getById(payload.userId);
+    const admin = await Admin.getById(payload.userId);
     res.locals.admin = admin;
 
     // 5. Pass the payload to the req objecto to use it in the next requests after middleware is used

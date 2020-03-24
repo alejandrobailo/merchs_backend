@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 /* Imports */
-const Product = require('../../models/product')
+const Product = require('../../models/product');
 
 /* GET http://localhost:3000/api/products */
 router.get('/', async (req, res) => {

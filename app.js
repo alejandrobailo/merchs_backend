@@ -13,7 +13,6 @@ const usersRouter = require('./routes/users');
 const logoutRouter = require('./routes/logout');
 const apiRouter = require('./routes/api');
 
-
 require("dotenv").config();
 const app = express();
 

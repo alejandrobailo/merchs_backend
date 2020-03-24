@@ -6,7 +6,7 @@ block content
 
         h2 List of Orders for User: #{locals.user.username}
 
-        table.table
+        table#dataTable.table.table-bordered.my-2(width='100%', cellspacing='0')
             thead.thead-dark
                 tr
                     th Order Id

@@ -36,6 +36,9 @@ block content
               td
                 button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-primary btn-block") Edit 
     script.
+        $(document).ready( function () {
+            $('#dataTable').DataTable();
+        } );
       function handleEditClick(sku) {
         window.location.href = `/products/edit/${sku}`
       }

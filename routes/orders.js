@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const middleware = require('./middlewares');
 const Order = require('../models/order');
+const utils = require('../utils');
 
 router.use(middleware.checkTokenUser);
 
@@ -9,10 +10,9 @@ router.use(middleware.checkTokenUser);
 router.get('/', async (req, res) => {
     const orders = await Order.getOrdersByUser(res.locals.user.id);
     for (order of orders) {
-        // console.log(order);
-        order.product = await Order.getProductsInOrder(order.id);
+        order.order_date = await utils.formatDate(order.order_date);
+        order.first_name = order.first_name + ' ' + order.last_name;
     }
-    console.log(orders);
     res.render('pages/orders/orders', { orders: orders });
 });
 

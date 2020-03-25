@@ -7,10 +7,12 @@ html(lang='en')
 
     head
 
+        include includes/scripts.pug
         include includes/head/meta.pug
         include includes/head/title.pug
         include includes/head/css.pug
         include includes/head/icons.pug
+        include includes/head/data_tables.pug
 
     body(class=bodyClass)
 
@@ -29,5 +31,3 @@ html(lang='en')
                     block content
                     
                 include includes/footer.pug
-
-        include includes/scripts.pug

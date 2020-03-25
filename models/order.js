@@ -18,7 +18,7 @@ const getProductsInOrder = (orderId) => {
 
 const getOrdersByUser = (userId) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM product INNER JOIN tbi_product_order ON fk_product = product.sku INNER JOIN merchs.order ON fk_order = merchs.order.id AND product.fk_user = ?', [userId], (err, rows) => {
+        db.query('SELECT * FROM product INNER JOIN tbi_product_order ON fk_product = product.sku INNER JOIN merchs.order ON fk_order = merchs.order.id INNER JOIN customer ON fk_customer = customer.id AND product.fk_user = ?', [userId], (err, rows) => {
             if (err) reject(err);
             resolve(rows);
         });

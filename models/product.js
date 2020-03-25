@@ -20,7 +20,7 @@ const getProductCategories = (productId) => {
 /* Create product */
 const create = ({ title, price, discount, description, brand, user }) => {
     return new Promise((resolve, reject) => {
-        db.query('insert into product (title, price, discount, date, description, fk_brand, fk_user) values (?, ?, ?, ?, ?, ?, ?)',
+        db.query('insert into product (title, price, discount, product_date, description, fk_brand, fk_user) values (?, ?, ?, ?, ?, ?, ?)',
             [title, price, discount, new Date(), description, brand, user],
             (err, result) => {
                 if (err) reject(err);

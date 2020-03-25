@@ -22,7 +22,7 @@ router.use(middleware.checkTokenUser);
 
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
-    const rows = await Product.getAll();
+    const rows = await Product.getAll(res.locals.user.id);
     for (row of rows) {
         const category = await Product.getProductCategories(row.sku);
         // If categories are assigned, add the property to the product

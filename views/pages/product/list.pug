@@ -10,7 +10,7 @@ block content
   .container-fluid.my-2
     include ../includes/page-header.pug
     a(href="/products/new")
-      button.btn.btn-sm.btn-primary New product
+      span.material-icons add 
     .table-responsive
       table#dataTable.table.table-bordered.my-2(width='100%', cellspacing='0')
         thead.thead-dark
@@ -34,7 +34,9 @@ block content
                   p= item
               td= product.price
               td
-                button(onclick=`handleEditClick(${product.sku})`, class="btn btn-sm btn-primary btn-block") Edit 
+                a(onclick=`handleEditClick(${product.sku})`)
+                  span.material-icons edit
+
     script.
         $(document).ready( function () {
             $('#dataTable').DataTable();

@@ -4332,7 +4332,7 @@ input[type=button].btn-block {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: #495057;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
@@ -10212,3 +10212,11 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+.material-icons {
+  color: #bbe1fa;
+  cursor: pointer;
+}
+.material-icons:hover {
+  color: #3282b8;
+}
+/* HighCharts darkmode */

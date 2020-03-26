@@ -27,7 +27,11 @@ const getOrdersByUser = (userId) => {
 
 const getMoneyMonth = (userId) => {
     return new Promise((resolve, reject) => {
-        db.query(`select DATE_FORMAT(product_date, "%m-%Y") as 'month', sum(price) as 'money' from product where fk_user = ? GROUP BY DATE_FORMAT(product_date, "%m-%Y")`,
+        db.query(`select DATE_FORMAT(order.order_date, "%m-%Y") as 'month', sum(product.price * tbi_product_order.quantity) as 'money' 
+        from merchs.order 
+        inner join tbi_product_order on tbi_product_order.fk_order = order.id
+        inner join product on product.fk_user = ? and tbi_product_order.fk_product = product.sku
+        GROUP BY DATE_FORMAT(order.order_date, "%m-%Y")`,
             [userId], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);

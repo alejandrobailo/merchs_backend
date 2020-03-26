@@ -43,7 +43,7 @@ block content
                                 p(class="card-text")=product.description
                                 p(class="card-text")=`${product.price} €`
                                 p(class="card-text")=`Discount: ${product.discount}%`
-                                p(class="card-text")=`Status: ${product.status}`
+                                p(class="card-text")=`Status: ${product.product_status}`
                                 p.card-text     
                                     small(class="text-mutedLast")=date
 
@@ -52,15 +52,19 @@ block content
                 .row
                     .col-sm-12
                         .form-group
+                            label.form-check-label Title
                             input.form-control(placeholder="Title" name="title" value=product.title)
                             +checkError(errors, 'title')
                         .form-group
-                            input.form-control(placeholder="Description" name="description" value=product.description)
+                            label.form-check-label Description
+                            textarea.form-control(placeholder="Description" name="description" value=product.description)
                             +checkError(errors, 'description')
                         .form-group
+                            label.form-check-label Price
                             input.form-control(placeholder="Price" name="price" value=product.price)
                             +checkError(errors, 'price')
                         .form-group
+                            label.form-check-label Discount
                             input.form-control(placeholder="Discount" name="discount" value=product.discount)
                             +checkError(errors, 'discount')
                 .row        

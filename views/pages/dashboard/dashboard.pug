@@ -32,7 +32,7 @@ block content
                     .card-body
                         figure.highcharts-figure
                             div#line
-        
+
     script.
 
         var months = !{JSON.stringify(months)};
@@ -41,6 +41,7 @@ block content
 
         Highcharts.chart('pie', {
             chart: {
+                backgroundColor: '#495057',
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
@@ -60,16 +61,6 @@ block content
                     valueSuffix: '%'
                 }
             },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    }
-                }
-            },
             series: [{
                 name: 'Brands',
                 colorByPoint: true,
@@ -80,6 +71,7 @@ block content
         //-LINE 
         Highcharts.chart('line', {
             chart: {
+                backgroundColor: '#495057',
                 type: 'line'
             },
             credits: {
@@ -93,8 +85,8 @@ block content
             },
             yAxis: {
                 title: {
-                    text: ''
-                }
+                    text: '',
+                }             
             },
             plotOptions: {
                 line: {
@@ -106,7 +98,12 @@ block content
             },
             series: [{
                 name: '',
-                data: money
+                data: money,
+                dataLabels: {
+                    style: {
+                        color: '#fff'
+                    }
+                }
             }]
         });
         

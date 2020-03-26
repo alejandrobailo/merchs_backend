@@ -50,10 +50,10 @@ const getMoneyMonth = (userId) => {
 
 const getProductsOrderedByBrand = (userId) => {
     return new Promise((resolve, reject) => {
-        db.query(`select brand.name, COUNT(brand.name * tbi_product_order.quantity) as 'numProds' from brand
+        db.query(`select brand.name, SUM(tbi_product_order.quantity) as 'numProds' from brand
         inner join product on product.fk_brand = brand.id
-        inner join user on product.fk_user = ?
-        inner join tbi_product_order on fk_product = product.sku
+        inner join tbi_product_order on fk_product = product.sku 
+        where product.fk_user = ?
         GROUP BY brand.name`,
             [userId], (err, rows) => {
                 if (err) reject(err);

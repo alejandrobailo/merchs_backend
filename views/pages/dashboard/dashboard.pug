@@ -9,43 +9,7 @@ block config
 block content
     .container-fluid.my-2
         include ../includes/page-header.pug
-        //- .row
-        //-     .col-xl-3.col-md-6
-        //-         .card.bg-primary.text-white.mb-4
-        //-             .card-body
-        //-                 | Primary Card
-        //-             .card-footer.d-flex.align-items-center.justify-content-between
-        //-                 a(href='#').small.text-white.stretched-link
-        //-                     | View Details
-        //-                 .small.text-white
-        //-                     i.fas.fa-angle-right
-        //-     .col-xl-3.col-md-6
-        //-         .card.bg-warning.text-white.mb-4
-        //-             .card-body
-        //-                 | Warning Card
-        //-             .card-footer.d-flex.align-items-center.justify-content-between
-        //-                 a(href='#').small.text-white.stretched-link
-        //-                     | View Details
-        //-                 .small.text-white
-        //-                     i.fas.fa-angle-right
-        //-     .col-xl-3.col-md-6
-        //-         .card.bg-success.text-white.mb-4
-        //-             .card-body
-        //-                 | Success Card
-        //-             .card-footer.d-flex.align-items-center.justify-content-between
-        //-                 a(href='#').small.text-white.stretched-link
-        //-                     | View Details
-        //-                 .small.text-white
-        //-                     i.fas.fa-angle-right
-        //-     .col-xl-3.col-md-6
-        //-         .card.bg-danger.text-white.mb-4
-        //-             .card-body
-        //-                 | Danger Card
-        //-             .card-footer.d-flex.align-items-center.justify-content-between
-        //-                 a(href='#').small.text-white.stretched-link
-        //-                     | View Details
-        //-                 .small.text-white
-        //-                     i.fas.fa-angle-right
+
         .row
             .col-xl-6
                 .card.mb-4
@@ -65,15 +29,11 @@ block content
                         figure.highcharts-figure
                             div#line
         
-        //- .card.mb-4
-        //-     .card-header
-        //-         i.fas.fa-table.mr-1
-        //-         | 
-        //-     .card-body
-        //-         include ../includes/datatable.pug
-
-
     script.
+
+        var months = !{JSON.stringify(months)};
+        var money = !{JSON.stringify(money)};
+
         Highcharts.chart('area', {
             chart: {
                 type: 'area'
@@ -161,7 +121,7 @@ block content
                 text: ''
             },
             xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                categories: months
             },
             yAxis: {
                 title: {
@@ -178,7 +138,7 @@ block content
             },
             series: [{
                 name: '',
-                data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+                data: money
             }]
         });
         

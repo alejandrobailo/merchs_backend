@@ -25,8 +25,19 @@ const getOrdersByUser = (userId) => {
     });
 };
 
+const getMoneyMonth = (userId) => {
+    return new Promise((resolve, reject) => {
+        db.query(`select DATE_FORMAT(date, "%m-%Y") as 'month', sum(price) as 'money' from product where fk_user = ? GROUP BY DATE_FORMAT(date, "%m-%Y")`,
+            [userId], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            });
+    });
+}
+
 module.exports = {
     getOrdersByCustomer: getOrdersByCustomer,
     getProductsInOrder: getProductsInOrder,
-    getOrdersByUser: getOrdersByUser
+    getOrdersByUser: getOrdersByUser,
+    getMoneyMonth: getMoneyMonth
 }

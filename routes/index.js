@@ -6,7 +6,7 @@ const Products = require('../models/product');
 
 
 // GET http://localhost:3000/dashboard
-router.get('/dashboard', middleware.checkToken, (req, res) => {
+router.get('/dashboard', middleware.checkToken, async (req, res) => {
 
   const products = await Products.getAll(res.locals.user.id);
   res.locals.products = products;

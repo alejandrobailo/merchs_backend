@@ -3648,7 +3648,7 @@ input[type=button].btn-block {
   display: none;
 }
 .custom-select:-moz-focusring {
-  color: transparent;
+  color: #fff;
   text-shadow: 0 0 0 #495057;
 }
 

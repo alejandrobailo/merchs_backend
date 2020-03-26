@@ -14,6 +14,7 @@ router.get('/dashboard', middleware.checkTokenUser, async (req, res) => {
   const products = await Products.getAll(res.locals.user.id);
   res.locals.products = products;
 
+  /* Chart line */
   const rows = await Order.getMoneyMonth(res.locals.user.id);
   const arrMonths = [];
   const arrMoney = [];
@@ -22,9 +23,23 @@ router.get('/dashboard', middleware.checkTokenUser, async (req, res) => {
     arrMoney.push(item.money);
   })
 
+  /* Chart pie */
+  const results = await Order.getProductsOrderedByBrand(res.locals.user.id)
+  const arrData = []
+  console.log(results);
+  results.forEach((item) => {
+    const data = {}
+    data.name = item.name;
+    data.y = parseInt(item.numProds);
+    arrData.push(data)
+  })
+  console.log(arrData);
+
+
   res.render('pages/dashboard/dashboard', {
     months: arrMonths,
     money: arrMoney,
+    dataPie: arrData,
     products: products
   });
 });

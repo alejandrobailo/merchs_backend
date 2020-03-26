@@ -33,7 +33,21 @@ const getMoneyMonth = (userId) => {
         inner join product on product.fk_user = ? and tbi_product_order.fk_product = product.sku
         GROUP BY DATE_FORMAT(order.order_date, "%m-%Y")`,
             [userId], (err, rows) => {
-                if (err) return reject(err);
+                if (err) reject(err);
+                resolve(rows);
+            });
+    });
+}
+
+const getProductsOrderedByBrand = (userId) => {
+    return new Promise((resolve, reject) => {
+        db.query(`select brand.name, COUNT(brand.name * tbi_product_order.quantity) as 'numProds' from brand
+        inner join product on product.fk_brand = brand.id
+        inner join user on product.fk_user = ?
+        inner join tbi_product_order on fk_product = product.sku
+        GROUP BY brand.name`,
+            [userId], (err, rows) => {
+                if (err) reject(err);
                 resolve(rows);
             });
     });
@@ -43,5 +57,6 @@ module.exports = {
     getOrdersByCustomer: getOrdersByCustomer,
     getProductsInOrder: getProductsInOrder,
     getOrdersByUser: getOrdersByUser,
-    getMoneyMonth: getMoneyMonth
+    getMoneyMonth: getMoneyMonth,
+    getProductsOrderedByBrand: getProductsOrderedByBrand
 }

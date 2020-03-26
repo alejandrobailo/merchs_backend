@@ -17,8 +17,7 @@ block content
 
     .container-fluid.my-2
         include ../includes/page-header.pug
-        a(href="/products")
-            button.btn.btn-primary Return to all
+        a(href="/products").btn.btn-primary.btn-sm Return to all
         .row
             .col-sm-12.form
                 form(action='/products/create', method='POST', enctype="multipart/form-data" id="form").my-2

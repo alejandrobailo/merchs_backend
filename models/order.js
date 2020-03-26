@@ -34,10 +34,39 @@ const getAllOrders = () => {
         });
     });
 };
+const getMoneyMonth = (userId) => {
+    return new Promise((resolve, reject) => {
+        db.query(`select DATE_FORMAT(order.order_date, "%m-%Y") as 'month', sum(product.price * tbi_product_order.quantity) as 'money' 
+        from merchs.order 
+        inner join tbi_product_order on tbi_product_order.fk_order = order.id
+        inner join product on product.fk_user = ? and tbi_product_order.fk_product = product.sku
+        GROUP BY DATE_FORMAT(order.order_date, "%m-%Y")`,
+            [userId], (err, rows) => {
+                if (err) reject(err);
+                resolve(rows);
+            });
+    });
+}
+
+const getProductsOrderedByBrand = (userId) => {
+    return new Promise((resolve, reject) => {
+        db.query(`select brand.name, COUNT(brand.name * tbi_product_order.quantity) as 'numProds' from brand
+        inner join product on product.fk_brand = brand.id
+        inner join user on product.fk_user = ?
+        inner join tbi_product_order on fk_product = product.sku
+        GROUP BY brand.name`,
+            [userId], (err, rows) => {
+                if (err) reject(err);
+                resolve(rows);
+            });
+    });
+}
 
 module.exports = {
     getOrdersByCustomer: getOrdersByCustomer,
     getProductsInOrder: getProductsInOrder,
     getOrdersByUser: getOrdersByUser,
-    getAllOrders: getAllOrders
+    getAllOrders: getAllOrders,
+    getMoneyMonth: getMoneyMonth,
+    getProductsOrderedByBrand: getProductsOrderedByBrand
 }

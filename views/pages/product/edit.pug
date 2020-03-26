@@ -13,64 +13,64 @@ block content
         a(href=`/products/delete/${product.sku}` onclick="return confirm('Are you sure you want to delete this item?')").btn.btn-danger.btn-sm.float-right.my-2#delete Delete
 
         .row
-            .card.mb-3.col-6
+            .card.mb-3.col-sm-6
                 div.row.no-gutters
-                    div.col-md-4
-                        #carouselExampleIndicators.carousel.slide(data-ride='carousel')
-                            ol.carousel-indicators
-                                li.active(data-target='#carouselExampleIndicators' data-slide-to='0')
-                                li(data-target='#carouselExampleIndicators' data-slide-to='1')
-                                li(data-target='#carouselExampleIndicators' data-slide-to='2')
-                                li(data-target='#carouselExampleIndicators' data-slide-to='3')
-                                li(data-target='#carouselExampleIndicators' data-slide-to='4')
-                            .carousel-inner
-                                .carousel-item.active
-                                    img.d-block.w-100(src=product.image_1 alt='First slide')
-                                .carousel-item
-                                    img.d-block.w-100(src=product.image_2 alt='Second slide')
-                                .carousel-item
-                                    img.d-block.w-100(src=product.image_3 alt='Third slide')
-                                .carousel-item
-                                    img.d-block.w-100(src=product.image_4 alt='Fourth slide')
-                                .carousel-item
-                                    img.d-block.w-100(src=product.image_5 alt='Fiveth slide')
-                            a.carousel-control-prev(href='#carouselExampleIndicators' role='button' data-slide='prev')
-                                span.carousel-control-prev-icon(aria-hidden='true')
-                                span.sr-only Previous
-                            a.carousel-control-next(href='#carouselExampleIndicators' role='button' data-slide='next')
-                                span.carousel-control-next-icon(aria-hidden='true')
-                                span.sr-only Next                        
-                    div.col-md-8
-                        div.card-body
-                            h5(class="card-title")=`Sku: ${product.sku}`
-                            p(class="card-text")=product.title
-                            p(class="card-text")=product.description
-                            p(class="card-text")=`${product.price} €`
-                            p(class="card-text")=`Discount: ${product.discount}%`
-                            p(class="card-text")=`Status: ${product.status}`
-                            p.card-text     
-                                small(class="text-mutedLast")=date
+                    .row
+                        div.col-sm-12.p-2
+                            #carouselExampleIndicators.carousel.slide(data-ride='carousel')
+                                ol.carousel-indicators
+                                    li.active(data-target='#carouselExampleIndicators' data-slide-to='0')
+                                    li(data-target='#carouselExampleIndicators' data-slide-to='1')
+                                    li(data-target='#carouselExampleIndicators' data-slide-to='2')
+                                .carousel-inner
+                                    .carousel-item.active
+                                        img.d-block.w-100(src=product.image_1 alt='First slide')
+                                    .carousel-item
+                                        img.d-block.w-100(src=product.image_2 alt='Second slide')
+                                    .carousel-item
+                                        img.d-block.w-100(src=product.image_3 alt='Third slide')
+                                a.carousel-control-prev(href='#carouselExampleIndicators' role='button' data-slide='prev')
+                                    span.carousel-control-prev-icon(aria-hidden='true')
+                                    span.sr-only Previous
+                                a.carousel-control-next(href='#carouselExampleIndicators' role='button' data-slide='next')
+                                    span.carousel-control-next-icon(aria-hidden='true')
+                                    span.sr-only Next           
+                    .row
+                        div.col-sm-12
+                            div.card-body
+                                h5(class="card-title")=`Sku: ${product.sku}`
+                                p(class="card-text")=product.title
+                                p(class="card-text")=product.description
+                                p(class="card-text")=`${product.price} €`
+                                p(class="card-text")=`Discount: ${product.discount}%`
+                                p(class="card-text")=`Status: ${product.status}`
+                                p.card-text     
+                                    small(class="text-mutedLast")=date
 
-            form.form-group.mx-2(action=`/products/edit/${product.sku}` method="POST" id="form")
+            form.form-group.col-sm-6(action=`/products/edit/${product.sku}` method="POST" id="form")
                 h4 Edit product
                 .row
-                    .col-sm-6
-                        input.form-control(placeholder="Title" name="title" value=product.title)
-                        +checkError(errors, 'title')
-                        input.form-control(placeholder="Description" name="description" value=product.description)
-                        +checkError(errors, 'description')
-                        input.form-control(placeholder="Price" name="price" value=product.price)
-                        +checkError(errors, 'price')
-                        input.form-control(placeholder="Discount" name="discount" value=product.discount)
-                        +checkError(errors, 'discount')
-                    .col-sm-6                            
+                    .col-sm-12
+                        .form-group
+                            input.form-control(placeholder="Title" name="title" value=product.title)
+                            +checkError(errors, 'title')
+                        .form-group
+                            input.form-control(placeholder="Description" name="description" value=product.description)
+                            +checkError(errors, 'description')
+                        .form-group
+                            input.form-control(placeholder="Price" name="price" value=product.price)
+                            +checkError(errors, 'price')
+                        .form-group
+                            input.form-control(placeholder="Discount" name="discount" value=product.discount)
+                            +checkError(errors, 'discount')
+                .row        
+                    .col-sm-12                            
                         .sizesWrapper
                                 each item in sizes
                                     .sizebox
-                                        input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` ).sizesCheckbox
+                                        input(type="checkbox" name=item.number onclick=`handleCheckboxClick(event)` ).sizesCheckbox.mr-2
                                         label(for=item.number)=item.number
-                                        p(class="d-inline-block")=`Quantity available: ${item.quantity}`
-                                        input(type="number" id=item.number disabled placeholder="Quantity" ).quantity
+                                        input(type="number" id=item.number disabled placeholder=`Quantity available: ${item.quantity}` ).quantity.form-control
 
                 input(type="hidden", name="sizes", id="arrSizeQuantity")
                 input(type="submit", value="Editar" onclick="handleCreate()").btn.btn-sm.btn-primary.my-2

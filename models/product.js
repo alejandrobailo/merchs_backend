@@ -1,7 +1,16 @@
 /* All products with brands*/
-const getAll = (user) => {
+const getAll = (userId) => {
     return new Promise((resolve, reject) => {
-        db.query(`select product.*, brand.name as 'brand_name' from product inner join brand on product.fk_brand = brand.id and fk_user = ? order by product.sku ASC`, [user], (err, rows) => {
+        db.query(`select product.*, brand.name as 'brand_name' from product inner join brand on product.fk_brand = brand.id and fk_user = ? order by product.sku ASC`, [userId], (err, rows) => {
+            if (err) reject(err)
+            resolve(rows);
+        });
+    });
+};
+
+const getAllAdmin = () => {
+    return new Promise((resolve, reject) => {
+        db.query(`select product.*, brand.name as 'brand_name' from product inner join brand on product.fk_brand = brand.id order by product.sku ASC`, (err, rows) => {
             if (err) reject(err)
             resolve(rows);
         });
@@ -82,6 +91,7 @@ const getAllApi = () => {
 
 module.exports = {
     getAll: getAll,
+    getAllAdmin: getAllAdmin,
     getProductCategories: getProductCategories,
     create: create,
     getById: getById,

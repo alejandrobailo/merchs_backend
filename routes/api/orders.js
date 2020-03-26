@@ -6,7 +6,7 @@ const Customer = require('../../models/customer');
 router.get('/', async (req, res) => {
     try {
         const customer = await Customer.getById(req.body.customerId);
-        const orders = await Order.getOrdersByCustomer(req.body.customerId, req.body.status);
+        const orders = await Order.getOrdersByCustomer(req.body.customerId);
 
         for (order of orders) {
             order.product = await Order.getProductsInOrder(order.id);

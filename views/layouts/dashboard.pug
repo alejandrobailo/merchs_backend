@@ -6,8 +6,7 @@ block config
 html(lang='en')
 
     head
-
-        include includes/scripts.pug
+    
         include includes/head/meta.pug
         include includes/head/title.pug
         include includes/head/css.pug
@@ -26,6 +25,7 @@ html(lang='en')
             #layoutSidenav_content
                 
                 main
+                    include includes/scripts.pug
 
                     block content
                     

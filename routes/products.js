@@ -18,14 +18,19 @@ const multipartMiddleware = multipart();
 // Para que el formulario funcione necesita multipart() como middleware, se la pasamos como 2º parametro a la funcion POST
 // Esta libreria crea los headers necesarios para que el formulario mande la img.
 
-router.use(middleware.checkTokenUser);
+router.use(middleware.checkToken);
 
 /* GET http://localhost:3000/products/ */
 router.get('/', async (req, res) => {
-    const rows = await Product.getAll(res.locals.user.id);
+    if (res.locals.user) {
+        var rows = await Product.getAll(res.locals.user.id);
+    } else {
+        var rows = await Product.getAllAdmin();
+    }
+
     for (row of rows) {
         const category = await Product.getProductCategories(row.sku);
-        // If categories are assigned, add the property to the product
+        // If categories are assigned, add the category to the product
         if (category.length !== 0) {
             row.categories = [];
             for (item of category) {
@@ -33,9 +38,12 @@ router.get('/', async (req, res) => {
             }
         }
     }
-    res.render('pages/product/list', {
-        products: rows,
-    });
+
+    if (res.locals.user) {
+        res.render('pages/product/list', { products: rows });
+    } else {
+        res.render('pages/product/list-admin', { products: rows });
+    }
 });
 
 /* GET http://localhost:3000/products/new */

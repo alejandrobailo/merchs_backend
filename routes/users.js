@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 
 // GET http://localhost:3000/users
-router.get('/', middleware.checkTokenAdmin, async (req, res) => {
+router.get('/', middleware.checkToken, async (req, res) => {
     try {
         const rows = await User.getAll();
         for (let row of rows) {
@@ -20,7 +20,7 @@ router.get('/', middleware.checkTokenAdmin, async (req, res) => {
     }
 });
 
-router.use(middleware.checkTokenUser);
+router.use(middleware.checkToken);
 
 // GET http://localhost:3000/users/edit
 router.get('/edit', async (req, res) => {

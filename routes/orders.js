@@ -4,11 +4,17 @@ const middleware = require('./middlewares');
 const Order = require('../models/order');
 const utils = require('../utils');
 
-router.use(middleware.checkTokenUser);
+router.use(middleware.checkToken);
 
 // GET http://localhost:3000/orders
 router.get('/', async (req, res) => {
-    const orders = await Order.getOrdersByUser(res.locals.user.id);
+    if (res.locals.user) {
+        var orders = await Order.getOrdersByUser(res.locals.user.id);
+    }
+    else {
+        var orders = await Order.getAllOrders();
+    }
+
     for (order of orders) {
         order.order_date = await utils.formatDate(order.order_date);
         order.first_name = order.first_name + ' ' + order.last_name;

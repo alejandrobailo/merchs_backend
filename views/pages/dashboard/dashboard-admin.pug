@@ -1,0 +1,11 @@
+extends ../../layouts/dashboard.pug
+
+block config
+    - var bodyClass = 'sb-nav-fixed'
+    - var pageTitle = 'Dashboard';
+    - var index = true;
+    - var sidenavStyle = 'sb-sidenav-dark'
+    
+block content
+    .container-fluid.my-2
+        include ../includes/page-header.pug

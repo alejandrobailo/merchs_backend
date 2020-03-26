@@ -1,3 +1,4 @@
+// Function for the API
 const getById = (customerId) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * from customer WHERE id = ?', [customerId], (err, row) => {

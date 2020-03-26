@@ -7,9 +7,9 @@ const Admin = require('../models/admin');
 
 // GET http://localhost:3000/sign-in
 router.get('/', (req, res) => {
-    if (req.cookies.token_user) {
+    if (req.cookies.token) {
         res.redirect('/dashboard');
-    } else if (req.cookies.token_admin) {
+    } else if (req.cookies.token) {
         res.redirect('/dashboard-admin');
     } else {
         res.render('pages/sign-in/sign-in');
@@ -32,8 +32,8 @@ router.post('/', async (req, res) => {
                 }
                 // Login OK: create the token, store in cookies and redirect to Dashboard Admin
                 else {
-                    const token = utils.createToken(admin);
-                    res.cookie('token_admin', token);
+                    const token = utils.createToken(admin, 'admin');
+                    res.cookie('token', token);
                     res.redirect('/dashboard-admin');
                 }
             }
@@ -50,8 +50,8 @@ router.post('/', async (req, res) => {
                 }
                 // Login OK: create the token, store in cookies and redirect to Dashboard
                 else {
-                    const token = utils.createToken(user);
-                    res.cookie('token_user', token);
+                    const token = utils.createToken(user, 'user');
+                    res.cookie('token', token);
                     res.redirect('/dashboard');
                 }
             }

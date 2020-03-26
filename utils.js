@@ -21,11 +21,16 @@ let formatDate = (date) => {
     });
 }
 
-const createToken = (user) => {
-    const payload = {
-        userId: user.id,
-        creationDate: moment().unix(),
-        expirationDate: moment().add(15, 'days').unix()
+const createToken = (user, type) => {
+    const payload = {};
+    if (type === 'admin') {
+        payload.adminId = user.id;
+        payload.creationDate = moment().unix();
+        payload.expirationDate = moment().add(15, 'days').unix();
+    } else {
+        payload.userId = user.id;
+        payload.creationDate = moment().unix();
+        payload.expirationDate = moment().add(15, 'days').unix();
     }
     return jwt.encode(payload, process.env.SECRET_KEY);
 }

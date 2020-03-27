@@ -19,4 +19,8 @@
         e.preventDefault();
         $("body").toggleClass("sb-sidenav-toggled");
     });
+
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
 })(jQuery);

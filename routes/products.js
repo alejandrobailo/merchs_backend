@@ -39,11 +39,7 @@ router.get('/', async (req, res) => {
         }
     }
 
-    if (res.locals.user) {
-        res.render('pages/product/list', { products: rows });
-    } else {
-        res.render('pages/product/list-admin', { products: rows });
-    }
+    res.render('pages/product/list', { products: rows });
 });
 
 /* GET http://localhost:3000/products/new */
@@ -168,10 +164,13 @@ router.post('/edit/:sku', [
         });
     }
 
-    await Product.editById(req.body, req.params.sku);
+    if (res.locals.user) {
+        await Product.editById(req.body, req.params.sku);
+    } else {
+        await Product.editByIdAdmin(req.body, req.params.sku);
+    }
 
     if (req.body.sizes !== '[{}]' && req.body.sizes !== '[]') {
-        console.log(req.body.sizes);
         await Size.editById(req.body.sizes, req.params.sku);
         try {
             res.redirect(`/products`);

@@ -9,13 +9,17 @@ block config
 block content
   .container-fluid.my-2
     include ../includes/page-header.pug
-    a(href="/products/new").btn.btn-sm.btn-primary.mb-2.float-right Add new
-      //- span.material-icons add 
+    
+    if (locals.user)
+      a(href="/products/new").btn.btn-sm.btn-primary.mb-2.float-right Add new
+        //- span.material-icons add 
+
     .table-responsive
       table#dataTable.table.table-bordered.my-2(width='100%', cellspacing='0')
         thead.thead-dark
           tr
             th SKU
+            th Image
             th Title
             th Brand
             th Category
@@ -26,6 +30,8 @@ block content
           each product in products
             tr
               td= product.sku 
+              td
+                img(src=`${product.image_1}` height='75' width='75')
               td= product.title 
               td= product.brand_name
               td
@@ -38,9 +44,27 @@ block content
                   span.material-icons edit
 
     script.
-        $(document).ready( function () {
-            $('#dataTable').DataTable();
-        } );
+        $(document).ready(function() {
+            $('#dataTable thead tr').clone(true).appendTo( '#dataTable thead' );
+            $('#dataTable thead tr:eq(1) th').each( function (i) {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search '+ title +'" />' );
+ 
+                $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                });
+            });
+            var table = $('#dataTable').DataTable( {
+                orderCellsTop: true,
+                fixedHeader: true
+            });
+        });
+
       function handleEditClick(sku) {
         window.location.href = `/products/edit/${sku}`
-      }
+      };

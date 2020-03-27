@@ -57,7 +57,13 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
                     //-         a.nav-link(href='401.html') All
                     //-         a.nav-link(href='404.html') Pending
                     //-         a.nav-link(href='500.html') Completed
-                            
+
+            a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
+                .sb-nav-link-icon
+                    i.fas.fa-book-open
+                | Add note
+                .sb-sidenav-collapse-arrow
+                    i.fas.fa-angle-down          
                         
     .sb-sidenav-footer
         if (locals.user)

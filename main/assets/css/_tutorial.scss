@@ -1,0 +1,110 @@
+// --------------------------------
+
+// Tutorial 👉 https://codyhouse.co/tutorials/chameleonic-header-effect
+
+// --------------------------------
+
+.cha-header {
+  background-color: alpha(var(--color-bg), 0.95);
+  backdrop-filter: blur(5px);
+}
+
+.cha-header__logo {
+  display: block;
+  width: 151px; // logo width
+  height: 30px; // logo height
+}
+
+.cha-header__nav {
+  display: none; // nav visible on bigger screens
+}
+
+.cha-header__link {
+  color: var(--color-contrast-higher);
+  text-decoration: none;
+  transition: opacity .3s;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.cha-header__trigger { // control of navigation visible on smaller devices
+  display: block;
+  font-size: 24px; // icon size
+
+  .icon {
+    display: block;
+  }
+}
+
+// modal (navigation visible on smaller screens)
+.cha-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-bg);
+  display: none;
+}
+
+.cha-modal__close {
+  display: block;
+  font-size: 24px; // icon size
+
+  .icon {
+    display: block;
+  }
+}
+
+.cha-modal__link {
+  font-size: var(--text-xl);
+  color: var(--color-contrast-higher);
+  text-decoration: underline;
+}
+
+@include breakpoint(md) {
+  .cha-header__nav {
+    display: block;
+  }
+
+  .cha-header__trigger, .cha-modal {
+    display: none !important;
+  }
+}
+
+// accessibility
+.js { // clipping effect
+  .cha-header-clip { 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // hide .cha-header when outside its parent
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    pointer-events: none;
+  }
+
+  .cha-header {
+    pointer-events: auto;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+}
+
+html:not(.js) {
+  .cha-header__trigger {
+    display: none;
+  }
+
+  .cha-header__nav {
+    display: block;
+  }
+}

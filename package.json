@@ -12,6 +12,7 @@
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
     "bootstrap-select": "^1.13.12",
+    "codyhouse-framework": "^2.5.5",
     "connect-multiparty": "^2.2.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -25,6 +26,7 @@
     "moment": "^2.24.0",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
     "pdfkit": "^0.11.0",
     "pug": "^2.0.4"

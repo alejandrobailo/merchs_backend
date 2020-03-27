@@ -25,16 +25,53 @@
     })
 })(jQuery);
 
+/* Notes */
+let arrAlerts = [];
+
 function handleModal() {
-    let text = document.getElementById('message-text').value
-    console.log(text);
+    if (localStorage.getItem('alerts') != null) {
+        arrAlerts = JSON.parse(localStorage.getItem('alerts'));
+    }
+
+    let text = document.getElementById('message-text').value;
+    arrAlerts.push({
+        id: arrAlerts.length,
+        code: `<div id="${arrAlerts.length}" class="alert alert-warning alert-dismissible fade show" role="alert">${text}<button type="button" class="close closeAlert" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`
+    });
+
+    localStorage.setItem('alerts', JSON.stringify(arrAlerts));
+    let alertBox = document.getElementById('alertModal')
+
+    alertBox.innerHTML = '';
+    for (const item of JSON.parse(localStorage.getItem('alerts'))) {
+        alertBox.innerHTML += item.code;
+    }
     document.getElementById('message-text').value = ''
-    document.getElementById('alertModal').innerHTML +=
-        `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            ${text}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    `
+}
+
+window.onload = function () {
+    if (localStorage.getItem('alerts') != null) {
+        arrAlerts = JSON.parse(localStorage.getItem('alerts'));
+    }
+
+    let alertBox = document.querySelector('#alertModal')
+
+    for (const item of JSON.parse(localStorage.getItem('alerts'))) {
+        alertBox.innerHTML += item.code;
+    }
+
+    let btnClose = document.querySelectorAll('.closeAlert');
+
+    for (item of btnClose) {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            let toRemove = e.target.parentNode.parentNode.id;
+            console.log(toRemove, 'toremove');
+            let index = arrAlerts.findIndex((item) => item.id == toRemove)
+            console.log(index, 'index');
+            arrAlerts.splice(index, 1)
+            localStorage.removeItem('alerts');
+            localStorage.setItem('alerts', JSON.stringify(arrAlerts));
+        })
+    }
 }

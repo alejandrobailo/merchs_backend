@@ -9,13 +9,13 @@ block config
 block content
     .container-fluid.my-2
         include ../includes/page-header.pug
-            a.mb-2.material-icons.btn-primary.btn-sm.btn.text-dark(data-toggle="modal" data-target="#exampleModal") note_add 
+            a.mb-2.material-icons.btn-primary.btn-sm.btn.text-dark(data-toggle="modal" data-target="#dashModal") note_add 
                 
-            #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            #dashModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='dashModalLabel' aria-hidden='true')
                 .modal-dialog(role='document')
                     .modal-content
                         .modal-header
-                            h5#exampleModalLabel.modal-title Add note
+                            h5#dashModalLabel.modal-title Add note
                             button.close(type='button' data-dismiss='modal' aria-label='Close')
                                 span(aria-hidden='true') &times;
                         .modal-body
@@ -28,7 +28,6 @@ block content
         .row
             .col-sm-12 
                 #alertModal 
-
         .row
             .col-xl-6
                 .card.mb-4

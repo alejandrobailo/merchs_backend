@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const middleware = require('./middlewares');
 const Order = require('../models/order');
 const Products = require('../models/product');
 
+router.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '../main/index.html'));
+});
 
 // GET http://localhost:3000/dashboard
 router.get('/dashboard', middleware.checkToken, async (req, res) => {

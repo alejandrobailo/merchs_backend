@@ -58,10 +58,20 @@ const imgToDb = (name, counter, id) => {
     });
 }
 
-/* Edit product */
+/* Edit product User */
 const editById = ({ title, description, price, discount }, sku) => {
     return new Promise((resolve, reject) => {
         db.query('UPDATE product SET title = ?, description = ?, price = ?, discount = ? WHERE sku = ?', [title, description, price, discount, sku], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
+/* Edit product Admin */
+const editByIdAdmin = ({ title, description, price, discount, product_status }, sku) => {
+    return new Promise((resolve, reject) => {
+        db.query('UPDATE product SET title = ?, description = ?, price = ?, discount = ?, product_status = ? WHERE sku = ?', [title, description, price, discount, product_status, sku], (err, result) => {
             if (err) return reject(err);
             resolve(result);
         });
@@ -97,6 +107,7 @@ module.exports = {
     getById: getById,
     imgToDb: imgToDb,
     editById: editById,
+    editByIdAdmin: editByIdAdmin,
     deleteById: deleteById,
     getAllApi: getAllApi
 }

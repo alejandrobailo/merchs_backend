@@ -1,0 +1,54 @@
+extends ../../layouts/dashboard.pug
+
+block content
+
+    .container-fluid
+        
+        a(href="/orders").btn.btn-sm.btn-primary.my-2.row Go Back
+
+        h2 Details for Order ##{orders[0].fk_order}
+        p #[strong Order Status:] #{orders[0].order_status}
+        p #[strong Order Date:] #{orders[0].order_date}
+
+        .row
+            .col-3
+                h6 Customer Details
+                ul
+                    li #[strong Name:] #{orders[0].first_name} #{orders[0].last_name}
+                    li #[strong Email:] #{orders[0].email}
+                    li #[strong Phone:] #{orders[0].phone}
+                    li #[strong Address:] #{orders[0].address}
+                    li #[strong City:] #{orders[0].city}
+                    li #[strong Region:] #{orders[0].region}
+                    li #[strong Postal Code:] #{orders[0].postcode}
+                    li #[strong Country:] #{orders[0].country}
+            .col-9
+                h6 Item Details
+                .table-responsive
+                    table#dataTable.table.table-bordered.my-2(width='100%', cellspacing='0')
+                        thead.thead-dark
+                            tr
+                                th Image
+                                th SKU
+                                th Title
+                                th Size
+                                th Price
+                                th Quantity
+                                th Subtotal
+                        tbody.table-dark
+                            -var total = 0
+                            each order in orders
+                                tr
+                                    td
+                                        img(src=`${order.image_1}` height='75' width='75')
+                                    td= order.sku
+                                    td= order.title
+                                    td= order.size
+                                    td= order.price
+                                    td= order.quantity
+                                    td= order.price * order.quantity
+                                    -total += order.price * order.quantity
+                
+                h6 Total Amount = #{total} €
+                a(href=`/orders/${orders[0].fk_order}/invoice`).btn.btn-sm.btn-primary.my-2.row Download Invoice
+        

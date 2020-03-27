@@ -34,6 +34,7 @@ const getAllOrders = () => {
         });
     });
 };
+
 const getMoneyMonth = (userId) => {
     return new Promise((resolve, reject) => {
         db.query(`select DATE_FORMAT(order.order_date, "%m-%Y") as 'month', sum(product.price * tbi_product_order.quantity) as 'money' 

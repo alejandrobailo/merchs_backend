@@ -7,7 +7,6 @@ const Products = require('../models/product');
 
 // GET http://localhost:3000/dashboard
 router.get('/dashboard', middleware.checkToken, async (req, res) => {
-
   const products = await Products.getAll(res.locals.user.id);
   res.locals.products = products;
 
@@ -23,7 +22,7 @@ router.get('/dashboard', middleware.checkToken, async (req, res) => {
   /* Chart pie */
   const results = await Order.getProductsOrderedByBrand(res.locals.user.id)
   const arrData = []
-  console.log(results);
+
   results.forEach((item) => {
     const data = {}
     data.name = item.name;

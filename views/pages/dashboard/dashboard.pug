@@ -9,10 +9,25 @@ block config
 block content
     .container-fluid.my-2
         include ../includes/page-header.pug
+            a.mb-2.material-icons.btn-primary.btn-sm.btn.text-dark(data-toggle="modal" data-target="#exampleModal") note_add 
+                
+            #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            h5#exampleModalLabel.modal-title Add note
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                span(aria-hidden='true') &times;
+                        .modal-body
+                            div.form-group
+                                label(for="message-text" class="col-form-label") Message:
+                                textarea(class="form-control" id="message-text")
+                        .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                            button.btn.btn-primary(type='button' data-dismiss='modal' onclick="handleModal()") Add
         .row
-            .col-sm-12  
-                div(class="alert alert-primary alert-dismissible fade show") Remember! Send orders to customers asap.
-                    button(type="button" class="close" data-dismiss="alert") &times
+            .col-sm-12 
+                #alertModal 
 
         .row
             .col-xl-6
@@ -107,4 +122,18 @@ block content
             }]
         });
         
+
+        function handleModal(){
+            let text = document.getElementById('message-text').value
+            console.log(text);
+            document.getElementById('message-text').value = ''
+            document.getElementById('alertModal').innerHTML += 
+            `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                ${text}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            `
+        }
 

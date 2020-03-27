@@ -19,7 +19,12 @@ router.get('/', async (req, res) => {
         order.order_date = await utils.formatDate(order.order_date);
         order.first_name = order.first_name + ' ' + order.last_name;
     }
-    res.render('pages/orders/orders', { orders: orders });
+    res.render('pages/orders/list', { orders: orders });
+});
+
+// GET http://localhost:3000/orders/:id
+router.get('/:id', async (req, res) => {
+    res.render('pages/orders/details', {});
 });
 
 module.exports = router;

@@ -30,8 +30,7 @@ block content
                             td= order.sku
                             td= order.title
                             td
-                                a.btn.btn-sm.btn-primary(href='/users/edit') Check Order
-                                a.btn.btn-sm.btn-danger(href='/users/delete') Delete Order
+                                a.btn.btn-sm.btn-primary(href=`/orders/${order.fk_order}`) Order Details
 
     script.
         $(document).ready(function() {
@@ -49,8 +48,10 @@ block content
                     }
                 });
             });
-            var table = $('#dataTable').DataTable( {
+            
+            var table = $('#dataTable').DataTable({
                 orderCellsTop: true,
-                fixedHeader: true
+                fixedHeader: true,
+                paging: false
             });
         });

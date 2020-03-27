@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
 
 /* GET http://localhost:3000/products/new */
 router.get('/new', async (req, res) => {
-    const brands = await Brand.getAll();
+    const brands = await Brand.getAll(res.locals.user.id);
     const sizes = await Size.getAll();
     const categories = await Category.getAll();
 
@@ -102,7 +102,7 @@ router.post('/create', multipartMiddleware, [
     const validationErrors = validationResult(req);
 
     if (!validationErrors.isEmpty()) {
-        const brands = await Brand.getAll();
+        const brands = await Brand.getAll(res.locals.user.id);
         const sizes = await Size.getAll();
         const categories = await Category.getAll();
         return res.render('pages/product/new', {

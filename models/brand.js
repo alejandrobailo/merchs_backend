@@ -1,11 +1,10 @@
-const getAll = () => {
-    return new Promise((resolve, reject) => db.query('select * from brand', (err, rows) => {
+const getAll = (userId) => {
+    return new Promise((resolve, reject) => db.query('select * from brand where fk_user = ?', [userId], (err, rows) => {
         if (err) reject(err)
         resolve(rows);
     }));
 };
 
 module.exports = {
-    getAll: getAll,
-    // createBrandRelation: createBrandRelation
+    getAll: getAll
 }

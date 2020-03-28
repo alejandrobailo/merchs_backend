@@ -7,6 +7,9 @@ const jwt = require('jwt-simple');
 //IMG
 const path = require('path')
 const fs = require('fs');
+//INVOICE
+const PDFDocument = require('pdfkit');
+const PDFTable = require('voilab-pdf-table');
 
 /* Functions */
 
@@ -54,8 +57,72 @@ const insertImage = async (sku, pReqFile) => {
     return await Product.imgToDb(imageName, imageNumber, sku);
 }
 
+const generateInvoice = (arrOrdersById) => {
+    return new Promise((resolve, reject) => {
+        try {
+            const doc = new PDFDocument();
+            const table = new PDFTable(doc, { bottomMargin: 30 });
+
+            doc.pipe(fs.createWriteStream(`./public/invoices/invoice_order_#${arrOrdersById[0].fk_order}.pdf`));
+
+            doc.image('public/images/merchs-logo.png', 15, 15, { width: 75 });
+
+            table
+                .addPlugin(new (require('voilab-pdf-table/plugins/fitcolumn'))({
+                    column: 'description'
+                }))
+                .setColumnsDefaults({
+                    align: 'right',
+                })
+                .addColumns([
+                    {
+                        id: 'description',
+                        header: 'Product',
+                        align: 'left'
+                    },
+                    {
+                        id: 'quantity',
+                        header: 'Quantity',
+                        width: 50
+                    },
+                    {
+                        id: 'price',
+                        header: 'Price',
+                        width: 40
+                    },
+                    {
+                        id: 'total',
+                        header: 'Total',
+                        width: 70,
+                        renderer: function (tb, data) {
+                            return data.total + ' €';
+                        }
+                    }
+                ]);
+
+            for (let i = 0; i < arrOrdersById.length; i++) {
+                table.addBody([
+                    {
+                        description: arrOrdersById[i].title,
+                        quantity: arrOrdersById[i].quantity,
+                        price: arrOrdersById[i].price,
+                        total: arrOrdersById[i].quantity * arrOrdersById[i].price
+                    }
+                ]);
+            }
+
+            doc.end();
+            resolve(doc);
+        }
+        catch (err) {
+            reject(err);
+        }
+    });
+};
+
 module.exports = {
     formatDate: formatDate,
     createToken: createToken,
-    insertImage: insertImage
+    insertImage: insertImage,
+    generateInvoice: generateInvoice
 }

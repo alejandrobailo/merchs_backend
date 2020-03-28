@@ -8,20 +8,19 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
             if (locals.user)
                 a.nav-link(href='/dashboard')
                     .sb-nav-link-icon
-                        i.fas.fa-tachometer-alt
+                        i.material-icons dashboard
                     | Dashboard
             if (locals.admin)
                 a.nav-link(href='/dashboard-admin')
                     .sb-nav-link-icon
-                        i.fas.fa-tachometer-alt
+                        i.material-icons dashboard
                     | Dashboard
-                
             .sb-sidenav-menu-heading
                 | Personal
 
             a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapseLayouts' aria-expanded='false' aria-controls='collapseLayouts')
                 .sb-nav-link-icon
-                    i.fas.fa-columns
+                    i.material-icons satellite
                 | Products
                 .sb-sidenav-collapse-arrow
                     i.fas.fa-angle-down
@@ -33,7 +32,7 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
             
             a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
                 .sb-nav-link-icon
-                    i.fas.fa-book-open
+                    i.material-icons shopping_cart
                 | Orders
                 .sb-sidenav-collapse-arrow
                     i.fas.fa-angle-down
@@ -59,7 +58,7 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
 
     .sb-sidenav-footer
         if (locals.user)
-            | #{locals.user.username} <br>
+            | #{locals.user.username}
         else if (locals.admin)
-            | #{locals.admin.username} <br>
-        a(href='/logout') Logout
+            | #{locals.admin.username}
+        a(href='/logout').ml-2 Logout

@@ -137,7 +137,7 @@ router.post('/create', multipartMiddleware, [
 });
 
 /* POST http://localhost:3000/products/edit/:sku */
-router.post('/edit/:sku', [
+router.post('/edit/:sku', multipartMiddleware, [
     check('title')
         .trim()
         .isLength({ min: 3 }).withMessage('Min. number of characters are 3'),
@@ -178,6 +178,17 @@ router.post('/edit/:sku', [
         catch (err) {
             console.log(err);
         }
+    }
+
+    if (req.files.img1 != undefined) {
+        let num1 = parseInt(req.files.img1.fieldName.substring(3, 4));
+        await utils.editImage(req.params.sku, req.files.img1, num1);
+    } else if (req.files.img2 != undefined) {
+        let num2 = parseInt(req.files.img2.fieldName.substring(3, 4));
+        await utils.editImage(req.params.sku, req.files.img2, num2);
+    } else if (req.files.img3 != undefined) {
+        let num3 = parseInt(req.files.img3.fieldName.substring(3, 4));
+        await utils.editImage(req.params.sku, req.files.img3, num3);
     }
 
     res.redirect(`/products`);

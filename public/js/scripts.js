@@ -41,11 +41,11 @@ function handleModal() {
 
     localStorage.setItem('alerts', JSON.stringify(arrAlerts));
     let alertBox = document.getElementById('alertModal')
-
     alertBox.innerHTML = '';
     for (const item of JSON.parse(localStorage.getItem('alerts'))) {
         alertBox.innerHTML += item.code;
     }
+
     document.getElementById('message-text').value = ''
 }
 
@@ -55,23 +55,22 @@ window.onload = function () {
     }
 
     let alertBox = document.querySelector('#alertModal')
+    if (alertBox != null) {
+        for (const item of JSON.parse(localStorage.getItem('alerts'))) {
+            alertBox.innerHTML += item.code;
+        }
 
-    for (const item of JSON.parse(localStorage.getItem('alerts'))) {
-        alertBox.innerHTML += item.code;
-    }
+        let btnClose = document.querySelectorAll('.closeAlert');
 
-    let btnClose = document.querySelectorAll('.closeAlert');
-
-    for (item of btnClose) {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            let toRemove = e.target.parentNode.parentNode.id;
-            console.log(toRemove, 'toremove');
-            let index = arrAlerts.findIndex((item) => item.id == toRemove)
-            console.log(index, 'index');
-            arrAlerts.splice(index, 1)
-            localStorage.removeItem('alerts');
-            localStorage.setItem('alerts', JSON.stringify(arrAlerts));
-        })
+        for (item of btnClose) {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                let toRemove = e.target.parentNode.parentNode.id;
+                let index = arrAlerts.findIndex((item) => item.id == toRemove)
+                arrAlerts.splice(index, 1)
+                localStorage.removeItem('alerts');
+                localStorage.setItem('alerts', JSON.stringify(arrAlerts));
+            })
+        }
     }
 }

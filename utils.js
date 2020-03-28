@@ -57,6 +57,15 @@ const insertImage = async (sku, pReqFile) => {
     return await Product.imgToDb(imageName, imageNumber, sku);
 }
 
+const editImage = async (sku, pReqFile, num) => {
+    let dir = `./public/images/${sku}/`
+    let pathFile = pReqFile.path;
+    let newPath = dir + num + path.extname(pathFile).toLowerCase();
+    fs.createReadStream(pathFile).pipe(fs.createWriteStream(newPath));
+    let imageName = '/images/' + sku + '/' + num + path.extname(pathFile).toLowerCase();
+    return await Product.imgToDb(imageName, num, sku);
+}
+
 const generateInvoice = (arrOrdersById) => {
     return new Promise((resolve, reject) => {
         try {
@@ -124,5 +133,6 @@ module.exports = {
     formatDate: formatDate,
     createToken: createToken,
     insertImage: insertImage,
-    generateInvoice: generateInvoice
+    generateInvoice: generateInvoice,
+    editImage: editImage
 }

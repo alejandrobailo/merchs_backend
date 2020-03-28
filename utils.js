@@ -71,10 +71,33 @@ const generateInvoice = (arrOrdersById) => {
         try {
             const doc = new PDFDocument();
             const table = new PDFTable(doc, { bottomMargin: 30 });
+            var total = 0;
 
             doc.pipe(fs.createWriteStream(`./public/invoices/invoice_order_#${arrOrdersById[0].fk_order}.pdf`));
 
-            doc.image('public/images/merchs-logo.png', 15, 15, { width: 75 });
+            doc
+                .font('Courier')
+                .fontSize(10)
+
+            doc.image('public/images/merchs-logo.png', 65, 30, { width: 75 });
+
+            doc
+                .text(`Invoice Number: #${arrOrdersById[0].fk_order} `, 350, 35)
+                .text(`Invoice Date: ${arrOrdersById[0].order_date} `, 350, 50)
+
+            doc
+                .text('Customer Details', 65, 160)
+                .text(`Name: ${arrOrdersById[0].first_name} ${arrOrdersById[0].last_name}`, 85, 175)
+                .text(`Phone: ${arrOrdersById[0].phone}`, 85, 190)
+                .text(`Email: ${arrOrdersById[0].email}`, 85, 205)
+                .text(`Address: ${arrOrdersById[0].address}, ${arrOrdersById[0].city}, ${arrOrdersById[0].region}`, 85, 220)
+                .text(`Postal Code: ${arrOrdersById[0].postcode}`, 85, 235)
+                .text(`Country: ${arrOrdersById[0].country}`, 85, 250)
+
+            doc
+                .text('Order Details', 65, 280)
+
+            doc.moveDown(1);
 
             table
                 .addPlugin(new (require('voilab-pdf-table/plugins/fitcolumn'))({
@@ -100,12 +123,9 @@ const generateInvoice = (arrOrdersById) => {
                         width: 40
                     },
                     {
-                        id: 'total',
-                        header: 'Total',
-                        width: 70,
-                        renderer: function (tb, data) {
-                            return data.total + ' €';
-                        }
+                        id: 'subtotal',
+                        header: 'Subtotal',
+                        width: 70
                     }
                 ]);
 
@@ -115,10 +135,16 @@ const generateInvoice = (arrOrdersById) => {
                         description: arrOrdersById[i].title,
                         quantity: arrOrdersById[i].quantity,
                         price: arrOrdersById[i].price,
-                        total: arrOrdersById[i].quantity * arrOrdersById[i].price
+                        subtotal: arrOrdersById[i].quantity * arrOrdersById[i].price
                     }
                 ]);
+                total += arrOrdersById[i].quantity * arrOrdersById[i].price;
             }
+
+            doc.moveDown(1);
+
+            doc
+                .text(`TOTAL: ${total} €`);
 
             doc.end();
             resolve(doc);

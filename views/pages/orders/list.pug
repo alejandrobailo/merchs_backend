@@ -14,9 +14,8 @@ block content
                         th Order Date
                         th Order Status
                         th Customer Name
-                        th Customer Email
-                        th Product SKU
-                        th Product Name
+                        //- th Product SKU
+                        //- th Product Name
                         th
                     
                 tbody.table-dark
@@ -26,9 +25,8 @@ block content
                             td= order.order_date
                             td= order.order_status
                             td= order.first_name
-                            td= order.email
-                            td= order.sku
-                            td= order.title
+                            //- td= order.sku
+                            //- td= order.title
                             td
                                 a.btn.btn-sm.btn-primary(href=`/orders/${order.fk_order}`) Order Details
 

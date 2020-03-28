@@ -3,6 +3,8 @@ const router = express.Router();
 const middleware = require('./middlewares');
 const Order = require('../models/order');
 const utils = require('../utils');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 
 router.use(middleware.checkToken);
 
@@ -24,7 +26,26 @@ router.get('/', async (req, res) => {
 
 // GET http://localhost:3000/orders/:id
 router.get('/:id', async (req, res) => {
-    res.render('pages/orders/details', {});
+    const orders = await Order.getAllOrders();
+    const arrOrdersById = [];
+    for (order of orders) {
+        if (order.fk_order === parseInt(req.params.id)) {
+            order.order_date = await utils.formatDate(order.order_date)
+            arrOrdersById.push(order);
+        }
+    }
+    res.render('pages/orders/details', { orders: arrOrdersById });
+});
+
+// GET http://localhost:3000/orders/:id/invoice
+router.get('/:id/invoice', (req, res) => {
+    const doc = new PDFDocument();
+    doc.pipe(fs.createWriteStream(`./public/invoices/invoice_${req.params.id}.pdf`));
+    doc
+        .fontSize(25)
+        .text('Some text with an embedded font!', 100, 100);
+    doc.end();
+    res.send('hola');
 });
 
 module.exports = router;

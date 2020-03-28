@@ -22,7 +22,9 @@ time, mark, audio, video, hr {
   border: 0; }
 
 html {
-  box-sizing: border-box; }
+  box-sizing: border-box; 
+  scroll-behavior: smooth;
+}
 
 body {
   background-color: var(--color-bg, white); }
@@ -5402,4 +5404,16 @@ html:not(.js) .cha-header__nav {
 #logo{
   width: 80px;
   height: auto;
+  margin-left: 10px;
+}
+
+.twoImgs{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3%;
+}
+
+.twoImgs img{
+  display: inline;
+  max-width: 40%;
 }

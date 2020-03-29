@@ -1,5 +1,11 @@
 extends ../../layouts/dashboard.pug
 
+mixin checkError(errors, pError)
+    if errors
+        each error in errors
+            if (error.param === pError)
+                p(style={'color': 'red', 'font-size': '0.7em'})= error.msg
+
 block content
 
     div.container
@@ -9,26 +15,34 @@ block content
             div.form-group
                 label Username
                 input(type="text" name="username" value=locals.user.username).form-control
+                +checkError(errors, 'username')
 
             div.form-group
                 label Address
                 input(type="text" name="address" value=locals.user.address).form-control
+                +checkError(errors, 'address')
 
             div.form-group
                 label Phone
                 input(type="text" name="phone" value=locals.user.phone).form-control
+                +checkError(errors, 'phone')
 
             div.form-group
                 label Email
                 input(type="text" name="email" value=locals.user.email).form-control
+                +checkError(errors, 'email')
+                if emailRepeated
+                    p(style={'color': 'red', 'font-size': '0.7em'})= emailRepeated
 
             div.form-group
                 label New Password
                 input(type="password" name="password").form-control
+                +checkError(errors, 'password')
 
             div.form-group
-                label Repeat Password
+                label Confirm Password
                 input(type="password" name="confirmPassword").form-control
+                +checkError(errors, 'confirmPassword')
 
             div.form-group
                 input(type="submit" value="Edit Profile").btn.btn-primary

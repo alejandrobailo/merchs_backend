@@ -70,7 +70,7 @@ const generateInvoice = (arrOrdersById) => {
     return new Promise((resolve, reject) => {
         try {
             const doc = new PDFDocument();
-            const table = new PDFTable(doc, { bottomMargin: 30 });
+            const table = new PDFTable(doc);
             var total = 0;
 
             doc.pipe(fs.createWriteStream(`./public/invoices/invoice_order_#${arrOrdersById[0].fk_order}.pdf`));
@@ -104,7 +104,7 @@ const generateInvoice = (arrOrdersById) => {
                     column: 'description'
                 }))
                 .setColumnsDefaults({
-                    align: 'right',
+                    align: 'right'
                 })
                 .addColumns([
                     {
@@ -141,10 +141,16 @@ const generateInvoice = (arrOrdersById) => {
                 total += arrOrdersById[i].quantity * arrOrdersById[i].price;
             }
 
+            // table.addBody([
+            //     { description: 'Product 1', quantity: 1, price: 20.10, subtotal: 20.10 },
+            //     { description: 'Product 2', quantity: 4, price: 4.00, subtotal: 16.00 },
+            //     { description: 'Product 3', quantity: 2, price: 17.85, subtotal: 35.70 }
+            // ]);
+
             doc.moveDown(1);
 
             doc
-                .text(`TOTAL: ${total} €`);
+                .text(`TOTAL:${total}€`);
 
             doc.end();
             resolve(doc);

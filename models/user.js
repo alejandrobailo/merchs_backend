@@ -35,9 +35,9 @@ const getById = (userId) => {
     });
 };
 
-const editById = ({ username, address, phone, email }, userId) => {
+const editById = ({ username, address, phone, email, password }, userId) => {
     return new Promise((resolve, reject) => {
-        db.query('UPDATE user SET username = ?, address = ?, phone = ?, email = ? WHERE id = ?', [username, address, phone, email, userId], (err, result) => {
+        db.query('UPDATE user SET username = ?, address = ?, phone = ?, email = ?, password = ? WHERE id = ?', [username, address, phone, email, password, userId], (err, result) => {
             if (err) return reject(err);
             resolve(result);
         });

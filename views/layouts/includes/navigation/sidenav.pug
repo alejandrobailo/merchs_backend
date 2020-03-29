@@ -39,6 +39,18 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
             #collapsePages.collapse(aria-labelledby='headingTwo', data-parent='#sidenavAccordion')
                 nav.sb-sidenav-menu-nested.nav.accordion#sidenavAccordionPages
                     a.nav-link(href='/orders') All
+
+            if (locals.admin)
+                a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
+                    .sb-nav-link-icon
+                        i.material-icons account_circle
+                    | Users
+                    .sb-sidenav-collapse-arrow
+                        i.fas.fa-angle-down
+                #collapsePages.collapse(aria-labelledby='headingTwo', data-parent='#sidenavAccordion')
+                    nav.sb-sidenav-menu-nested.nav.accordion#sidenavAccordionPages
+                        a.nav-link(href='/users') All
+                    
                     //-     .sb-sidenav-collapse-arrow
                     //-         i.fas.fa-angle-down
                     //- #pagesCollapseAuth.collapse(aria-labelledby='headingOne', data-parent='#sidenavAccordionPages')

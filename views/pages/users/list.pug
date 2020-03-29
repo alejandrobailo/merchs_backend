@@ -14,7 +14,6 @@ block content
                     th Phone Number
                     th Email
                     th Creation Date
-                    th IP
                     th
                 
             each user in users
@@ -24,7 +23,5 @@ block content
                     td= user.phone
                     td= user.email
                     td= user.date
-                    td= user.ip
                     td
-                        a.btn.btn-sm.btn-primary(href='/users/edit') Edit User
-                        a.btn.btn-sm.btn-danger(href='/users/delete') Delete User
+                        a.btn.btn-sm.btn-danger(href=`/users/delete/${user.id}`) Delete User

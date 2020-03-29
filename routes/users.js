@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const utils = require('../utils');
 const User = require('../models/user');
+const Admin = require('../models/admin');
 
 
 // GET http://localhost:3000/users
@@ -85,6 +86,14 @@ router.post('/edit', [
 
             if (!validationErrors.isEmpty()) {
                 return res.render('pages/users/edit', { errors: validationErrors.errors });
+            }
+
+            const emailExistsUser = await User.exists(req.body.email);
+            const emailExistsAdmin = await Admin.exists(req.body.email);
+            if (req.body.email !== emailExistsUser && req.body.email !== emailExistsAdmin) {
+                if (emailExistsUser !== null || emailExistsAdmin !== null) {
+                    return res.render('pages/users/edit', { emailRepeated: 'Email already in use' });
+                }
             }
 
             req.body.password = bcrypt.hashSync(req.body.password, 10);

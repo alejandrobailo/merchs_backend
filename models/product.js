@@ -92,7 +92,7 @@ const deleteById = (sku) => {
 /* All products*/
 const getAllApi = () => {
     return new Promise((resolve, reject) => {
-        db.query(`select product.*, brand.name as 'brand', GROUP_CONCAT(category.name) as 'cat_name' from product inner join brand on product.fk_brand = brand.id inner join tbi_category_product on product.sku = tbi_category_product.fk_product inner join category on category.id = tbi_category_product.fk_category group by product.sku, brand.name`, (err, rows) => {
+        db.query(`select product.*, brand.name as 'brand', GROUP_CONCAT(category.name) as 'cat_name' from product inner join brand on product.fk_brand = brand.id inner join tbi_category_product on product.sku = tbi_category_product.fk_product inner join category on category.id = tbi_category_product.fk_category where product.product_status = 'active' group by product.sku, brand.name`, (err, rows) => {
             if (err) reject(err)
             resolve(rows);
         });

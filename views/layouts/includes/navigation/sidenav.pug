@@ -30,24 +30,24 @@ nav(class=['sb-sidenav', 'accordion', 'sb-sidenav-dark'] class=sidenavStyle)#sid
                     if (locals.user)
                         a.nav-link(href='/products/new') Create new                     
             
-            a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
+            a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages1' aria-expanded='false' aria-controls='collapsePages1')
                 .sb-nav-link-icon
                     i.material-icons shopping_cart
                 | Orders
                 .sb-sidenav-collapse-arrow
                     i.fas.fa-angle-down
-            #collapsePages.collapse(aria-labelledby='headingTwo', data-parent='#sidenavAccordion')
+            #collapsePages1.collapse(aria-labelledby='headingTwo', data-parent='#sidenavAccordion')
                 nav.sb-sidenav-menu-nested.nav.accordion#sidenavAccordionPages
                     a.nav-link(href='/orders') All
 
             if (locals.admin)
-                a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
+                a.nav-link.collapsed(href='#', data-toggle='collapse' data-target='#collapsePages2' aria-expanded='false' aria-controls='collapsePages2')
                     .sb-nav-link-icon
                         i.material-icons account_circle
                     | Users
                     .sb-sidenav-collapse-arrow
                         i.fas.fa-angle-down
-                #collapsePages.collapse(aria-labelledby='headingTwo', data-parent='#sidenavAccordion')
+                #collapsePages2.collapse(aria-labelledby='headingThree', data-parent='#sidenavAccordion')
                     nav.sb-sidenav-menu-nested.nav.accordion#sidenavAccordionPages
                         a.nav-link(href='/users') All
                     

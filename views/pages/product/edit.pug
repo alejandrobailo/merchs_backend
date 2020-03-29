@@ -80,7 +80,7 @@ block content
                                 option(value='active') Active
                                 option(value='inactive') Inactive
 
-                .row        
+                .row         
                     .col-sm-12                            
                         .sizesWrapper
                                 each item in sizes
@@ -90,6 +90,7 @@ block content
                                         input(type="number" id=item.number disabled placeholder=`Quantity available: ${item.quantity}` ).quantity.form-control
 
                 input(type="hidden", name="sizes", id="arrSizeQuantity")
+                
                 input(type="file" name="" id="imgHidden").d-none
 
                 input(type="submit", value="Edit" onclick="handleCreate()").btn.btn-sm.btn-primary.my-2

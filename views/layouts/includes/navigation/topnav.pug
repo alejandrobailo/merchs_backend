@@ -4,10 +4,10 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
     i.fas.fa-bars
   if (locals.user)
     a.navbar-brand(href='/dashboard')
-      | Welcome Back, #{locals.user.username}
+      | Welcome back, #{locals.user.username}
   else
     a.navbar-brand(href='/dashboard-admin')
-      | Welcome Back, #{locals.admin.username}
+      | Welcome back, #{locals.admin.username}
 
   // Navbar Search
   .d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0

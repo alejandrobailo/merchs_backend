@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const middleware = require('./middlewares');
 const { check, validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 const utils = require('../utils');
 const User = require('../models/user');
 
@@ -9,11 +10,15 @@ const User = require('../models/user');
 // GET http://localhost:3000/users
 router.get('/', middleware.checkToken, async (req, res) => {
     try {
-        const rows = await User.getAll();
-        for (let row of rows) {
-            row.date = await utils.formatDate(row.date);
+        if (res.locals.admin) {
+            const rows = await User.getAll();
+            for (let row of rows) {
+                row.date = await utils.formatDate(row.date);
+            }
+            res.render('pages/users/list', { users: rows });
+        } else {
+            res.redirect('/dashboard');
         }
-        res.render('pages/users/list', { users: rows });
     }
     catch (err) {
         console.log(err);
@@ -32,11 +37,11 @@ router.get('/edit', async (req, res) => {
     }
 });
 
-// GET http://localhost:3000/users/delete
-router.get('/delete', async (req, res) => {
+// GET http://localhost:3000/users/delete/:id
+router.get('/delete/:id', async (req, res) => {
     try {
         await User.deleteById(req.params.id);
-        res.redirect('/dashboard');
+        res.redirect('/users');
     }
     catch (err) {
         console.log(err);
@@ -59,6 +64,20 @@ router.post('/edit', [
         .trim()
         .notEmpty().withMessage('Email is required')
         .custom(value => { return (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/).test(value) }).withMessage('Email should be valid'),
+    check('password')
+        .trim()
+        .notEmpty().withMessage('Password is required')
+        .custom(value => { return (/^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/).test(value) }).withMessage('Password must contain at least one letter, at least one number, and be longer than six characters'),
+    check('confirmPassword')
+        .trim()
+        .notEmpty().withMessage('Confirm password is required')
+        .custom((value, { req }) => {
+            if (req.body.password === req.body.confirmPassword) {
+                return true;
+            } else {
+                return false;
+            }
+        }).withMessage('Passwords must match')
 ],
     async (req, res) => {
         try {
@@ -68,6 +87,7 @@ router.post('/edit', [
                 return res.render('pages/users/edit', { errors: validationErrors.errors });
             }
 
+            req.body.password = bcrypt.hashSync(req.body.password, 10);
             await User.editById(req.body, res.locals.user.id);
             res.redirect('/dashboard');
         }

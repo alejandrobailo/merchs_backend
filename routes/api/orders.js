@@ -3,7 +3,7 @@ const Order = require('../../models/order');
 const Customer = require('../../models/customer');
 
 // GET http://localhost:3000/api/orders
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const customer = await Customer.getById(req.body.customerId);
         const orders = await Order.getOrdersByCustomer(req.body.customerId);

@@ -3,9 +3,7 @@ const router = require('express').Router();
 /* Imports */
 const Product = require('../../models/product')
 const Size = require('../../models/size');
-const Brand = require('../../models/brand');
 const Category = require('../../models/category');
-const utils = require('../../utils');
 
 /* GET http://localhost:3000/api/products */
 router.get('/', async (req, res) => {

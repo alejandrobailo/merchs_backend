@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Order = require('../../models/order');
 const Customer = require('../../models/customer');
 
-// GET http://localhost:3000/api/orders
+// POST http://localhost:3000/api/orders
 router.post('/', async (req, res) => {
     try {
         const customer = await Customer.getById(req.body.customerId);
@@ -21,6 +21,19 @@ router.post('/', async (req, res) => {
     }
     catch (err) {
         res.json(err);
+    }
+});
+
+// POST http://localhost:3000/api/orders/new
+router.post('/new', async (req, res) => {
+    try {
+        const resultOrder = await Order.createOrder(req.body);
+        console.log(req.body);
+        const resultOrderProducts = await Order.createOrderProducts(resultOrder.insertId, req.body);
+        res.json(resultOrderProducts);
+    }
+    catch (err) {
+        console.log(err);
     }
 });
 

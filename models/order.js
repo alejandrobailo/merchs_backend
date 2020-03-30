@@ -1,4 +1,22 @@
 // Function for the API
+const createOrder = (order) => {
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO merchs.order (order_status, fk_customer) VALUES (?, ?)', [order.order_status, order.customerId], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
+const createOrderProducts = (orderId, order) => {
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO tbi_product_order (fk_order, fk_product, size, quantity) VALUES (?, ?, ?, ?)', [orderId, order.sku, order.size, order.quantity], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
 const getOrdersByCustomer = (customerId) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM merchs.order WHERE fk_customer = ?', [customerId], (err, rows) => {
@@ -69,5 +87,7 @@ module.exports = {
     getOrdersByUser: getOrdersByUser,
     getAllOrders: getAllOrders,
     getMoneyMonth: getMoneyMonth,
-    getProductsOrderedByBrand: getProductsOrderedByBrand
+    getProductsOrderedByBrand: getProductsOrderedByBrand,
+    createOrder: createOrder,
+    createOrderProducts: createOrderProducts
 }

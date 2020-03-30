@@ -72,6 +72,7 @@ const generateInvoice = (arrOrdersById) => {
             const doc = new PDFDocument();
             const table = new PDFTable(doc);
             var total = 0;
+            const prods = [];
 
             doc.pipe(fs.createWriteStream(`./public/invoices/invoice_order_#${arrOrdersById[0].fk_order}.pdf`));
 
@@ -130,22 +131,17 @@ const generateInvoice = (arrOrdersById) => {
                 ]);
 
             for (let i = 0; i < arrOrdersById.length; i++) {
-                table.addBody([
+                prods.push(
                     {
                         description: arrOrdersById[i].title,
                         quantity: arrOrdersById[i].quantity,
                         price: arrOrdersById[i].price,
                         subtotal: arrOrdersById[i].quantity * arrOrdersById[i].price
                     }
-                ]);
+                );
                 total += arrOrdersById[i].quantity * arrOrdersById[i].price;
             }
-
-            // table.addBody([
-            //     { description: 'Product 1', quantity: 1, price: 20.10, subtotal: 20.10 },
-            //     { description: 'Product 2', quantity: 4, price: 4.00, subtotal: 16.00 },
-            //     { description: 'Product 3', quantity: 2, price: 17.85, subtotal: 35.70 }
-            // ]);
+            table.addBody(prods);
 
             doc.moveDown(1);
 

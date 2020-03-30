@@ -8,6 +8,17 @@ const getById = (customerId) => {
     });
 };
 
+const emailPassExists = (email, pass) => {
+    return new Promise((resolve, reject) => {
+        db.query('select * from customer where email = ? and password = ?', [email, pass], (err, rows) => {
+            if (err) return reject(err);
+            if (rows.length === 0) return resolve(null)
+            else resolve(rows[0])
+        });
+    });
+}
+
 module.exports = {
-    getById: getById
+    getById: getById,
+    emailPassExists: emailPassExists
 }

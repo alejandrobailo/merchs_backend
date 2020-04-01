@@ -1,9 +1,8 @@
 const router = require('express').Router();
 // const bcrypt = require('bcryptjs');
 // const { check, validationResult } = require('express-validator');
-const jwt = require('jwt-simple');
-const moment = require('moment');
-const Customer = require('../../models/customer')
+const Customer = require('../../models/customer');
+const Utils = require('../../utils');
 
 // POST http://localhost:3000/api/login
 router.post('/', async (req, res) => {
@@ -23,21 +22,12 @@ router.post('/', async (req, res) => {
                     res.status(401).json({ error: 'Error en email y/o password' });
                 } */
         res.json({
-            success: createToken(customer),
+            success: Utils.createTokenFront(customer),
             customerId: customer.id
         })
     } catch (error) {
         console.log(error);
     }
-})
-
-const createToken = (customer) => {
-    const payload = {
-        customerId: customer.id,
-        fechaCreacion: moment().unix(),
-        fechaExpiracion: moment().add(150, 'minutes').unix()
-    }
-    return jwt.encode(payload, process.env.SECRET_KEY)
-}
+});
 
 module.exports = router;

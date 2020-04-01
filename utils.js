@@ -38,6 +38,15 @@ const createToken = (user, type) => {
     return jwt.encode(payload, process.env.SECRET_KEY);
 }
 
+const createTokenFront = (customer) => {
+    const payload = {
+        customerId: customer.id,
+        fechaCreacion: moment().unix(),
+        fechaExpiracion: moment().add(150, 'minutes').unix()
+    }
+    return jwt.encode(payload, process.env.SECRET_KEY)
+}
+
 const insertImage = async (sku, pReqFile) => {
     //Creo el directorio
     let dir = `./public/images/${sku}/`
@@ -160,6 +169,7 @@ const generateInvoice = (arrOrdersById) => {
 module.exports = {
     formatDate: formatDate,
     createToken: createToken,
+    createTokenFront: createTokenFront,
     insertImage: insertImage,
     generateInvoice: generateInvoice,
     editImage: editImage

@@ -99,6 +99,24 @@ const getAllApi = () => {
     });
 };
 
+const updateProductQuantity = (order) => {
+    return new Promise((resolve, reject) => {
+        db.query('UPDATE tbi_size_product SET quantity = quantity - ? WHERE fk_product = ? AND fk_size = ?', [order.quantityToSubstract, order.sku, order.size], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
+const getSizeEncoded = (sizeNotEncoded) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT size.id FROM size WHERE size.number = ?', [sizeNotEncoded], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+        });
+    });
+};
+
 module.exports = {
     getAll: getAll,
     getAllAdmin: getAllAdmin,
@@ -109,5 +127,7 @@ module.exports = {
     editById: editById,
     editByIdAdmin: editByIdAdmin,
     deleteById: deleteById,
-    getAllApi: getAllApi
+    getAllApi: getAllApi,
+    updateProductQuantity: updateProductQuantity,
+    getSizeEncoded: getSizeEncoded
 }

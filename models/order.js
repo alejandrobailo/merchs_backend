@@ -1,7 +1,7 @@
 // Function for the API
 const createOrder = (order) => {
     return new Promise((resolve, reject) => {
-        db.query('INSERT INTO merchs.order (order_status, fk_customer) VALUES (?, ?)', [order.order_status, order.customerId], (err, result) => {
+        db.query('INSERT INTO merchs.order (order_status, fk_customer, totalAmount) VALUES (?, ?, ?)', [order.order_status, order.customerId, order.totalAmount], (err, result) => {
             if (err) return reject(err);
             resolve(result);
         });
@@ -10,7 +10,7 @@ const createOrder = (order) => {
 
 const createOrderProducts = (orderId, order) => {
     return new Promise((resolve, reject) => {
-        db.query('INSERT INTO tbi_product_order (fk_order, fk_product, size, quantity) VALUES (?, ?, ?, ?)', [orderId, order.sku, order.size, order.quantity], (err, result) => {
+        db.query('INSERT INTO tbi_product_order (fk_order, fk_product, fk_size, quantity) VALUES (?, ?, ?, ?)', [orderId, order.sku, order.size, order.quantityToSubstract], (err, result) => {
             if (err) return reject(err);
             resolve(result);
         });

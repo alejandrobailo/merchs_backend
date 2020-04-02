@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const middleware = require('./middlewares');
 const Order = require('../models/order');
+const Size = require('../models/size');
 const utils = require('../utils');
 
 router.use(middleware.checkToken);
@@ -26,9 +27,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const orders = await Order.getAllOrdersByUser(res.locals.user.id);
     const arrOrdersById = [];
+    const sizes = await Size.getAll();
     for (order of orders) {
         if (order.fk_order === parseInt(req.params.id)) {
-            order.order_date = await utils.formatDate(order.order_date)
+            // Format the date, decode the size and add to the array
+            order.order_date = await utils.formatDate(order.order_date);
+            const sizeDecoded = sizes.find(item => item.id === order.fk_size);
+            order.fk_size = sizeDecoded.number;
             arrOrdersById.push(order);
         }
     }

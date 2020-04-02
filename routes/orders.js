@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 
 // GET http://localhost:3000/orders/:id
 router.get('/:id', async (req, res) => {
-    const orders = await Order.getAllOrders();
+    const orders = await Order.getAllOrdersByUser(res.locals.user.id);
     const arrOrdersById = [];
     for (order of orders) {
         if (order.fk_order === parseInt(req.params.id)) {

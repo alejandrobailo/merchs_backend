@@ -117,6 +117,15 @@ const getSizeEncoded = (sizeNotEncoded) => {
     });
 };
 
+const getSizeDecoded = (sizeEncoded) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT size.number FROM size WHERE size.id = ?', [sizeEncoded], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+        });
+    });
+};
+
 module.exports = {
     getAll: getAll,
     getAllAdmin: getAllAdmin,
@@ -129,5 +138,6 @@ module.exports = {
     deleteById: deleteById,
     getAllApi: getAllApi,
     updateProductQuantity: updateProductQuantity,
-    getSizeEncoded: getSizeEncoded
+    getSizeEncoded: getSizeEncoded,
+    getSizeDecoded: getSizeDecoded
 }

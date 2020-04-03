@@ -76,11 +76,10 @@ const editImage = async (sku, pReqFile, num) => {
 }
 
 const generateInvoice = (arrOrdersById) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const doc = new PDFDocument();
             const table = new PDFTable(doc);
-            var total = 0;
             const prods = [];
 
             doc.pipe(fs.createWriteStream(`./public/invoices/invoice_order_#${arrOrdersById[0].fk_order}.pdf`));
@@ -104,8 +103,7 @@ const generateInvoice = (arrOrdersById) => {
                 .text(`Postal Code: ${arrOrdersById[0].postcode}`, 85, 235)
                 .text(`Country: ${arrOrdersById[0].country}`, 85, 250)
 
-            doc
-                .text('Order Details', 65, 280)
+            doc.text('Order Details', 65, 280)
 
             doc.moveDown(1);
 
@@ -114,48 +112,60 @@ const generateInvoice = (arrOrdersById) => {
                     column: 'description'
                 }))
                 .setColumnsDefaults({
-                    align: 'right'
+                    align: 'center'
                 })
                 .addColumns([
                     {
+                        id: 'sku',
+                        header: 'SKU',
+                        width: 50,
+                    },
+                    {
                         id: 'description',
                         header: 'Product',
+                        width: 150,
                         align: 'left'
+                    },
+                    {
+                        id: 'size',
+                        header: 'Size',
+                        width: 40,
                     },
                     {
                         id: 'quantity',
                         header: 'Quantity',
-                        width: 50
+                        width: 60,
                     },
                     {
                         id: 'price',
                         header: 'Price',
-                        width: 40
+                        width: 40,
                     },
                     {
                         id: 'subtotal',
                         header: 'Subtotal',
-                        width: 70
+                        width: 66,
                     }
                 ]);
 
             for (let i = 0; i < arrOrdersById.length; i++) {
+                const sizeDecoded = await Product.getSizeDecoded(arrOrdersById[i].fk_size);
                 prods.push(
                     {
+                        sku: arrOrdersById[i].sku,
                         description: arrOrdersById[i].title,
+                        size: sizeDecoded[0].number,
                         quantity: arrOrdersById[i].quantity,
                         price: arrOrdersById[i].price,
                         subtotal: arrOrdersById[i].quantity * arrOrdersById[i].price
                     }
                 );
-                total += arrOrdersById[i].quantity * arrOrdersById[i].price;
             }
             table.addBody(prods);
 
             doc.moveDown(1);
 
-            doc
-                .text(`TOTAL:${total}€`);
+            doc.text(`TOTAL:${arrOrdersById[0].totalAmount}€`);
 
             doc.end();
             resolve(doc);
